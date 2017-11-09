@@ -32,7 +32,8 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-xrandr
-xrandr --output Virtual1 --mode 2880x1800 --dpi 220 
+xrandr --output eDP1 --mode 3840x2160 --dpi 196
+xinput --set-prop 13 'libinput Accel Speed' 1
 sh ~/.fehbg
+exec blueberry-tray &
 exec i3

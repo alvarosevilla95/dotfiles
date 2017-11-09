@@ -1,0 +1,157 @@
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdTree'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-fugitive'
+Plug 'maralla/completor.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'SirVer/ultisnips'
+Plug 'scrooloose/syntastic'
+Plug 'tikhomirov/vim-glsl'
+Plug 'pangloss/vim-javascript'
+Plug 'fatih/vim-go'
+Plug 'tomlion/vim-solidity'
+Plug 'leafgarland/typescript-vim'
+Plug 'elmcast/elm-vim'
+Plug 'mxw/vim-jsx'
+Plug 'itchyny/lightline.vim'
+Plug 'daviesjamie/vim-base16-lightline'
+Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-dispatch'
+Plug 'godlygeek/tabular'
+Plug 'johngrib/vim-game-code-break'
+Plug 'posva/vim-vue'
+call plug#end()
+
+" Colors
+"let g:onedark_termcolors=16
+syntax on
+set background=dark
+set t_Co=256
+colorscheme solarized
+
+" Basic defaults
+set splitright
+set cursorline
+set relativenumber
+set hidden
+set wildmenu
+set showcmd
+set hlsearch
+set ignorecase
+set smartcase
+set backspace=indent,eol,start
+set autoindent
+set nostartofline
+set ruler
+set laststatus=2
+set confirm
+set visualbell
+set t_vb=
+set t_ut=
+set mouse=a
+set number
+set notimeout ttimeout ttimeoutlen=0
+set pastetoggle=<F11>
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set clipboard=unnamed
+set noshowmode
+
+" Some convenient mappings
+let mapleader = "\<Space>"
+map Y y$
+nnoremap <C-L> :nohl<CR><C-L> 
+nnoremap ; :
+nnoremap : ;
+nnoremap <C-p> :FZF<CR>
+
+" fugitive git bindings
+" nnoremap <leader>ga :Git add %:p<CR><CR>
+nnoremap <leader>gs :Gstatus<CR>
+autocmd FileType go nnoremap <leader>gi :GoImports<CR>
+" nnoremap <leader>gc :Gcommit -v -q<CR>
+" nnoremap <leader>gt :Gcommit -v -q %:p<CR>
+" nnoremap <leader>gd :Gdiff<CR>
+" nnoremap <leader>ge :Gedit<CR>
+" nnoremap <leader>gr :Gread<CR>
+" nnoremap <leader>gw :Gwrite<CR><CR>
+" nnoremap <leader>gl :silent! Glog<CR>:bot copen<CR>
+" nnoremap <leader>gp :Ggrep<Space>
+" nnoremap <leader>gm :Gmove<Space>
+" nnoremap <leader>gb :Git branch<Space>
+" nnoremap <leader>go :Git checkout<Space>
+" nnoremap <leader>gps :Dispatch! git push<CR>
+" nnoremap <leader>gpl :Dispatch! git pull<CR>
+
+" other leader keybindings
+"nnoremap <leader>a :bn<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>t :TagbarToggle<CR>
+
+" vim-go mappings
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+let g:go_fmt_command = "goimports"
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_extra_types = 1
+
+" automatically save on GoBuild
+set autowrite
+
+" tee magic for when sudo write is needed
+cmap w!! w !sudo tee > /dev/null %
+
+" Javascript stuff
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+let g:javascript_opfirst = 1
+
+" Completor shenanigans
+let g:completor_gocode_binary = '/home/alvaro/Developer/go/bin/gocode'
+let g:completor_node_binary = '/usr/bin/node'
+let g:completor_auto_trigger = 1
+inoremap <expr> \<C-n> pumvisible() ? "\<C-n>" : "\<C-n>\<C-n>"
+let g:godef_split=1
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade Comment
+hi link EasyMotionTarget2First Search
+hi link EasyMotionTarget2Second Search
+
+" Lightline config
+let g:lightline = {
+    \ 'colorscheme': 'solarized',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'filename', 'fugitive', 'modified' ] ]
+    \ },
+    \ 'component_function': {
+    \   'fugitive': 'LightlineFugitive',
+    \   'modified': 'LightlineModified'
+    \ },
+    \ }
+function! LightlineModified()
+if &filetype == "help"
+  return ""
+elseif &modified
+  return "+"
+elseif &modifiable
+  return ""
+else
+  return ""
+endif
+endfunction
+function! LightlineFugitive()
+return exists('*fugitive#head') ? fugitive#head() : ''
+endfunction
