@@ -1,29 +1,21 @@
 call plug#begin('~/.vim/plugged')
+Plug 'chriskempson/base16-vim'
+Plug 'daviesjamie/vim-base16-lightline'
+Plug 'fatih/vim-go'
+Plug 'tomlion/vim-solidity'
 Plug 'scrooloose/nerdTree'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'maralla/completor.vim'
 Plug 'easymotion/vim-easymotion'
-Plug 'SirVer/ultisnips'
 Plug 'scrooloose/syntastic'
-Plug 'tikhomirov/vim-glsl'
 Plug 'pangloss/vim-javascript'
-Plug 'fatih/vim-go'
-Plug 'tomlion/vim-solidity'
-Plug 'leafgarland/typescript-vim'
-Plug 'elmcast/elm-vim'
 Plug 'mxw/vim-jsx'
 Plug 'itchyny/lightline.vim'
-Plug 'daviesjamie/vim-base16-lightline'
-Plug 'altercation/vim-colors-solarized'
-Plug 'chriskempson/base16-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
-Plug 'tpope/vim-dispatch'
-Plug 'godlygeek/tabular'
-Plug 'johngrib/vim-game-code-break'
-Plug 'posva/vim-vue'
 call plug#end()
 
 " Colors
@@ -31,7 +23,8 @@ call plug#end()
 syntax on
 set background=dark
 set t_Co=256
-colorscheme solarized
+let base16colorspace=256
+source ~/.vimrc_background
 
 " Basic defaults
 set splitright
@@ -98,9 +91,11 @@ nnoremap <leader>t :TagbarToggle<CR>
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 nnoremap <C-n> :cnext<CR>
+nnoremap <leader>p :Files ~<CR>
 nnoremap <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 let g:go_fmt_command = "goimports"
+let g:go_addtags_transform = "camelcase"
 " let g:go_highlight_types = 1
 " let g:go_highlight_fields = 1
 " let g:go_highlight_functions = 1
@@ -119,7 +114,7 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 let g:javascript_opfirst = 1
 
 " Completor shenanigans
-let g:completor_gocode_binary = '/home/alvaro/Developer/go/bin/gocode'
+let g:completor_gocode_binary = '/home/alvaro/go/bin/gocode'
 let g:completor_node_binary = '/usr/bin/node'
 let g:completor_auto_trigger = 1
 inoremap <expr> \<C-n> pumvisible() ? "\<C-n>" : "\<C-n>\<C-n>"
@@ -131,7 +126,7 @@ hi link EasyMotionTarget2Second Search
 
 " Lightline config
 let g:lightline = {
-    \ 'colorscheme': 'solarized',
+    \ 'colorscheme': 'base16',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'filename', 'fugitive', 'modified' ] ]
@@ -155,3 +150,10 @@ endfunction
 function! LightlineFugitive()
 return exists('*fugitive#head') ? fugitive#head() : ''
 endfunction
+
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
