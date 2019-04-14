@@ -66,8 +66,9 @@ nnoremap <C-L> :nohl<CR>
 " tee magic for when sudo write is needed
 cmap w!! w !sudo tee > /dev/null %
 
-nnoremap <C-p> :FZF<CR>
+nnoremap <C-p> :Files<CR>
 nnoremap <leader>p :Files ~<CR>
+nnoremap <leader>f :Rg<CR>
 
 nnoremap <leader>bd :bd<CR>
 nnoremap <leader>bn :bn<CR>
@@ -77,6 +78,10 @@ nnoremap <leader>wl <C-W>l
 nnoremap <leader>wk <C-W>k
 nnoremap <leader>wj <C-W>j
 nnoremap <leader>wh <C-W>h
+nnoremap <leader>wL <C-W>L
+nnoremap <leader>wK <C-W>K
+nnoremap <leader>wJ <C-W>J
+nnoremap <leader>wH <C-W>H
 nnoremap <leader>wd :bd<CR>
 nnoremap <leader>wt <C-W><S-T>
 nnoremap <leader>t :tabnew<CR>
