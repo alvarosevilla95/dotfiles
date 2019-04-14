@@ -7,7 +7,7 @@ Plug 'scrooloose/nerdTree'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
-Plug 'maralla/completor.vim'
+"Plug 'maralla/completor.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'scrooloose/syntastic'
 Plug 'pangloss/vim-javascript'
@@ -16,6 +16,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
+Plug 'jceb/vim-orgmode'
+Plug 'tpope/vim-speeddating'
 call plug#end()
 
 " Colors
@@ -59,7 +61,8 @@ set noshowmode
 " Some convenient mappings
 let mapleader = "\<Space>"
 map Y y$
-nnoremap <C-L> :nohl<CR><C-L> 
+nnoremap <C-L> :nohl<CR>
+" nnoremap <C-L> :nohl<CR><C-L> 
 nnoremap ; :
 nnoremap : ;
 nnoremap <C-p> :FZF<CR>
@@ -84,8 +87,21 @@ autocmd FileType go nnoremap <leader>gi :GoImports<CR>
 
 " other leader keybindings
 "nnoremap <leader>a :bn<CR>
-nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <leader>t :TagbarToggle<CR>
+nnoremap <leader>bd :bd<CR>
+nnoremap <leader>bn :bn<CR>
+nnoremap <leader>bl :ls<CR>
+
+nnoremap <leader>ww <C-W><C-W>
+nnoremap <leader>wl <C-W>l
+nnoremap <leader>wk <C-W>k
+nnoremap <leader>wj <C-W>j
+nnoremap <leader>wh <C-W>h
+nnoremap <leader>wd :bd<CR>
+nnoremap <leader>wt <C-W><S-T>
+
+nnoremap <leader>wt <C-W><S-T>
+
+nnoremap <leader>t :tabnew<CR>
 
 " vim-go mappings
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
