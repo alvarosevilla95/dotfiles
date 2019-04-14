@@ -9,16 +9,22 @@ bindkey -v
 zstyle :compinstall filename '/home/alvaro/.zshrc'
 autoload -Uz compinit
 compinit
-plugins=(git colored-man-pages)
+plugins=(archlinux git colored-man-pages fzf virtualenv virtualenvwrapper)
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR='vim'
+export BROWSER='firefox'
 
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Go Settings
 #export GOPATH=~/go
 #export PATH=$PATH:$GOPATH/bin
+
+# Python settings
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+source /usr/bin/virtualenvwrapper.sh
 
 # Setup FZF 
 # ---------
@@ -36,3 +42,5 @@ fi
 #source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+alias gs=gss

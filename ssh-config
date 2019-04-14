@@ -1,3 +1,23 @@
 Host *  
-AddKeysToAgent yes
-IPQoS lowdelay  
+    AddKeysToAgent yes
+    IPQoS lowdelay  
+    ForwardAgent yes
+Host *.chainalysis.com
+Host box
+    Hostname alvaro.chainalysis.com
+Host *pro
+    Hostname pro.chainalysis.com
+Host *lux
+    Hostname luxembourg.chainalysis.com
+Host *chicago
+    Hostname chicago.chainalysis.com
+Host *sf
+    Hostname sanfrancisco.chainalysis.com
+Host btc-*
+    LocalForward 8332 127.0.0.1:8332
+Host eth-*
+    LocalForward 8545 127.0.0.1:8545
+Host psql-*
+    LocalForward 5432 127.0.0.1:5432
+Host couchdb-*
+    LocalForward 5984 172.18.1.29:5984

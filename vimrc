@@ -66,13 +66,13 @@ nnoremap <C-L> :nohl<CR>
 " tee magic for when sudo write is needed
 cmap w!! w !sudo tee > /dev/null %
 
-nnoremap <C-p> :Files<CR>
-nnoremap <leader>p :Files ~<CR>
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>P :Files ~<CR>
 nnoremap <leader>f :Rg<CR>
 
-nnoremap <leader>bd :bd<CR>
-nnoremap <leader>bn :bn<CR>
-nnoremap <leader>bl :ls<CR>
+nnoremap <leader>x :bd<CR>
+nnoremap <leader>n :bn<CR>
+nnoremap <leader>l :ls<CR>
 nnoremap <leader>ww <C-W><C-W>
 nnoremap <leader>wl <C-W>l
 nnoremap <leader>wk <C-W>k
