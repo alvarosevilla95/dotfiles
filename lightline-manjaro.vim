@@ -1,0 +1,45 @@
+let s:base02  = ['#222D31', 0]
+let s:red     = ['#ab4642', 1]
+let s:green   = ['#7E807E', 2]
+let s:yellow  = ['#f7ca88', 3]
+let s:blue    = ['#7cafc2', 4]
+let s:magenta = ['#ba8baf', 5]
+let s:cyan    = ['#1ABB9B', 6]
+let s:base2   = ['#c0c0c0', 7]
+let s:base03  = ['#585858', 8]
+let s:orange  = ['#ab4642', 9]
+let s:base01  = ['#8D8F8D', 10]
+let s:base00  = ['#f7ca88', 11]
+let s:base0   = ['#6cafc2', 12]
+let s:violet  = ['#ba8baf', 13]
+let s:base1   = ['#1ABB9B', 14]
+let s:base3   = ['#ffffff', 15]
+
+if lightline#colorscheme#background() ==# 'light'
+  let [s:base03, s:base3] = [s:base3, s:base03]
+  let [s:base02, s:base2] = [s:base2, s:base02]
+  let [s:base01, s:base1] = [s:base1, s:base01]
+  let [s:base00, s:base0] = [s:base0, s:base00]
+endif
+
+let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
+let s:p.normal.left = [ [ s:base02, s:blue ], [ s:base02, s:base01 ] ]
+let s:p.normal.right = [ [ s:base02, s:base0 ], [ s:base02, s:base01 ] ]
+let s:p.inactive.right = [ [ s:base02, s:base01 ], [ s:base00, s:base02 ] ]
+let s:p.inactive.left =  [ [ s:base0, s:base02 ], [ s:base00, s:base02 ] ]
+let s:p.insert.left = [ [ s:base02, s:green ], [ s:base02, s:base01 ] ]
+let s:p.insert.right = [ [ s:base02, s:green ], [ s:base02, s:base01 ] ]
+let s:p.replace.left = [ [ s:base02, s:red ], [ s:base02, s:base01 ] ]
+let s:p.replace.right = [ [ s:base02, s:red ], [ s:base02, s:base01 ] ]
+let s:p.visual.left = [ [ s:base02, s:magenta ], [ s:base02, s:base01 ] ]
+let s:p.visual.right = [ [ s:base02, s:magenta ], [ s:base02, s:base01 ] ]
+let s:p.normal.middle = [ [ s:base1, s:base02 ] ]
+let s:p.inactive.middle = [ [ s:base0, s:base02 ] ]
+let s:p.tabline.left = [ [ s:base2, s:base01 ] ]
+let s:p.tabline.tabsel = [ [ s:base2, s:base02 ] ]
+let s:p.tabline.middle = [ [ s:base01, s:base2 ] ]
+let s:p.tabline.right = copy(s:p.normal.right)
+let s:p.normal.error = [ [ s:base2, s:red ] ]
+let s:p.normal.warning = [ [ s:base02, s:yellow ] ]
+
+let g:lightline#colorscheme#manjaro#palette = lightline#colorscheme#flatten(s:p)

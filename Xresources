@@ -1,124 +1,85 @@
-Xft*dpi: 192
-Xft*antialias: true
-Xft*hinting: true
-Xft*rgba: rgb
-Xft*hintstyle: hintfull Xcursor.size: 40
+Xft.dpi:       96
+Xft.antialias: true
+Xft.hinting:   true
+Xft.rgba:      rgb
+Xft.autohint:  false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
 
-xterm*faceName: SFMono-10
-xterm*locale: true
-URxvt*termName: xterm-256color
-! URxvt*font: xft:DejaVu Sans Mono:pixelsize=24
-! URxvt*font: xft:Hack-Regular:size=8
-! URxvt*boldFont: xft:Hack-Bold:size=8
-! URxvt*italicFont: xft:Hack-Oblique:size=8
-URxvt*font: xft:SFMono:size=10
-! URxvt*font: xft:SFMono-Regular:size=8
-! URxvt*boldFont: xft:SFMono-Bold:size=8
-! URxvt*italicFont: xft:SFMono-RegularItalic:size=8
-URxvt*scrollBar: false
-URxvt*scrollStyle: rxvt
-URxvt*internalBorder: 20
-URxvt*letterSpace: -2
-URxvt*iso14755: False  
-URxvt*iso14755_52: False
-!vim.internalBorder: 00
+XTerm*background:        #222D31
+XTerm*foreground:        #d8d8d8
+XTerm*pointerColor:      #1ABB9B
+xterm*faceName:          DejaVuSansMono-10
+XTerm*reverseVideo:      on
+XTerm*selectToClipboard: true
 
+Xcursor.theme: xcursor-breeze
+Xcursor.size:                     0
 
-! Base16 Tomorrow Night
-! Scheme: Chris Kempson (http://chriskempson.com)
+URxvt.font:                       xft:DejaVu Sans Mono:size=11:style=Medium
+URxvt*termName:                   xterm-256color
 
-! #define base00 #1d1f21
-! #define base01 #282a2e
-! #define base02 #373b41
-! #define base03 #969896
-! #define base04 #b4b7b4
-! #define base05 #c5c8c6
-! #define base06 #e0e0e0
-! #define base07 #ffffff
-! #define base08 #cc6666
-! #define base09 #de935f
-! #define base0A #f0c674
-! #define base0B #b5bd68
-! #define base0C #8abeb7
-! #define base0D #81a2be
-! #define base0E #b294bb
-! #define base0F #a3685a
-! 
-! *.foreground:   base05
-! *.background:   base00
-! *.cursorColor:  base05
-! 
-! *.color0:       base00
-! *.color1:       base08
-! *.color2:       base0B
-! *.color3:       base0A
-! *.color4:       base0D
-! *.color5:       base0E
-! *.color6:       base0C
-! *.color7:       base05
-! 
-! *.color8:       base03
-! *.color9:       base08
-! *.color10:      base0B
-! *.color11:      base0A
-! *.color12:      base0D
-! *.color13:      base0E
-! *.color14:      base0C
-! *.color15:      base07
+URxvt.depth:                      32
+URxvt.background:                 [100]#222D31
+URxvt*scrollBar:                  false
+URxvt*mouseWheelScrollPage:       false
+URxvt*cursorBlink:                true
+URxvt*background:                 black
+URxvt*foreground:                 grey
+URxvt*saveLines:                  5000
 
-#define S_base03        #002b36
-#define S_base02        #073642
-#define S_base01        #586e75
-#define S_base00        #657b83
-#define S_base0         #839496
-#define S_base1         #93a1a1
-#define S_base2         #eee8d5
-#define S_base3         #fdf6e3
+! Normal copy-paste keybindings without perls
+URxvt.iso14755:                   false
+URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
 
-*background:            S_base03
-*foreground:            S_base0
-*fadeColor:             S_base03
-*cursorColor:           S_base1
-*pointerColorBackground:S_base01
-*pointerColorForeground:S_base1
+!Xterm escape codes, word by word movement
+URxvt.keysym.Control-Left:        \033[1;5D
+URxvt.keysym.Shift-Control-Left:  \033[1;6D
+URxvt.keysym.Control-Right:       \033[1;5C
+URxvt.keysym.Shift-Control-Right: \033[1;6C
+URxvt.keysym.Control-Up:          \033[1;5A
+URxvt.keysym.Shift-Control-Up:    \033[1;6A
+URxvt.keysym.Control-Down:        \033[1;5B
+URxvt.keysym.Shift-Control-Down:  \033[1;6B
 
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
+*background:                      #222D31
+*foreground:                      #d8d8d8
+*fading:                          8
+*fadeColor:                       black
+*cursorColor:                     #1ABB9B
+*pointerColorBackground:          #2B2C2B
+*pointerColorForeground:          #16A085
 
 !! black dark/light
-*color0:                S_base02
-*color8:                S_base03
+*color0:                          #222D31
+*color8:                          #585858
 
 !! red dark/light
-*color1:                S_red
-*color9:                S_orange
+*color1:                          #ab4642
+*color9:                          #ab4642
 
 !! green dark/light
-*color2:                S_green
-*color10:               S_base01
+*color2:                          #7E807E
+*color10:                         #8D8F8D
 
 !! yellow dark/light
-*color3:                S_yellow
-*color11:               S_base00
+*color3:                          #f7ca88
+*color11:                         #f7ca88
 
 !! blue dark/light
-*color4:                S_blue
-*color12:               S_base0
+*color4:                          #7cafc2
+*color12:                         #7cafc2
 
 !! magenta dark/light
-*color5:                S_magenta
-*color13:               S_violet
+*color5:                          #ba8baf
+*color13:                         #ba8baf
 
 !! cyan dark/light
-*color6:                S_cyan
-*color14:               S_base1
+*color6:                          #1ABB9B
+*color14:                         #1ABB9B
 
 !! white dark/light
-*color7:                S_base2
-*color15: S_base3
+*color7:                          #d8d8d8
+*color15:                         #f8f8f8
+
