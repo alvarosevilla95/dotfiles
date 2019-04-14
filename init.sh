@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # general
-sudo pacman -S yay &&
+yes | sudo pacman -S yay &&
 
 # Xmodmap 
 rm -rf ~/.Xmodmap;
@@ -35,10 +35,11 @@ ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/li
 yay -S ripgrep &&
 
 # tmux
-yay -S tmux &&
+yes | yay -S tmux &&
 ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf;
 
 # ssh
+mkdir ~/.ssh/;
 mkdir -p ~/.config/systemd/user/ &&
 rm -rf ~/.ssh/config;
 ln -s ~/.dotfiles/ssh-config ~/.ssh/config;
@@ -48,15 +49,15 @@ systemctl --user enable ssh-agent &&
 systemctl --user start ssh-agent;
 
 # firefox
-yay -S firefox;
+yes | yay -S firefox;
 
 # go
-yay -S go;
+yes | yay -S go;
 mkdir -p ~/Dev/go/{src,bin,pkg};
 
 # python
-yay -S python-pip &&
+yes | yay -S python-pip &&
 sudo pip install virtualenv virtualenvwrapper;
 
-chsh -s /ust/bin/zsh
+chsh -s /usr/bin/zsh
 
