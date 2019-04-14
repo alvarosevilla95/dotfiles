@@ -25,3 +25,11 @@ ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/li
 # tmux
 yay -S tmux &&
 ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf;
+
+# ssh
+mkdir -p ~/.config/systemd/user/ &&
+ln -s ~/.dotfiles/ssh-config ~/.ssh/config
+ln -s ~/.dotfiles/ssh-agent.service ~/.config/systemd/user/ssh-agent.service &&
+systemctl --user enable ssh-agent &&
+systemctl --user start ssh-agent;
+

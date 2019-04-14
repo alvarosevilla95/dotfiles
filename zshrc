@@ -14,6 +14,8 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='vim'
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # Go Settings
 #export GOPATH=~/go
 #export PATH=$PATH:$GOPATH/bin
