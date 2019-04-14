@@ -19,7 +19,7 @@ rm -rf ~/.Xresources;
 ln -s ~/.dotfiles/Xresources  ~/.Xresources;
 
 # zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" &&
+sh -c ./install-oh-my-zsh.sh &&
 rm -rf ~/.zshrc;
 ln -s ~/.dotfiles/zshrc ~/.zshrc &&
 rm -rf ~/.oh-my-zsh/custom/themes/cbira.zsh-theme;
@@ -58,4 +58,5 @@ mkdir -p ~/Dev/go/{src,bin,pkg};
 yay -S python-pip &&
 sudo pip install virtualenv virtualenvwrapper;
 
+chsh -s /ust/bin/zsh
 
