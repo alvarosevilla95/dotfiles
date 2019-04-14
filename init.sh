@@ -1,62 +1,43 @@
 #!/bin/bash
 
-# general
+# installs
 yes | sudo pacman -S yay;
-
-# Xmodmap 
-rm -rf ~/.Xmodmap;
-ln -s ~/.dotfiles/Xmodmap ~/.Xmodmap &&
-xmodmap ~/.Xmodmap;
-
-# i3
-rm -rf ~/.i3/config;
-ln -s ~/.dotfiles/i3-config  ~/.i3/config;
-mkdir -p ~/.config/i3status;
-rm -rf ~/.config/i3status/config;
-ln -s ~/.dotfiles/i3status-config ~/.config/i3status/config;
-rm -rf ~/.Xresources;
-ln -s ~/.dotfiles/Xresources  ~/.Xresources;
+yes | yay -S firefox;
+yes | yay -S ripgrep;
+yes | yay -S go;
+yes | yay -S python-pip;
+yes | yay -S tmux;
 
 # zsh
-sh -c ./install-oh-my-zsh.sh &&
-rm -rf ~/.zshrc;
-ln -s ~/.dotfiles/zshrc ~/.zshrc &&
-rm -rf ~/.oh-my-zsh/custom/themes/cbira.zsh-theme;
-ln -s ~/.dotfiles/cbira.zsh-theme ~/.oh-my-zsh/custom/themes/cbira.zsh-theme;
+sh -c ./install-oh-my-zsh.sh;
 
 # vim
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-rm -rf ~/.vimrc;
-ln -s ~/.dotfiles/vimrc ~/.vimrc &&
-vim -c :PlugInstall -c :q -c :q &&
-rm -rf ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
-ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
-yes | yay -S ripgrep &&
-
-# tmux
-yes | yay -S tmux &&
-ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf;
-
-# ssh
-mkdir ~/.ssh/;
-mkdir -p ~/.config/systemd/user/ &&
-rm -rf ~/.ssh/config;
-ln -s ~/.dotfiles/ssh-config ~/.ssh/config;
-rm -rf ~/.config/systemd/user/ssh-agent.service &&
-ln -s ~/.dotfiles/ssh-agent.service ~/.config/systemd/user/ssh-agent.service &&
-systemctl --user enable ssh-agent &&
-systemctl --user start ssh-agent;
-
-# firefox
-yes | yay -S firefox;
-
-# go
-yes | yay -S go;
-mkdir -p ~/Dev/go/{src,bin,pkg};
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
+vim -c :PlugInstall -c :q -c :q;
 
 # python
-yes | yay -S python-pip &&
 sudo pip install virtualenv virtualenvwrapper;
 
-chsh -s /usr/bin/zsh
+# links
+rm -rf ~/.Xmodmap; ln -s ~/.dotfiles/Xmodmap ~/.Xmodmap;
+rm -rf ~/.config/i3status/config; mkdir -p ~/.config/i3status; ln -s ~/.dotfiles/i3status-config ~/.config/i3status/config;
+rm -rf ~/.i3/config; ln -s ~/.dotfiles/i3-config ~/.i3/config;
+rm -rf ~/.Xresources; ln -s ~/.dotfiles/Xresources ~/.Xresources;
+rm -rf ~/.zshrc; ln -s ~/.dotfiles/zshrc ~/.zshrc;
+rm -rf ~/.oh-my-zsh/custom/themes/cbira.zsh-theme; ln -s ~/.dotfiles/cbira.zsh-theme ~/.oh-my-zsh/custom/themes/cbira.zsh-theme;
+rm -rf ~/.vimrc; ln -s ~/.dotfiles/vimrc ~/.vimrc;
+rm -rf ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim; ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
+rm -rf ~/.tmux.conf; ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf;
+rm -rf ~/.ssh/config; mkdir ~/.ssh/; ln -s ~/.dotfiles/ssh-config ~/.ssh/config;
+rm -rf ~/.config/systemd/user/ssh-agent.service; mkdir -p ~/.config/systemd/user/; ln -s ~/.dotfiles/ssh-agent.service ~/.config/systemd/user/ssh-agent.service;
 
+# ssh
+systemctl --user enable ssh-agent;
+systemctl --user start ssh-agent;
+
+# go
+mkdir -p ~/Dev/go/{src,bin,pkg};
+
+xmodmap ~/.Xmodmap;
+
+chsh -s /usr/bin/zsh;
