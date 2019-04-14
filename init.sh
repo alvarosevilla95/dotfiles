@@ -20,9 +20,10 @@ ln -s ~/.dotfiles/cbira.zsh-theme ~/.oh-my-zsh/custom/themes/cbira.zsh-theme;
 
 # vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &&
-yay -S ripgrep &&
 ln -s ~/.dotfiles/vimrc ~/.vimrc &&
+vim -c :PlugInstall -c :q -c :q &&
 ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
+yay -S ripgrep &&
 
 # tmux
 yay -S tmux &&
