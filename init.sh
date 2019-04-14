@@ -10,6 +10,8 @@ xmodmap ~/.Xmodmap;
 
 # i3
 ln -s ~/.dotfiles/i3-config  ~/.i3/config;
+mkdir -p ~/.config/i3status;
+ln -s ~/.dotfiles/i3status-config ~/.config/i3status/config;
 ln -s ~/.dotfiles/Xresources  ~/.Xresources;
 
 # zsh
