@@ -18,8 +18,8 @@ export BROWSER='firefox'
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Go Settings
-#export GOPATH=~/go
-#export PATH=$PATH:$GOPATH/bin
+export GOPATH=~/go
+export PATH=$GOPATH/bin:$PATH
 
 # Python settings
 export WORKON_HOME=$HOME/.virtualenvs

@@ -2,7 +2,6 @@
 
 # general
 sudo pacman -S yay &&
-yay -S firefox;
 
 # Xmodmap 
 ln -s ~/.dotfiles/Xmodmap ~/.Xmodmap &&
@@ -35,4 +34,16 @@ ln -s ~/.dotfiles/ssh-config ~/.ssh/config
 ln -s ~/.dotfiles/ssh-agent.service ~/.config/systemd/user/ssh-agent.service &&
 systemctl --user enable ssh-agent &&
 systemctl --user start ssh-agent;
+
+# firefox
+yay -S firefox;
+
+# go
+yay -S go;
+mkdir -p ~/Dev/go/{src,bin,pkg};
+
+# python
+yay -S python-pip &&
+sudo pip install virtualenv virtualenvwrapper;
+
 
