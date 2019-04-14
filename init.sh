@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # general
-yes | sudo pacman -S yay &&
+yes | sudo pacman -S yay;
 
 # Xmodmap 
 rm -rf ~/.Xmodmap;
@@ -10,7 +10,6 @@ xmodmap ~/.Xmodmap;
 
 # i3
 rm -rf ~/.i3/config;
-ln -s ~/.dotfiles/Xmodmap ~/.Xmodmap &&
 ln -s ~/.dotfiles/i3-config  ~/.i3/config;
 mkdir -p ~/.config/i3status;
 rm -rf ~/.config/i3status/config;
