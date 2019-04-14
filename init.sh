@@ -31,7 +31,7 @@ ln -s ~/.dotfiles/vimrc ~/.vimrc &&
 vim -c :PlugInstall -c :q -c :q &&
 rm -rf ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
 ln -s ~/.dotfiles/lightline-manjaro.vim ~/.vim/plugged/lightline.vim/autoload/lightline/colorscheme/manjaro.vim;
-yay -S ripgrep &&
+yes | yay -S ripgrep &&
 
 # tmux
 yes | yay -S tmux &&
