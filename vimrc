@@ -24,6 +24,7 @@ call plug#end()
 syntax on
 set background=dark
 set t_Co=256
+hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 
 " Basic defaults
 set splitright
@@ -67,25 +68,27 @@ nnoremap <C-L> :nohl<CR>
 cmap w!! w !sudo tee > /dev/null %
 
 nnoremap <leader>p :Files<CR>
-nnoremap <leader>P :Files ~<CR>
+nnoremap <C-P> :Files ~<CR>
 nnoremap <leader>f :Rg<CR>
 
-nnoremap <leader>x :bd<CR>
-nnoremap <leader>n :bn<CR>
-nnoremap <leader>l :ls<CR>
-nnoremap <leader>ww <C-W><C-W>
-nnoremap <leader>wl <C-W>l
-nnoremap <leader>wk <C-W>k
-nnoremap <leader>wj <C-W>j
-nnoremap <leader>wh <C-W>h
-nnoremap <leader>wL <C-W>L
-nnoremap <leader>wK <C-W>K
-nnoremap <leader>wJ <C-W>J
-nnoremap <leader>wH <C-W>H
-nnoremap <leader>wd :bd<CR>
-nnoremap <leader>wt <C-W><S-T>
-nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>r :%s
 
+nnoremap <leader>q :q<CR>
+nnoremap <leader>d :bd<CR>
+nnoremap <leader>n :bn<CR>
+
+nnoremap <leader>a <C-W><C-W>
+nnoremap <leader>l <C-W>l
+nnoremap <leader>k <C-W>k
+nnoremap <leader>j <C-W>j
+nnoremap <leader>h <C-W>h
+nnoremap <leader>L <C-W>L
+nnoremap <leader>K <C-W>K
+nnoremap <leader>J <C-W>J
+nnoremap <leader>H <C-W>H
+nnoremap <leader>t <C-W><S-T>
+nnoremap <leader>ss :sp<CR>
+nnoremap <leader>sv :vsp<CR>
 
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>ga :Git add %:p<CR><CR>
@@ -138,11 +141,9 @@ endfunction
 
 " vim-go mappings
 autocmd FileType go nnoremap <leader>b  <Plug>(go-build)
-autocmd FileType go nnoremap <leader>r  <Plug>(go-run)
 autocmd FileType go nnoremap <C-n> :cnext<CR>
 autocmd FileType go nnoremap <C-m> :cprevious<CR>
 autocmd FileType go nnoremap <leader>c :cclose<CR>
-autocmd FileType go nnoremap <leader>gi :GoImports<CR>
 
 let g:go_fmt_command = "goimports"
 let g:go_addtags_transform = "camelcase"
