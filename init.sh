@@ -8,12 +8,12 @@ yes | yay -S go;
 yes | yay -S python-pip;
 yes | yay -S tmux;
 
-# zsh
-sh -c ./install-oh-my-zsh.sh;
-
 # vim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
 vim -c :PlugInstall -c :q -c :q;
+
+# zsh
+sh -c ./install-oh-my-zsh.sh;
 
 # python
 sudo pip install virtualenv virtualenvwrapper;
