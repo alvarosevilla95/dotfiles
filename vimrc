@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
 Plug 'daviesjamie/vim-base16-lightline'
-Plug 'scrooloose/nerdTree'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
@@ -14,13 +13,20 @@ Plug 'tpope/vim-speeddating'
 Plug 'rust-lang/rust.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
-" Plug 'shinchu/lightline-gruvbox.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'fatih/vim-go'
 Plug 'liuchengxu/vista.vim'
-" Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-vinegar'
+Plug 'xolox/vim-misc'
+Plug 'tpope/vim-commentary'
+Plug 'vimwiki/vimwiki'
+Plug 'janko/vim-test'
+Plug 'benmills/vimux'
 call plug#end()
+
+let test#java#runner = 'gradletest'
+let test#strategy = "vimux"
 
 " Colors
 "let g:onedark_termcolors=16
@@ -30,8 +36,14 @@ set t_Co=256
 colorscheme gruvbox
 let g:gruvbox_termcolors = 256
 
+" let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+" nmap <buffer> - <Plug>VinegarUp
+
+
 " Basic defaults
-set splitright
+" set splitright
 set cursorline
 set relativenumber
 set hidden
@@ -60,6 +72,7 @@ set expandtab
 set clipboard=unnamed
 set noshowmode
 set autowrite
+" set foldmethod=indent
 
 " easymotion
 hi link EasyMotionTarget ErrorMsg
@@ -106,12 +119,28 @@ endfunction
 
 
 " FZF / Ripgrep
-let g:rg_command = '
-            \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-            \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-            \ -g "!{.git,node_modules,vendor}/*" '
+"
+" command! -bang -nargs=* RgDev
+"   \ call fzf#vim#grep(
+"   \   'rg <q-args> /Users/alvaro/ --column --line-number --no-heading --color=always' 
+"   \  , 1,
+"   \   <bang>0 ? fzf#vim#with_preview('up:60%')
+"   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+"   \   <bang>0)
 
-command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+" let g:rg_command = 'rg --files --hidden --smartcase --glob "!{.git,node_modules,vendor, .swp}"'
+" command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+"
+function! s:buflist()
+    redir => ls
+    silent ls
+    redir END
+    return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
 
 " Coc autocomplete
 function! s:check_back_space() abort
@@ -145,7 +174,7 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " Vista
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 let g:vista_default_executive = 'coc'
 let g:vista#renderer#enable_icon = 0
 let g:vista#renderer#icons = {
@@ -169,32 +198,31 @@ cmap w!! w !sudo tee > /dev/null %
 let mapleader = "\<Space>"
 
 " b -> buffer management
-nnoremap <leader>bd :bd<CR>
+nnoremap <leader>d :bd<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bl :ls<CR>
 
 " w -> window management
-nnoremap <leader>ww <C-W><C-W>
-nnoremap <leader>wl <C-W>l
-nnoremap <leader>wk <C-W>k
-nnoremap <leader>wj <C-W>j
-nnoremap <leader>wh <C-W>h
-nnoremap <leader>wd :q<CR>
-nnoremap <leader>ws :sp<CR>
-nnoremap <leader>wv :vsp<CR>
-nnoremap <leader>wt <C-W><S-T>
-
-" t  -> tab management
-nnoremap <leader>tn :tabnew<CR>
-nnoremap <leader>td :q<CR>
-nnoremap <leader>tt :tabnext<CR>
-nnoremap <leader>tT :tabprev<CR>
+nnoremap <leader>ss <C-W><C-W>
+nnoremap <leader>sv :vsp<CR>
+nnoremap <leader>sV :sp<CR>
+nnoremap <leader>st :tabnew<CR>
+nnoremap <leader>sT <C-W><S-T>
 
 " f -> find (fzf)
-nnoremap <leader>F :Files ~<CR>
+nnoremap <leader>fF :Files ~<CR>
 nnoremap <leader>ff :Files .<CR>
 nnoremap <leader>fg :Rg<CR>
+nnoremap <leader>fG :RgDev<CR>
 nnoremap <leader>fm :Vista finder coc<CR>
+nnoremap <silent> <Leader>fb :call fzf#run({
+            \   'source':  reverse(<sid>buflist()),
+            \   'sink':    function('<sid>bufopen'),
+            \   'options': '+m',
+            \   'down':    len(<sid>buflist()) + 2
+            \ })<CR>
+
+
 
 " g -> git (fugutive)
 nnoremap <leader>gs :Gstatus<CR>
@@ -209,14 +237,22 @@ nnoremap <leader>gpl :Dispatch! git pull<CR>
 
 " l -> language (coc)
 nmap <leader>ln <Plug>(coc-rename)
-nmap <leader>la <Plug>(coc-codeaction)
-xmap <leader>la     <Plug>(coc-codeaction-selected)
-nmap <leader>lq <Plug>(coc-fix-current)
+nmap <leader>ll <Plug>(coc-codeaction)
+xmap <leader>ll     <Plug>(coc-codeaction-selected)
+nmap <leader>lf <Plug>(coc-fix-current)
 nmap <leader>lr <Plug>(coc-references)
 nmap <leader>li <Plug>(coc-implementation)
 nmap <leader>ls <Plug>(coc-code-lens-action)
 nmap <silent> gd <Plug>(coc-definition)
-nmap K  :<C-u>call CocAction('doHover')<CR>
+nnoremap <silent> gd :call CocAction('jumpDefinition', 'drop') <CR>
+nnoremap K  :<C-u>call CocAction('doHover')<CR>
 
 " Vista tagbar
 nnoremap <leader>v  :Vista!! <CR>
+
+" t -> Tests
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+" nmap <silent> tg TestVisit<CR>
