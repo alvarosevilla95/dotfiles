@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+# ftwind - switch window (based on @george-b)
+
+_gen_fzf_default_opts() {
+local color00='#282828'
+local color01='#3c3836'
+local color02='#504945'
+local color03='#665c54'
+local color04='#bdae93'
+local color05='#d5c4a1'
+local color06='#ebdbb2'
+local color07='#fbf1c7'
+local color08='#fb4934'
+local color09='#fe8019'
+local color0A='#fabd2f'
+local color0B='#b8bb26'
+local color0C='#8ec07c'
+local color0D='#83a598'
+local color0E='#d3869b'
+local color0F='#d65d0e'
+export FZF_DEFAULT_OPTS="
+  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
+  --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
+  --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
+"
+}
+_gen_fzf_default_opts
+
+GREEN='\033[00;32m'
+RESTORE='\033[0m'
+
+# Get information about windows from tmux
+windows_str=$(tmux list-windows -F '#I #{pane_current_path} #{window_name} #{window_active}')
+
+# Process windows_str
+windows=''
+delim=''
+actives=()
+nums=()
+while read -r line; do
+   line_array=($line)
+
+   num=${line_array[0]}
+   dir_name=$(basename ${line_array[1]})
+   name=${line_array[2]}
+   active=${line_array[3]}
+
+   # Pad num
+   [ "$num" -le "9" ] && num="$num "
+
+   # Change color and add * if active
+   if [ "$active" -eq "1" ]
+   then
+      actives+=("*")
+      nums+=("$GREEN$num$RESTORE")
+   else
+      actives+=(" ")
+      nums+=("$num")
+   fi
+
+   # Create output line
+   out=$(echo -e "$name\t$dir_name")
+
+   # Add to windows string
+   windows=$(printf '%s%s%s' "$windows" "$delim" "$out")
+
+   # So that join works
+   delim=$'\n'
+done <<< "$windows_str"
+
+# Align on columns
+windows=$(column -s $'\t' -t <<< "$windows")
+
+# Split by newlines
+IFS=$'\n' read -rd '' -a window_arr <<<"$windows"
+
+# Add * and number at beginning, as these aren't handled correctly by column
+# command
+windows=''
+delim=''
+for (( i=0; i<${#window_arr[*]}; ++i))
+do
+   out=$(echo -e "${actives[$i]} ${nums[$i]} ${window_arr[$i]}")
+   windows=$(printf '%s%s%s%s' "$windows" "$delim" "$out")
+   delim=$'\n'
+done
+
+# Run fzf and check result
+target=$(echo "$windows" | fzf-tmux +m --reverse --ansi)
+res=$?
+[ "$res" -eq "130" ] && exit 0
+[ "$res" -eq "0" ] || exit $res
+
+# Extract window number, handling * correctly
+target_window=$(echo "$target" | cut -d' ' -f2)
+[ "$target_window" = "" ] && \
+   target_window=$(echo "$target" | cut -d' ' -f3)
+
+# Select window
+tmux select-window -t $target_window

@@ -1,0 +1,215 @@
+# remove percent sign when non null terminator in output
+export PATH="$PATH:/Users/alvaro/dotfiles/scripts"
+export EDITOR="vim"
+export PROMPT_EOL_MARK=''
+export DISABLE_AUTO_TITLE="true"
+export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
+export HISTFILE=~/.histfile
+export HISTSIZE=10000
+export SAVEHIST=10000
+export DISABLE_AUTO_TITLE="true"
+export HOMEBREW_NO_AUTO_UPDATE=true
+export FZF_TMUX=1
+export FZF_DEFAULT_COMMAND='fd --type f --color=never'
+export FZF_DEFAULT_OPTS='--reverse --height 100%'
+export FZF_ALT_C_COMMAND='fd --type d . --color=never'
+export FZF_ALT_C_OPTS='--preview="exa {} -l --color=always"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS='--preview="bat {} --theme="base16" --color=always --style=\"numbers\""'
+export FZF_COMPLETION_OPTS='--preview="bat {} --theme="base16" --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
+export GOPATH=~/Developer/go
+export PATH=$PATH:$GOPATH/bin
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-12.jdk/Contents/Home
+    
+BASE16_SHELL="$HOME/.config/base16-shell/"
+export BASE16_THEME="gruvbox-dark-medium"
+
+setopt appendhistory autocd extendedglob nomatch
+bindkey -v
+zstyle :compinstall filename '/home/alvaro/.zshrc'
+autoload -Uz compinit
+compinit
+# Oh my zsh
+export ZSH=/Users/alvaro/.oh-my-zsh
+ZSH_THEME="bira"
+plugins=(
+  git
+  go
+  colored-man-pages
+)
+source $ZSH/oh-my-zsh.sh
+source /usr/local/etc/profile.d/z.sh
+
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ ! "$PATH" == */home/alvaro/.fzf/bin* ]]; then
+  export PATH="$PATH:/home/alvaro/.fzf/bin"
+fi
+[[ $- == *i* ]] && source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
+source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
+function  _fzf_compgen_path() {
+    command fd --type f --color=never
+}
+function  _fzf_compgen_dir() {
+    command fd --type d . --color=never
+}
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+ff() {
+    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+    local match=$(
+        rg --files-with-matches --no-messages --line-number "$1" . | 
+            fzf --preview "highlight -O ansi -l {} 2> /dev/null | 
+                        rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || 
+                            rg --ignore-case --pretty --context 10 '$1' {}"
+    )
+    local file=$(echo "$match" | cut -d':' -f1)
+    if [[ -n $file ]]; then
+        $EDITOR "$file" +$(echo "$match" | cut -d':' -f2)
+    fi
+}
+f() {
+    if [[ $# == 0 ]]; then
+        echo 'Error: search term was not provided.'
+        return
+    fi
+    local match=$(
+      rg --color=never --no-messages --line-number "$1" . |
+        fzf --delimiter : \
+        --preview "bat --theme=base16 --color=always --line-range {2}: {1}"
+      )
+    if [[ -n $match ]] then
+    local file=$(echo "$match" | cut -d':' -f1)
+    if [[ -n $file ]]; then
+        $EDITOR "$file" +$(echo "$match" | cut -d':' -f2)
+    fi
+    fi
+}
+fb() {
+  local branches branch
+  branches=$(git --no-pager branch -vv) &&
+  branch=$(echo "$branches" | fzf +m --height 40% --reverse) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+j() {
+  if [[ -z "$*" ]]; then
+    cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf-tmux --height 40% --reverse --preview='exa {} -lh --color=always')"
+  else
+    _last_z_args="$@"
+    _z "$@"
+  fi
+}
+# fe [FUZZY PATTERN] - Open the selected file with the default editor
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fe() {
+  local fis
+  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+# fkill - kill process
+fk() {
+  local pid
+  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
+}
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+              FZF-EOF"
+}
+fzf_git_add() {
+    local selections=$(
+      git status --porcelain | \
+      fzf-tmux --ansi \
+          --preview 'if (git ls-files --error-unmatch {2} &>/dev/null); then
+                         git diff --color=always {2}
+                     else
+                         bat --color=always --line-range :500 {2}
+                     fi'
+      )
+    if [[ -n $selections ]]; then
+        git add --verbose $(echo "$selections" | cut -c 4- | tr '\n' ' ')
+    fi
+}
+alias gadd='fzf_git_add'
+fzf_git_reflog() {
+    local selection=$(
+      git reflog --color=always "$@" |
+        fzf-tmux --no-multi --ansi --no-sort --height 100% \
+            --preview "git show --color=always {1}"
+      )
+    if [[ -n $selection ]]; then
+        git show $(echo $selection | cut -d' ' -f1)
+    fi
+}
+
+export DEVBOX=alvaro@alvaro.chainalysis.com
+export CHAINALYSIS_REMOTE_USER=alvaro
+function read_block() {
+    psql postgres://readonly:a090sf9g99f8fh8d8snmdjskdfnk@localhost:5432/jsondb -t -c "SELECT data FROM $1 WHERE bid = $2" | jq . > block.json
+}
+function runjar() {
+    java -jar $1 --spring.config.additional-location=classpath:$2.properties ${@:3}
+}
+
+
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^T" fzf-cd-widget
+bindkey "^F" fzf-file-widget
+
+alias input="aocdl -session-cookie 53616c7465645f5f5406d38e568514d3135ea3a94c23af6427ba0d2342dca5bd46e666bc46ab8295df17cd817a954e65"
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
+alias diff="diff-so-fancy"
+alias ll="exa -lF"
+alias l="br"
+alias v="vim"
+alias tt="tmux attach -t main || tmux new -s main"
+alias tm="tmux attach -t main || tmux new -s main"
+alias glog="fshow"
+alias grl='fzf_git_reflog'
+function tmux_attach_create(){
+    tmux a -t $1 || tmux new -s $1
+}
+alias t="tmux_attach_create"
+
+_gen_fzf_default_opts() {
+
+local color00='#282828'
+local color01='#3c3836'
+local color02='#504945'
+local color03='#665c54'
+local color04='#bdae93'
+local color05='#d5c4a1'
+local color06='#ebdbb2'
+local color07='#fbf1c7'
+local color08='#fb4934'
+local color09='#fe8019'
+local color0A='#fabd2f'
+local color0B='#b8bb26'
+local color0C='#8ec07c'
+local color0D='#83a598'
+local color0E='#d3869b'
+local color0F='#d65d0e'
+
+export FZF_DEFAULT_OPTS="
+  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
+  --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
+  --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
+"
+
+}
+
+_gen_fzf_default_opts
