@@ -1,6 +1,6 @@
 " Install vim-plug automatically
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -101,8 +101,8 @@ let g:vista#renderer#icons = {
 " vim-go
 let g:go_fmt_command = "goimports"
 
-source fzf.vim
-source coc.vim
-source lightline.vim
-source maps.vim
-source colors.vim
+source ~/dotfiles/nvim/fzf.vim
+source ~/dotfiles/nvim/coc.vim
+source ~/dotfiles/nvim/lightline.vim
+source ~/dotfiles/nvim/maps.vim
+source ~/dotfiles/nvim/colors.vim
