@@ -1,0 +1,14 @@
+{
+    "languageserver": {
+        "golang": {
+            "command": "gopls",
+            "rootPatterns": ["go.mod"],
+            "filetypes": ["go"]
+        }
+    },
+    "java.jdt.ls.vmargs": "-javaagent:/Users/alvaro/.javals/plugins/lombok.jar",
+    "java.import.gradle.enabled": true,
+    "java.completion.enabled": true,
+    "coc.preferences.extensionUpdateCheck": "never",
+    "coc.preferences.hoverTarget": "float"
+}

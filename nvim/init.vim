@@ -31,6 +31,12 @@ Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'svermeulen/vim-subversive'
 Plug 'xolox/vim-misc'
+Plug 'keith/swift.vim'
+Plug 'mattn/calendar-vim'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'dhruvasagar/vim-zoom'
+Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'ryanoasis/vim-devicons'
 " Plug 'tpope/vim-sensible'
 " Plug 'tpope/vim-eunuch'
 call plug#end()
@@ -70,6 +76,7 @@ set expandtab
 set clipboard=unnamed
 set noshowmode
 set autowrite
+set wildmode=longest,full
 
 let g:ranger_map_keys = 0
 let g:netrw_liststyle = 3
@@ -80,8 +87,8 @@ let test#strategy = "vimux"
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:coc_snippet_next = '<tab>'
 
 let g:java_highlight_all = 1 
@@ -101,8 +108,23 @@ let g:vista#renderer#icons = {
 " vim-go
 let g:go_fmt_command = "goimports"
 
+
+
 source ~/dotfiles/nvim/fzf.vim
 source ~/dotfiles/nvim/coc.vim
 source ~/dotfiles/nvim/lightline.vim
 source ~/dotfiles/nvim/maps.vim
 source ~/dotfiles/nvim/colors.vim
+
+let g:calendar_options = 'nornu'
+let g:calendar_monday = 1
+
+let wiki_1 = {}
+let wiki_1.path = '~/Dropbox/wiki/'
+let wiki_1.syntax = 'markdown'
+let wiki_1.ext = '.md'
+
+let g:vimwiki_list = [wiki_1]
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+
+let g:vimwiki_global_ext = 0

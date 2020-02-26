@@ -1,8 +1,14 @@
-let g:fzf_prefer_tmux = 1
+if has('nvim') && !exists('g:fzf_layout')
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+endif
+let g:fzf_prefer_tmux = 0
 let g:fzf_history_dir = '~/.local/share/fzf-history'
+
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   'rg --no-messages --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%', '?'),
   \   <bang>0)
@@ -69,5 +75,6 @@ endfunction
 command! Registers call fzf#run(fzf#wrap({
         \ 'source': GetRegisters(),
         \ 'sink': function('UseRegister')}))
+
 
 

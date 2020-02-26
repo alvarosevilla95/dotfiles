@@ -22,3 +22,19 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+function! StatusDiagnostic() abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info) | return '' | endif
+  let msgs = []
+  if get(info, 'error', 0)
+    call add(msgs, info['error'] . ' E')
+  endif
+  if get(info, 'warning', 0)
+    call add(msgs, info['warning'] . ' W')
+  endif
+  return join(msgs, ' ')
+endfunction
+
+function! CocCurrentFunction() abort
+    return get(b:, 'coc_current_function', '')
+endfunction

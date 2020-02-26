@@ -13,6 +13,11 @@ nmap P <plug>(YoinkPaste_P)
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
+inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
+nnoremap - :Ranger<CR>
+" nnoremap gl <Plug>VimwikiFollowLink<CR>
+
 
 let mapleader = "\<Space>"
 nnoremap <leader>- <C-^>
@@ -20,6 +25,9 @@ nnoremap <leader>k gt
 nnoremap <leader>j gT
 nnoremap <leader>d :bd<CR>
 nnoremap <leader>D :bufdo bwipeout<CR>
+
+" w -> wiki
+nnoremap <leader>wf :Files ~/Dropbox/vimwiki/<CR>
 
 
 " s -> substitute
@@ -32,17 +40,15 @@ nnoremap <leader>p :Reg<CR>
 
 " f -> find (fzf)
 nnoremap <leader>; :History:<CR>
+nnoremap <leader>/ :BLines<CR>
+nnoremap <leader>? :Lines<CR>
 nnoremap <leader>ff :Files .<CR>
 nnoremap <leader>fF :Files ~<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fG :Rg!<CR>
 nnoremap <leader>fm :Vista finder coc<CR>
-nnoremap <silent> <Leader>fb :call fzf#run({
-            \   'source':  reverse(<sid>buflist()),
-            \   'sink':    function('<sid>bufopen'),
-            \   'options': '+m',
-            \   'down':    len(<sid>buflist()) + 2
-            \ })<CR>
+nnoremap <leader>fc :GCheckout<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>
 
 " g -> git (fugutive)
 nnoremap <leader>gg :Git<Space>
@@ -50,8 +56,8 @@ nnoremap <leader>gs :Gstatus<CR>
 nnoremap <Leader>ga :GitGutterStageHunk<CR>
 nnoremap <Leader>gu :GitGutterUndoHunk<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gcc :Gcommit -v -q<CR>
-nnoremap <leader>gca :Gcommit -v -q --amend<CR>
+nnoremap <leader>gc :Gcommit -v -q<CR>
+nnoremap <leader>gC :Gcommit -v -q --amend<CR>
 nnoremap <leader>gco :GCheckout<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gD :Git diff<CR>
@@ -72,13 +78,16 @@ vnoremap <Leader>gB :Gbrowse<CR>
 " l -> language (coc)
 nnoremap <leader>lb :VimuxRunCommand('./gradlew build')<CR>
 nmap <leader>ln <Plug>(coc-rename)
-nmap <leader>ll <Plug>(coc-codeaction)
-xmap <leader>ll     <Plug>(coc-codeaction-selected)
+" nmap <leader>ll <Plug>(coc-codeaction)
+" xmap <leader>ll <Plug>(coc-codeaction-selected)
+nnoremap <leader>ll :CocAction<CR>
+xnoremap <leader>ll :CocAction<CR>
 nmap <leader>lf <Plug>(coc-fix-current)
 nmap <leader>lr <Plug>(coc-references)
 nmap <leader>li <Plug>(coc-implementation)
 nmap <leader>ls <Plug>(coc-code-lens-action)
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD <Plug>(coc-type-definition)
 nnoremap <silent> gd :call CocAction('jumpDefinition', 'drop') <CR>
 nnoremap K  :<C-u>call CocAction('doHover')<CR>
 

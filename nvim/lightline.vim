@@ -14,7 +14,7 @@ let g:lightline = {
             \ 'component_function': {
             \   'fugitive': 'LightlineFugitive',
             \   'modified': 'LightlineModified',
-            \   'cocstatus': 'coc#status',
+            \   'cocstatus': 'StatusDiagnostic',
             \   'currentfunction': 'CocCurrentFunction',
             \   'method': 'NearestMethodOrFunction'
             \ }

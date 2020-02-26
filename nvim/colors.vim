@@ -1,5 +1,6 @@
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 colorscheme gruvbox
-let g:gruvbox_termcolors = 256
+let g:gruvbox_termcolors=256
 highlight SignColumn guibg=bg
 highlight SignColumn ctermbg=bg
 highlight GitGutterAdd    guifg=#009900 guibg=bg ctermfg=2 ctermbg=bg
