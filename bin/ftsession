@@ -25,5 +25,5 @@ export FZF_DEFAULT_OPTS="
 _gen_fzf_default_opts
 
 session=$(tmux list-sessions -F "#{session_name}" | \
-        fzf-tmux --query="$1" --reverse --select-1 || exit 0) &&
-tmux switch-client -t "$session"
+        fzf-tmux --reverse --height 20% --query="$1" --select-1) &&
+tmux switch-client -t "$session" || exit 0

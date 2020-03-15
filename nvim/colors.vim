@@ -1,6 +1,7 @@
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 colorscheme gruvbox
 let g:gruvbox_termcolors=256
+hi Visual  guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
 highlight SignColumn guibg=bg
 highlight SignColumn ctermbg=bg
 highlight GitGutterAdd    guifg=#009900 guibg=bg ctermfg=2 ctermbg=bg
@@ -20,3 +21,4 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+

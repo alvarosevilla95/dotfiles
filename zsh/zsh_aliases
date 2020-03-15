@@ -1,18 +1,41 @@
-alias input="aocdl -session-cookie 53616c7465645f5f5406d38e568514d3135ea3a94c23af6427ba0d2342dca5bd46e666bc46ab8295df17cd817a954e65"
-alias vimrc="vim ~/.vimrc"
+alias vimrc="vim ~/.config/nvim/init.vim"
 alias zshrc="vim ~/.zshrc"
-alias diff="diff-so-fancy"
+
+alias r="ranger"
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+alias vimw='vim -c "VimwikiIndex" -c "vsp" -c "VimwikiMakeDiaryNote"'
+alias vw='vim -c "VimwikiMakeDiaryNote" -c "Calendar"'
+alias ls="exa"
 alias ll="exa -lF"
-alias l="br"
-alias v="vim"
-alias tt="tmux attach -t main || tmux new -s main"
-alias tm="tmux attach -t main || tmux new -s main"
-alias glog="fshow"
-alias grl='fzf_git_reflog'
-alias gadd='fzf_git_add'
+alias la="exa -alF"
+
+alias f='fzf_z'
+alias fs='ftsession'
+alias fr='fzf_rg'
+alias fl="fzf_git_log"
+alias flr="fzf_git_reflog"
+alias fa='fzf_git_add'
+alias fb='fzf_git_checkout'
+alias fk='fzf_kill'
+alias fw='f=$(fd --type f  . ~/Dropbox/wiki | fzf-tmux --preview="bat {} --theme="base16" --color=always --style=\"numbers\"") && vim $f'
+alias fj='f=$(fzf_dates 365  | awk "{print \$1}" ) && vim ~/Dropbox/wiki/diary/$f.md'
+alias fJ='f=$(fzf_dates 365 forward | awk "{print \$1}" ) && vim ~/Dropbox/wiki/diary/$f.md'
+
 function tmux_attach_create(){
-    tmux a -t $1 || tmux new -s $1
+    tmux a -t $1 2>/dev/null || tmux new -s $1 2>/dev/null || tmux new -s $1 -d
 }
 alias t="tmux_attach_create"
-alias vim="nvim"
-alias dots="vim ~/dotfiles/**"
+alias tm="tmux_attach_create main"
+alias tw="tmux_attach_create wiki"
+alias ts="tmux_attach_create ibsuite"
+
+alias ds='f=$(fd --type f  . ~/dotfiles | fzf-tmux --preview="bat {} --theme="base16" --color=always --style=\"numbers\"") && vim $f'
+
+bwcopy() {
+    if hash bw 2>/dev/null; then
+        bw get item "$(bw list items | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' | fzf-tmux | awk '{print $(NF -0)}' | sed 's/\"//g')" | jq '.login.password' | sed 's/\"//g' | pbcopy
+    fi
+}
+alias fp="bwcopy"

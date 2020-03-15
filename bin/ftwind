@@ -86,7 +86,7 @@ do
 done
 
 # Run fzf and check result
-target=$(echo "$windows" | fzf-tmux +m --reverse --ansi)
+target=$(echo "$windows" | fzf-tmux +m --ansi)
 res=$?
 [ "$res" -eq "130" ] && exit 0
 [ "$res" -eq "0" ] || exit $res

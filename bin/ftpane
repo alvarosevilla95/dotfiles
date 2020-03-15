@@ -28,7 +28,7 @@ panes=$(tmux list-panes -s -F '#I:#P - #{pane_current_path} #{pane_current_comma
 current_pane=$(tmux display-message -p '#I:#P')
 current_window=$(tmux display-message -p '#I')
 
-target=$(echo "$panes" | grep -v "$current_pane" | fzf-tmux +m --reverse) || exit 0
+target=$(echo "$panes" | grep -v "$current_pane" | fzf-tmux +m) || exit 0
 
 target_window=$(echo $target | awk 'BEGIN{FS=":|-"} {print$1}')
 target_pane=$(echo $target | awk 'BEGIN{FS=":|-"} {print$2}' | cut -c 1)

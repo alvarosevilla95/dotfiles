@@ -1,10 +1,10 @@
 local return_code=""
 if [[ $UID -eq 0 ]]; then
     local user_host='%{$terminfo[bold]$fg[red]%}%n@%m%{$reset_color%}'
-    local user_symbol='#'
+    local user_symbol='%{$terminfo[bold]$fg[red]%}#%{$reset_color%}'
 else
     local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
-    local user_symbol='$'
+    local user_symbol='%{$terminfo[bold]$fg[red]%}$%{$reset_color%}'
 fi
 
 local current_dir='%{$terminfo[bold]$fg[blue]%}%~%{$reset_color%}'
@@ -19,8 +19,8 @@ fi
 local git_branch='$(git_prompt_info)%{$reset_color%}'
 local venv_prompt='$(virtualenv_prompt_info)%{$reset_color%}'
 
-PROMPT="╭─${venv_prompt}${user_host} ${current_dir} ${rvm_ruby} ${git_branch}
-╰─%B${user_symbol}%b "
+PROMPT="${venv_prompt}${user_host} ${current_dir} ${rvm_ruby} ${git_branch}
+%B${user_symbol}%b "
 RPS1="%B${return_code}%b"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"

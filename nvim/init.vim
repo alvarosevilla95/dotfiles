@@ -4,8 +4,13 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+set t_8f=^[[38;2;%lu;%lu;%lum
+set t_8b=^[[48;2;%lu;%lu;%lum
+set termguicolors
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
 call plug#begin()
-" Plug 'daviesjamie/vim-base16-lightline'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -37,8 +42,20 @@ Plug 'francoiscabrol/ranger.vim'
 Plug 'dhruvasagar/vim-zoom'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'ryanoasis/vim-devicons'
-" Plug 'tpope/vim-sensible'
-" Plug 'tpope/vim-eunuch'
+Plug 'moll/vim-bbye'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
+Plug 'antoinemadec/coc-fzf'
+Plug 'godlygeek/tabular'
+Plug 'hdiniz/vim-gradle'
+Plug 'yuki-ycino/fzf-preview.vim'
+Plug 'mbbill/undotree'
+Plug 'christoomey/vim-run-interactive'
+Plug 'Shougo/neomru.vim'
+Plug 'mhinz/vim-startify'
+Plug 'tpope/vim-obsession'
 call plug#end()
 
 " Basic defaults
@@ -77,6 +94,28 @@ set clipboard=unnamed
 set noshowmode
 set autowrite
 set wildmode=longest,full
+" set undofile
+" set undodir=~/.config/nvim/undodir
+
+set signcolumn=no
+augroup active_relative_number
+  au!
+  " au BufEnter * :setlocal signcolumn=yes
+  " au WinEnter * :setlocal signcolumn=yes
+  " au BufLeave * :setlocal signcolumn=no
+  " au WinLeave * :setlocal signcolumn=no
+
+  au BufEnter * :setlocal number relativenumber
+  au WinEnter * :setlocal number relativenumber
+  au BufLeave * :setlocal nonumber norelativenumber
+  au WinLeave * :setlocal nonumber norelativenumber
+augroup END
+
+let g:gitgutter_map_keys = 0
+
+let g:prosession_dir = "~/.local/share/nvim/sessions"
+let g:startify_session_dir= "~/.local/share/nvim/sessions"
+let g:animate#duration = 200.0
 
 let g:ranger_map_keys = 0
 let g:netrw_liststyle = 3
@@ -108,11 +147,21 @@ let g:vista#renderer#icons = {
 " vim-go
 let g:go_fmt_command = "goimports"
 
+let g:lightline = {
+            \ 'colorscheme': 'gruvbox',
+            \ 'active': {
+            \   'left':  [[ 'mode', 'paste' ], ['fugitive'], ['filename']],
+            \   'right': [['lineinfo'], ['percent'], ['filetype'], ['cocstatus']]
+            \ },
+            \ 'component_function': {
+            \   'fugitive': 'FugitiveHead',
+            \   'cocstatus': 'StatusDiagnostic',
+            \ }
+            \ }
 
 
 source ~/dotfiles/nvim/fzf.vim
 source ~/dotfiles/nvim/coc.vim
-source ~/dotfiles/nvim/lightline.vim
 source ~/dotfiles/nvim/maps.vim
 source ~/dotfiles/nvim/colors.vim
 
@@ -128,3 +177,6 @@ let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
 let g:vimwiki_global_ext = 0
+" let g:rainbow_active = 1
+" au FileType c,cpp,objc,objcpp,java call rainbow#load()
+let g:lens#disabled_filetypes = ['fugitiveblame', 'coc', 'coc-fzf', 'vista', 'term', 'terminal', 'calendar', 'list', 'fzf', 'undotree', 'diff']

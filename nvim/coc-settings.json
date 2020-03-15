@@ -10,5 +10,6 @@
     "java.import.gradle.enabled": true,
     "java.completion.enabled": true,
     "coc.preferences.extensionUpdateCheck": "never",
-    "coc.preferences.hoverTarget": "float"
+    "coc.preferences.hoverTarget": "float",
+    "java.errors.incompleteClasspath.severity": "ignore"
 }
