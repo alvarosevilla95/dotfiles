@@ -31,7 +31,6 @@ nnoremap - :Ranger<CR>
 
 let mapleader = "\<Space>"
 nnoremap <leader>- <C-^>
-nnoremap <leader><leader> 
 nnoremap <leader>j <C-W>w
 nnoremap <leader>k <C-W>W
 nnoremap <leader>l gt

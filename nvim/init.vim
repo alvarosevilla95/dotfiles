@@ -17,7 +17,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'benmills/vimux'
 Plug 'vimwiki/vimwiki'
-Plug 'tpope/vim-vinegar'
 Plug 'liuchengxu/vista.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
@@ -61,7 +60,7 @@ call plug#end()
 " Basic defaults
 syntax on
 set background=dark
-set t_Co=256
+" set t_Co=256
 set updatetime=100
 set splitright
 set cursorline
@@ -79,8 +78,6 @@ set ruler
 set laststatus=2
 set confirm
 set visualbell
-set t_vb=
-set t_ut=
 " set ttymouse=xterm2
 set mouse=a
 set number
@@ -115,6 +112,7 @@ let g:gitgutter_map_keys = 0
 
 let g:prosession_dir = "~/.local/share/nvim/sessions"
 let g:startify_session_dir= "~/.local/share/nvim/sessions"
+let g:startify_change_to_dir=0
 let g:animate#duration = 200.0
 
 let g:ranger_map_keys = 0
@@ -148,6 +146,10 @@ let g:vista#renderer#icons = {
 let g:go_fmt_command = "goimports"
 
 let g:lightline = {
+            \ 'tabline': {
+            \   'left': [['tabs']],
+            \   'right': [['']]
+            \ },
             \ 'colorscheme': 'gruvbox',
             \ 'active': {
             \   'left':  [[ 'mode', 'paste' ], ['fugitive'], ['filename']],
@@ -180,3 +182,4 @@ let g:vimwiki_global_ext = 0
 " let g:rainbow_active = 1
 " au FileType c,cpp,objc,objcpp,java call rainbow#load()
 let g:lens#disabled_filetypes = ['fugitiveblame', 'coc', 'coc-fzf', 'vista', 'term', 'terminal', 'calendar', 'list', 'fzf', 'undotree', 'diff']
+
