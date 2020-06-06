@@ -62,17 +62,6 @@ scrolling:
   # scrollback is enabled (history > 0).
   multiplier: 3
 
-  # Scroll to the bottom when new text is written to the terminal.
-  auto_scroll: false
-
-# Display tabs using this many cells (changes require restart)
-#
-# Some applications, like Emacs, rely on knowing about the width of a tab. To
-# prevent unexpected behavior in these applications, it's also required to
-# change the `it` value in terminfo when altering this setting.
-#
-tabspaces: 8
-
 # Font configuration (changes require restart)
 font:
   normal:
@@ -91,7 +80,7 @@ font:
     style: Regular
 
   # Point size of the font
-  size: 11.5
+  size: 12
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -352,7 +341,7 @@ key_bindings:
 
     # shortcuts for tmux. the leader key is control-b (0x02)
   - { key: W,        mods: Command,       chars: "\x00x"                       }  # close tab (kill)
-  - { key: S,        mods: Command,       chars: "\x00s"                       }  # fzf sessions
+  - { key: S,        mods: Command,       chars: "\x00w"                       }  # fzf sessions
   - { key: E,        mods: Command,       chars: "\x00\""                      }  # split
   - { key: D,        mods: Command,       chars: "\x00%"                       }  # vsplit
   - { key: B,        mods: Command,       chars: "\x00b"                       }  # split 20%

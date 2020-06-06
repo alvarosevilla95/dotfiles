@@ -98,9 +98,12 @@ nnoremap <leader>fc :GCheckout<CR>
 nnoremap <leader>fe :CocList diagnostics<CR>
 nnoremap <silent> <Leader>fb :FzfPreviewBuffers<CR>
 
-" s -> snippets
-nnoremap <leader>ss :Snippets<CR>
+" s -> search
 nnoremap <leader>se :UltiSnipsEdit<CR>
+nnoremap <leader>ss :Rg<CR>
+nnoremap <leader>sS :Rg!<CR>
+nnoremap <leader>sd :Rg ~/dotfiles<CR>
+nnoremap <leader>sw :Rg ~/Dropbox/wiki/<CR>
 
 " g -> git (fugutive)
 nnoremap <leader>gg :Git<Space>

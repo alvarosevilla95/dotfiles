@@ -11,7 +11,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Sensible defaults
 setopt appendhistory autocd extendedglob nomatch
-# bindkey -v
 bindkey "^P" history-beginning-search-backward; 
 bindkey "^N" history-beginning-search-forward
 bindkey "^K" up-line-or-beginning-search #history-beginning-search-backward
@@ -29,78 +28,22 @@ export PATH="$PATH:/Users/alvaro/dotfiles/bin/"
 export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
 export HOMEBREW_NO_AUTO_UPDATE=true
 
-# Go
 export GOPATH=~/Developer/go
 export PATH=$PATH:$GOPATH/bin
 
-# Java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-12.jdk/Contents/Home
-    
-# Base 16, used for FZF and bat
-BASE16_SHELL="$HOME/.config/base16-shell/"
-export BASE16_THEME="gruvbox-dark-medium"
+export SDKMAN_DIR="/Users/alvaro/.sdkman"
+[[ -s "/Users/alvaro/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
 
+if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+
+
+source ~/.fzf.zsh
 source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/zsh_aliases
-# source ~/dotfiles/zsh/fzf-tab.zsh
-if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
+source ~/dotfiles/bin/aws-helpers.sh
+source ~/dotfiles/zsh/work.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# export FZF_COMPLETION_TRIGGER=''
-
-fzf-ctrl-completion() {
-  local tokens cmd prefix trigger tail matches lbuf d_cmds
-  setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
-
-  # http://zsh.sourceforge.net/FAQ/zshfaq03.html
-  # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
-  tokens=(${(z)LBUFFER})
-  if [ ${#tokens} -lt 1 ]; then
-    # zle ${fzf_default_completion:-expand-or-complete}
-    _fzf_path_completion "$prefix" "$lbuf"
-    return
-  fi
-
-  cmd=$(__fzf_extract_command "$LBUFFER")
-
-  # Explicitly allow for empty trigger.
-  trigger=''
-  [ -z "$trigger" -a ${LBUFFER[-1]} = ' ' ] && tokens+=("")
-
-  # When the trigger starts with ';', it becomes a separate token
-  if [[ ${LBUFFER} = *"${tokens[-2]}${tokens[-1]}" ]]; then
-    tokens[-2]="${tokens[-2]}${tokens[-1]}"
-    tokens=(${tokens[0,-2]})
-  fi
-
-  tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
-  # Kill completion (do not require trigger sequence)
-  if [ $cmd = kill -a ${LBUFFER[-1]} = ' ' ]; then
-    matches=$(command ps -ef | sed 1d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-50%} --min-height 15 --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS --preview 'echo {}' --preview-window down:3:wrap" __fzf_comprun "$cmd" -m | awk '{print $2}' | tr '\n' ' ')
-    if [ -n "$matches" ]; then
-      LBUFFER="$LBUFFER$matches"
-    fi
-    zle reset-prompt
-  # Trigger sequence given
-  elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
-    d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
-
-    [ -z "$trigger"      ] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
-    [ -z "${tokens[-1]}" ] && lbuf=$LBUFFER        || lbuf=${LBUFFER:0:-${#tokens[-1]}}
-
-    if eval "type _fzf_complete_${cmd} > /dev/null"; then
-      prefix="$prefix" eval _fzf_complete_${cmd} ${(q)lbuf}
-    elif [ ${d_cmds[(i)$cmd]} -le ${#d_cmds} ]; then
-      _fzf_dir_completion "$prefix" "$lbuf"
-    else
-      _fzf_path_completion "$prefix" "$lbuf"
-    fi
-  # Fall back to default completion
-  else
-    # zle ${fzf_default_completion:-expand-or-complete}
-    _fzf_path_completion "$prefix" "$lbuf"
-  fi
-}
-zle     -N   fzf-ctrl-completion
-bindkey '^F' fzf-ctrl-completion

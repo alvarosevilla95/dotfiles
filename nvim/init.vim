@@ -44,8 +44,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'rbgrouleff/bclose.vim'
-Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
+" Plug 'camspiers/animate.vim'
+" Plug 'camspiers/lens.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'godlygeek/tabular'
 Plug 'hdiniz/vim-gradle'
@@ -53,9 +53,14 @@ Plug 'yuki-ycino/fzf-preview.vim'
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-obsession'
 call plug#end()
+
+let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
+let g:LanguageClient_rootMarkers = {
+    \ 'java': ['.git']
+    \ }
 
 " Basic defaults
 syntax on
@@ -94,7 +99,7 @@ set wildmode=longest,full
 " set undofile
 " set undodir=~/.config/nvim/undodir
 
-set signcolumn=no
+set signcolumn=yes
 augroup active_relative_number
   au!
   " au BufEnter * :setlocal signcolumn=yes
@@ -107,6 +112,10 @@ augroup active_relative_number
   au BufLeave * :setlocal nonumber norelativenumber
   au WinLeave * :setlocal nonumber norelativenumber
 augroup END
+
+let g:LanguageClient_serverCommands = {
+    \ 'java': ['/usr/local/bin/jdtls', '-data', getcwd()],
+    \ }
 
 let g:gitgutter_map_keys = 0
 
@@ -171,7 +180,7 @@ let g:calendar_options = 'nornu'
 let g:calendar_monday = 1
 
 let wiki_1 = {}
-let wiki_1.path = '~/Dropbox/wiki/'
+let wiki_1.path = '/Users/alvaro/Dropbox/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.md'
 
