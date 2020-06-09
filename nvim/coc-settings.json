@@ -6,10 +6,12 @@
             "filetypes": ["go"]
         }
     },
-    "java.import.gradle.enabled": true,
-    "java.trace.server": "verbose",
-    "java.import.gradle.wrapper.enabled": false,
+    "java.jdt.ls.vmargs": "-javaagent:/Users/alvaro/.config/nvim/lombok.jar",
+    "java.import.gradle.enabled": false,
+    "java.import.gradle.wrapper.enabled": true,
+    "java.import.gradle.version": 5.6,
     "java.completion.enabled": true,
     "coc.preferences.extensionUpdateCheck": "never",
-    "coc.preferences.hoverTarget": "float"
+    "coc.preferences.hoverTarget": "float",
+    "java.errors.incompleteClasspath.severity": "ignore"
 }

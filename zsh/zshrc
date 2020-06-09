@@ -3,7 +3,7 @@ export ZSH=/Users/alvaro/.oh-my-zsh
 ZSH_THEME="cbira"
 plugins=(
   git
-  go
+  golang
   colored-man-pages
   fzf-tab
 )
@@ -24,7 +24,7 @@ export HISTSIZE=100000
 export SAVEHIST=100000
 export DISABLE_AUTO_TITLE="true"
 export EDITOR="nvim"
-export PATH="$PATH:/Users/alvaro/dotfiles/bin/"
+export PATH="$PATH:/Users/alvaro/dotfiles/bin"
 export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
 export HOMEBREW_NO_AUTO_UPDATE=true
 
@@ -44,6 +44,6 @@ source ~/.fzf.zsh
 source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/zsh_aliases
-source ~/dotfiles/bin/aws-helpers.sh
+# source ~/dotfiles/bin/aws-helpers.sh
 source ~/dotfiles/zsh/work.zsh
 

@@ -37,6 +37,14 @@ function e() {
     f=$(fd --type f  . $1 | fzf-tmux --preview="bat {} --theme="base16" --color=always --style=\"numbers\"") && vim $f
 }
 
+function snipe() {
+    file=~/dotfiles/bin/$1
+    touch $file
+    chmod +x $file
+    vim -c "set filetype=sh" $file
+
+}
+
 bwcopy() {
     if hash bw 2>/dev/null; then
         bw get item "$(bw list items | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' | fzf-tmux | awk '{print $(NF -0)}' | sed 's/\"//g')" | jq '.login.password' | sed 's/\"//g' | pbcopy

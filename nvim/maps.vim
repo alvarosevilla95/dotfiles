@@ -75,7 +75,7 @@ imap <c-f> <plug>(fzf-complete-path)
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
-nnoremap <leader>; :History:<CR>
+nnoremap <leader>; :Commands<CR>
 nnoremap <leader>/ :FzfPreviewLines<CR>
 nnoremap <leader>? :Lines<CR>
 nnoremap <leader>ds :Files ~/dotfiles/<CR>
@@ -108,8 +108,6 @@ nnoremap <leader>sw :Rg ~/Dropbox/wiki/<CR>
 " g -> git (fugutive)
 nnoremap <leader>gg :Git<Space>
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <Leader>ga :GitGutterStageHunk<CR>
-nnoremap <Leader>gu :GitGutterUndoHunk<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
 nnoremap <leader>gC :Gcommit -v -q --amend<CR>
@@ -124,8 +122,6 @@ nnoremap <leader>gl :Commits<CR>
 nnoremap <leader>gL :BCommits<CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpP :Git pull<CR>
-nnoremap <Leader>gj :GitGutterNextHunk<CR>
-nnoremap <Leader>gk :GitGutterPrevHunk<CR>
 nnoremap <Leader>gB :.Gbrowse<CR>
 vnoremap <Leader>gB :Gbrowse<CR>
 

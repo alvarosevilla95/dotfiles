@@ -32,7 +32,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'svermeulen/vim-subversive'
 Plug 'xolox/vim-misc'
 Plug 'keith/swift.vim'
@@ -55,6 +55,7 @@ Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
 " Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-obsession'
+Plug 'masukomi/vim-markdown-folding'
 call plug#end()
 
 let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
@@ -99,7 +100,7 @@ set wildmode=longest,full
 " set undofile
 " set undodir=~/.config/nvim/undodir
 
-set signcolumn=yes
+set signcolumn=no
 augroup active_relative_number
   au!
   " au BufEnter * :setlocal signcolumn=yes
@@ -186,9 +187,10 @@ let wiki_1.ext = '.md'
 
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+let g:markdown_folding = 1
+let g:vimwiki_folding = 'expr'
 
 let g:vimwiki_global_ext = 0
 " let g:rainbow_active = 1
 " au FileType c,cpp,objc,objcpp,java call rainbow#load()
-let g:lens#disabled_filetypes = ['fugitiveblame', 'coc', 'coc-fzf', 'vista', 'term', 'terminal', 'calendar', 'list', 'fzf', 'undotree', 'diff']
 
