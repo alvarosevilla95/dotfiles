@@ -28,12 +28,11 @@ export FZF_ALT_C_OPTS='--preview="exa {} -l --color=always"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview="bat {} --theme="base16" --color=always --style=\"numbers\""'
 export FZF_COMPLETION_OPTS='--preview="bat {} --theme="base16" --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
+export PATH="$PATH:/home/alvaro/.fzf/bin"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if [[ ! "$PATH" == */home/alvaro/.fzf/bin* ]]; then
-  export PATH="$PATH:/home/alvaro/.fzf/bin"
-fi
-[[ $- == *i* ]] && source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
+source ~/.fzf.zsh
+
+source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
 source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
 bindkey "^T" fzf-cd-widget
 bindkey "^F" fzf-file-widget
@@ -42,7 +41,7 @@ function  _fzf_compgen_path() {
     command fd --type f --color=never
 }
 function  _fzf_compgen_dir() {
-    command fd --type d . --color=never
+    command fd --type d --color=never
 }
 
 fzf_z() {
@@ -54,19 +53,9 @@ fzf_z() {
   fi
 }
 
-fif() {
+frg() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   rg --files-with-matches --no-messages "$1" $2 | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
-}
-
-fzf_kill() {
-  local pid
-  pid=$(ps -ef | sed 1d | fzf-tmux -m | awk '{print $2}')
-
-  if [ "x$pid" != "x" ]
-  then
-    echo $pid | xargs kill -${1:-9}
-  fi
 }
 
 fzf_git_add() {
@@ -121,8 +110,6 @@ fzf_git_reflog() {
     fi
 }
 
-# source ~/dotfiles/zsh/interactive-cd.zsh
-
 # $1 = count. Add any $2 to go forwards in time
 function dates() {
     [ -z "$2" ] && s="-" || s="+"
@@ -133,6 +120,8 @@ function dates() {
 function fzf_dates() {
     dates $1 $2 | fzf-tmux --preview="bat ~/Dropbox/wiki/diary/{1}.md --theme="base16" --color=always --style=\"numbers\" 2>/dev/null"
 }
+
+# fzf-tab plugin
 
 FZF_TAB_COMMAND=(
     fzf
@@ -145,7 +134,6 @@ FZF_TAB_COMMAND=(
     '--query=$query'   # $query will be expanded to query string at runtime.
     '--header-lines=$#headers' # $#headers will be expanded to lines of headers at runtime
 )
-zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
 fzf-ctrl-completion() {
   local tokens cmd prefix trigger tail matches lbuf d_cmds
@@ -202,3 +190,6 @@ fzf-ctrl-completion() {
 }
 zle     -N   fzf-ctrl-completion
 bindkey '^F' fzf-ctrl-completion
+
+zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
+

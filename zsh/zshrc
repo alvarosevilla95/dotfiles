@@ -1,4 +1,3 @@
-# Oh my zsh
 export ZSH=/Users/alvaro/.oh-my-zsh
 ZSH_THEME="cbira"
 plugins=(
@@ -9,7 +8,6 @@ plugins=(
 )
 source $ZSH/oh-my-zsh.sh
 
-# Sensible defaults
 setopt appendhistory autocd extendedglob nomatch
 bindkey "^P" history-beginning-search-backward; 
 bindkey "^N" history-beginning-search-forward
@@ -18,6 +16,7 @@ bindkey "^J" down-line-or-beginning-search #history-beginning-search-forward
 zstyle :compinstall filename '/home/alvaro/.zshrc'
 autoload -Uz compinit
 compinit
+
 export PROMPT_EOL_MARK=''
 export HISTFILE=~/.histfile
 export HISTSIZE=100000
@@ -32,18 +31,11 @@ export GOPATH=~/Developer/go
 export PATH=$PATH:$GOPATH/bin
 
 export SDKMAN_DIR="/Users/alvaro/.sdkman"
-[[ -s "/Users/alvaro/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
+eval "$(pyenv init -)"
+# eval "$(swiftenv init -)"
 
-if which swiftenv > /dev/null; then eval "$(swiftenv init -)"; fi
-
-
-source ~/.fzf.zsh
 source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/fzf.zsh
-source ~/dotfiles/zsh/zsh_aliases
-# source ~/dotfiles/bin/aws-helpers.sh
+source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
-
