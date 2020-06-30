@@ -115,18 +115,21 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gD :Git diff<CR>
 nnoremap <leader>gr :Grebase --interactive<Space>
 nnoremap <leader>gR :Grebase<Space>
-nnoremap <leader>gb :Gblame<CR>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gO :Git branch<Space>
 nnoremap <leader>gl :Commits<CR>
 nnoremap <leader>gL :BCommits<CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpP :Git pull<CR>
-nnoremap <Leader>gB :.Gbrowse<CR>
-vnoremap <Leader>gB :Gbrowse<CR>
+nnoremap <leader>gbm :Gblame<CR>
+nnoremap <Leader>gbb :.Gbrowse!<CR>
+vnoremap <Leader>gbb :Gbrowse!<CR>
+nnoremap <Leader>gbB :.Gbrowse<CR>
+vnoremap <Leader>gbB :Gbrowse<CR>
 
 " c -> coc
-nnoremap <leader>cb :VimuxRunCommand('./gradlew build')<CR>
+nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
+nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
 nmap <leader>cn <Plug>(coc-rename)
 nnoremap <leader>cc :CocAction<CR>
 xnoremap <leader>cc :CocAction<CR>

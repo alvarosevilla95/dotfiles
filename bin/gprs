@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -eo pipefail
+
+pr=$(gh pr list 2> /dev/null | fzf --preview 'gh pr view {1}' | cut -f 1)
+gh pr checkout $pr
+

@@ -19,13 +19,20 @@ compinit
 
 export PROMPT_EOL_MARK=''
 export HISTFILE=~/.histfile
-export HISTSIZE=100000
-export SAVEHIST=100000
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 export DISABLE_AUTO_TITLE="true"
 export EDITOR="nvim"
-export PATH="$PATH:/Users/alvaro/dotfiles/bin"
 export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
 export HOMEBREW_NO_AUTO_UPDATE=true
+
+export GF_BAT_STYLE=changes
+export GF_BAT_THEME=gruvbox
+export BAT_THEME=gruvbox
+
+export DOTFILES=/Users/alvaro/dotfiles
+export PATH="$PATH:$DOTFILES/bin"
+export PATH="$PATH:$DOTFILES/bin/git-fuzzy/bin"
 
 export GOPATH=~/Developer/go
 export PATH=$PATH:$GOPATH/bin
@@ -39,3 +46,5 @@ source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

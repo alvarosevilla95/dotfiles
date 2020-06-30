@@ -15,20 +15,23 @@ local color0D='#83a598'
 local color0E='#d3869b'
 local color0F='#d65d0e'
 
-export FZF_TMUX=1
+# export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="40%"
 export FZF_DEFAULT_COMMAND='fd --type f --color=never'
 export FZF_DEFAULT_OPTS="
-  --height 40% --bind ctrl-o:toggle-all --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
+  --height 40% --bind ctrl-o:toggle-all  --reverse
+  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
   --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
   --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
 "
 export FZF_ALT_C_COMMAND='fd --type d . --color=never'
 export FZF_ALT_C_OPTS='--preview="exa {} -l --color=always"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS='--preview="bat {} --theme="base16" --color=always --style=\"numbers\""'
-export FZF_COMPLETION_OPTS='--preview="bat {} --theme="base16" --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
+export FZF_CTRL_T_OPTS='--preview="bat {} --theme="gruvbox" --color=always --style=\"numbers\""'
+export FZF_COMPLETION_OPTS='--preview="bat {} --theme="gruvbox" --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
 export PATH="$PATH:/home/alvaro/.fzf/bin"
+
+export FZF_PREVIEW_PREVIEW_BAT_THEME='gruvbox'
 
 source ~/.fzf.zsh
 
@@ -46,7 +49,7 @@ function  _fzf_compgen_dir() {
 
 fzf_z() {
   if [[ -z "$*" ]]; then
-    cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf-tmux --height 40% --preview='exa {} -lh --color=always')"
+    cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf --height 40% --preview='exa {} -lh --color=always')"
   else
     _last_z_args="$@"
     _z "$@"
@@ -61,7 +64,7 @@ frg() {
 fzf_git_add() {
     local selections=$(
       git status --porcelain | \
-      fzf-tmux --ansi \
+      fzf --ansi \
           --preview 'if (git ls-files --error-unmatch {2} &>/dev/null); then
                          git diff --color=always {2}
                      else
@@ -91,7 +94,7 @@ fzf_git_checkout() {
 fzf_git_log() {
   git log --graph --color=always \
       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
-  fzf-tmux --ansi --no-sort --tiebreak=index --bind=ctrl-s:toggle-sort \
+  fzf --ansi --no-sort --tiebreak=index --bind=ctrl-s:toggle-sort \
       --bind "ctrl-m:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
@@ -102,7 +105,7 @@ fzf_git_log() {
 fzf_git_reflog() {
     local selection=$(
       git reflog --color=always "$@" |
-        fzf-tmux --no-multi --ansi --no-sort --height 100% \
+        fzf --no-multi --ansi --no-sort --height 100% \
             --preview "git show --color=always {1}"
       )
     if [[ -n $selection ]]; then
@@ -118,7 +121,7 @@ function dates() {
 
 
 function fzf_dates() {
-    dates $1 $2 | fzf-tmux --preview="bat ~/Dropbox/wiki/diary/{1}.md --theme="base16" --color=always --style=\"numbers\" 2>/dev/null"
+    dates $1 $2 | fzf --preview="bat ~/Dropbox/wiki/diary/{1}.md --theme="gruvbox" --color=always --style=\"numbers\" 2>/dev/null"
 }
 
 # fzf-tab plugin
@@ -130,10 +133,12 @@ FZF_TAB_COMMAND=(
     '--color=hl:$(( $#headers == 0 ? 108 : 255 ))'
     --nth=2,3 --delimiter='\x00'  # Don't search prefix
     --layout=reverse --height='${FZF_TMUX_HEIGHT:=75%}'
-    --tiebreak=begin -m --bind=tab:down,change:top,ctrl-s:toggle --cycle
+    --tiebreak=begin -m --bind=tab:down,btab:up,change:top,ctrl-s:toggle --cycle
     '--query=$query'   # $query will be expanded to query string at runtime.
     '--header-lines=$#headers' # $#headers will be expanded to lines of headers at runtime
 )
+
+zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
 fzf-ctrl-completion() {
   local tokens cmd prefix trigger tail matches lbuf d_cmds
@@ -190,6 +195,4 @@ fzf-ctrl-completion() {
 }
 zle     -N   fzf-ctrl-completion
 bindkey '^F' fzf-ctrl-completion
-
-zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
 
