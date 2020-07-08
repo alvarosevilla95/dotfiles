@@ -107,18 +107,19 @@ nnoremap <leader>sw :Rg ~/Dropbox/wiki/<CR>
 
 " g -> git (fugutive)
 nnoremap <leader>gg :Git<Space>
+nnoremap <leader>ge :Gedit<Space>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
 nnoremap <leader>gC :Gcommit -v -q --amend<CR>
-nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gd :Gdiffsplit!<CR>
 nnoremap <leader>gD :Git diff<CR>
 nnoremap <leader>gr :Grebase --interactive<Space>
 nnoremap <leader>gR :Grebase<Space>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gO :Git branch<Space>
 nnoremap <leader>gl :Commits<CR>
-nnoremap <leader>gL :BCommits<CR>
+nnoremap <leader>gL :0Glog<CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpP :Git pull<CR>
 nnoremap <leader>gbm :Gblame<CR>
@@ -126,6 +127,9 @@ nnoremap <Leader>gbb :.Gbrowse!<CR>
 vnoremap <Leader>gbb :Gbrowse!<CR>
 nnoremap <Leader>gbB :.Gbrowse<CR>
 vnoremap <Leader>gbB :Gbrowse<CR>
+" get diff from left / right buffer in 3 way diff
+nnoremap dgh :diffget //2<CR> 
+nnoremap dgl :diffget //3<CR> 
 
 " c -> coc
 nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
@@ -133,7 +137,7 @@ nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
 nmap <leader>cn <Plug>(coc-rename)
 nnoremap <leader>cc :CocAction<CR>
 xnoremap <leader>cc :CocAction<CR>
-nnoremap <leader>ce :CocList diagnostics<CR>
+nnoremap <leader>ce :CocFzfList diagnostics<CR>
 nmap <leader>cf <Plug>(coc-fix-current)
 nmap <leader>cr <Plug>(coc-references)
 nmap <leader>ci <Plug>(coc-implementation)

@@ -12,6 +12,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 call plug#begin()
 Plug 'morhetz/gruvbox'
+" Plug 'gruvbox-community/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -59,7 +60,12 @@ Plug 'masukomi/vim-markdown-folding'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'uiiaoo/java-syntax.vim'
 Plug 'arzg/vim-sh'
+Plug 'mipmip/vim-scimark'
 call plug#end()
+
+
+autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd BufReadPost jdt://* set bufhidden=delete
 
 let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
 let g:LanguageClient_rootMarkers = {
@@ -105,6 +111,7 @@ set foldlevel=2
 " set undodir=~/.config/nvim/undodir
 
 set signcolumn=no
+set shortmess=I
 augroup active_relative_number
   au!
   " au BufEnter * :setlocal signcolumn=yes

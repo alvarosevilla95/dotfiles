@@ -8,7 +8,7 @@ let g:fzf_prefer_tmux = 0
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 let g:fzf_preview_use_floating_window = 0
-let g:fzf_preview_layout = 'below split new'
+let g:fzf_preview_layout = 'below split new 40%'
 
 augroup fzf_preview
   autocmd!
@@ -36,6 +36,7 @@ function! s:fugitive_patch(paths) abort
   echomsg 'Git add --patch ' . join(a:paths, ', ')
 endfunction
 
+let g:fzf_preview_fzf_preview_window_option = 'up:30%'
 function! s:fzf_preview_settings() abort
   let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
   let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
