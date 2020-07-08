@@ -40,7 +40,7 @@ window:
   # - none: neither borders nor title bar
   # - transparent: title bar, transparent background and title bar buttons
   # - buttonless: title bar, transparent background, but no title bar buttons
-  # decorations: buttonless
+  decorations: buttonless
 
   # Startup Mode (changes require restart)
   #
@@ -122,9 +122,11 @@ draw_bold_text_with_bright_colors: true
 colors:
   # Default colors
   primary:
-    # hard contrast: background = '#1d2021'
+    # hard contrast
+    # background: '#1d2021'
+    # soft contrast
+    # background: '#32302f'
     background: '#282828'
-    # soft contrast: background = '#32302f'
     foreground: '#ebdbb2'
 
   # Normal colors
@@ -147,7 +149,7 @@ colors:
     blue:    '#83a598'
     magenta: '#d3869b'
     cyan:    '#8ec07c'
-    white:   '#ebdbb2'# Colors
+    white:   '#ebdbb2'
   # Indexed Colors
   #
   # The indexed colors include all colors from 16 to 256.

@@ -7,8 +7,8 @@ alias r="ranger"
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
-alias vimw='vim -c "VimwikiIndex" -c "vsp" -c "VimwikiMakeDiaryNote"'
-alias vw='vim -c "VimwikiMakeDiaryNote" -c "Calendar"'
+alias vimw='vim -c "VimwikiIndex"'
+alias vw='vim -c "VimwikiIndex"'
 alias ls="exa"
 alias ll="exa -lF"
 alias la="exa -alF"
@@ -58,3 +58,10 @@ alias fp="bwcopy"
 
 alias gfl="git fuzzy log"
 alias gfs="git fuzzy status"
+
+alias k="kubectl"
+alias kx="kubectx -"
+
+alias ql='quick-look'
+alias pman='man-preview'
+# cdf - cd to current Finder window. pfd for echo. pfs echo Finder selection

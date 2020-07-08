@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eo pipefail
 
-pr=$(gh pr list 2> /dev/null | fzf --preview 'gh pr view {1}' | cut -f 1)
-gh pr checkout $pr
+gh pr list 2>/dev/null | fzf --preview 'gh pr view {1}' \
+    --bind "ctrl-d:execute: (gh pr diff {1} | bat --paging=always --style=plain -l diff)" \
+    --bind "ctrl-b:execute: (gh pr checkout {1})" 
 

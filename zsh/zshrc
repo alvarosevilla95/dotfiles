@@ -2,9 +2,13 @@ export ZSH=/Users/alvaro/.oh-my-zsh
 ZSH_THEME="cbira"
 plugins=(
   git
-  golang
   colored-man-pages
   fzf-tab
+  zsh-completions
+  golang
+  pip
+  osx
+  gradle
 )
 source $ZSH/oh-my-zsh.sh
 
@@ -48,3 +52,6 @@ source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(gh completion -s zsh)"
+eval "$(kubectl completion zsh)"
