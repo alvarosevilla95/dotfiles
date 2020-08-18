@@ -1,6 +1,6 @@
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+" let $NVIM_TUI_ENABLE_TRUE_COLOR=0
 colorscheme gruvbox
-" let g:gruvbox_termcolors=256
+" " let g:gruvbox_termcolors=256
 hi Visual  guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
 highlight SignColumn guibg=bg
 highlight SignColumn ctermbg=bg

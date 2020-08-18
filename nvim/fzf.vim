@@ -57,8 +57,7 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -119,37 +118,4 @@ command! -bang -nargs=0 GCheckout
   \   },
   \   <bang>0
   \ )
-
-command! -bang -nargs=0 GLog
-  \ call fzf#vim#grep(
-  \   'git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@"', 0,
-  \   {
-  \     'sink': function('s:git_show_fzf')
-  \   },
-  \   <bang>0
-  \ )
-
-function! s:git_show_fzf(line)
-  execute "grep -o '[a-f0-9]\{7\}' | git show --color=always " . a:line
-endfunction
-
-function! GetRegisters()
-  redir => cout
-  silent registers
-  redir END
-  return split(cout, "\n")[1:11]
-endfunction
-
-function! UseRegister(line)
-  " let var_a = getreg(a:line[1], 1, 1)
-  " let var_amode = getregtype(a:line[1])
-  " call setreg('"', var_a, varamode)
-  execute ':put ' a:line[1]
-endfunction
-
-command! Registers call fzf#run(fzf#wrap({
-        \ 'source': GetRegisters(),
-        \ 'sink': function('UseRegister')}))
-
-
 

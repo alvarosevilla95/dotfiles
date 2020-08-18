@@ -27,17 +27,15 @@ export FZF_DEFAULT_OPTS="
 export FZF_ALT_C_COMMAND='fd --type d . --color=never'
 export FZF_ALT_C_OPTS='--preview="exa {} -l --color=always"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS='--preview="bat {} --theme="gruvbox" --color=always --style=\"numbers\""'
-export FZF_COMPLETION_OPTS='--preview="bat {} --theme="gruvbox" --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
+export FZF_CTRL_T_OPTS='--preview="bat {} --color=always --style=\"numbers\""'
+export FZF_COMPLETION_OPTS='--preview="bat {} --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
 export PATH="$PATH:/home/alvaro/.fzf/bin"
-
 export FZF_PREVIEW_PREVIEW_BAT_THEME='gruvbox'
 
 source ~/.fzf.zsh
-
 source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
 source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
-bindkey "^T" fzf-cd-widget
+bindkey "^G" fzf-cd-widget
 bindkey "^F" fzf-file-widget
 
 function  _fzf_compgen_path() {
@@ -139,60 +137,3 @@ FZF_TAB_COMMAND=(
 )
 
 zstyle ':fzf-tab:*' command $FZF_TAB_COMMAND
-
-fzf-ctrl-completion() {
-  local tokens cmd prefix trigger tail matches lbuf d_cmds
-  setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
-
-  # http://zsh.sourceforge.net/FAQ/zshfaq03.html
-  # http://zsh.sourceforge.net/Doc/Release/Expansion.html#Parameter-Expansion-Flags
-  tokens=(${(z)LBUFFER})
-  if [ ${#tokens} -lt 1 ]; then
-    # zle ${fzf_default_completion:-expand-or-complete}
-    _fzf_path_completion "$prefix" "$lbuf"
-    return
-  fi
-
-  cmd=$(__fzf_extract_command "$LBUFFER")
-
-  # Explicitly allow for empty trigger.
-  trigger=''
-  [ -z "$trigger" -a ${LBUFFER[-1]} = ' ' ] && tokens+=("")
-
-  # When the trigger starts with ';', it becomes a separate token
-  if [[ ${LBUFFER} = *"${tokens[-2]}${tokens[-1]}" ]]; then
-    tokens[-2]="${tokens[-2]}${tokens[-1]}"
-    tokens=(${tokens[0,-2]})
-  fi
-
-  tail=${LBUFFER:$(( ${#LBUFFER} - ${#trigger} ))}
-  # Kill completion (do not require trigger sequence)
-  if [ $cmd = kill -a ${LBUFFER[-1]} = ' ' ]; then
-    matches=$(command ps -ef | sed 1d | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-50%} --min-height 15 --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS --preview 'echo {}' --preview-window down:3:wrap" __fzf_comprun "$cmd" -m | awk '{print $2}' | tr '\n' ' ')
-    if [ -n "$matches" ]; then
-      LBUFFER="$LBUFFER$matches"
-    fi
-    zle reset-prompt
-  # Trigger sequence given
-  elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
-    d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
-
-    [ -z "$trigger"      ] && prefix=${tokens[-1]} || prefix=${tokens[-1]:0:-${#trigger}}
-    [ -z "${tokens[-1]}" ] && lbuf=$LBUFFER        || lbuf=${LBUFFER:0:-${#tokens[-1]}}
-
-    if eval "type _fzf_complete_${cmd} > /dev/null"; then
-      prefix="$prefix" eval _fzf_complete_${cmd} ${(q)lbuf}
-    elif [ ${d_cmds[(i)$cmd]} -le ${#d_cmds} ]; then
-      _fzf_dir_completion "$prefix" "$lbuf"
-    else
-      _fzf_path_completion "$prefix" "$lbuf"
-    fi
-  # Fall back to default completion
-  else
-    # zle ${fzf_default_completion:-expand-or-complete}
-    _fzf_path_completion "$prefix" "$lbuf"
-  fi
-}
-zle     -N   fzf-ctrl-completion
-bindkey '^F' fzf-ctrl-completion
-

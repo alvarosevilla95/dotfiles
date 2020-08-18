@@ -56,11 +56,12 @@ Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
 " Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-obsession'
-Plug 'masukomi/vim-markdown-folding'
+" Plug 'masukomi/vim-markdown-folding'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'uiiaoo/java-syntax.vim'
 Plug 'arzg/vim-sh'
 Plug 'mipmip/vim-scimark'
+Plug 'rhysd/git-messenger.vim'
 call plug#end()
 
 
@@ -198,8 +199,8 @@ let wiki_1.ext = '.md'
 
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-let g:markdown_folding = 1
-let g:vimwiki_folding = 'expr'
+" let g:markdown_folding = 1
+" let g:vimwiki_folding = 'expr'
 
 let g:vimwiki_global_ext = 0
 " let g:rainbow_active = 1

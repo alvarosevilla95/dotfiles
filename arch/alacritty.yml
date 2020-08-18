@@ -362,6 +362,17 @@ key_bindings:
   - { key: Z,        mods: Command,       chars: "\x00z"                       }  # zoom pane
   - { key: F,        mods: Command,       chars: "\x00/"                       }  # search (upwards) (see tmux.conf)
 
+  - { key: Key0,     mods: Command,       chars: "\x000"                       }  # Go to window 0
+  - { key: Key1,     mods: Command,       chars: "\x001"                       }  # Go to window 1
+  - { key: Key2,     mods: Command,       chars: "\x002"                       }  # Go to window 2
+  - { key: Key3,     mods: Command,       chars: "\x003"                       }  # Go to window 3
+  - { key: Key4,     mods: Command,       chars: "\x004"                       }  # Go to window 4
+  - { key: Key5,     mods: Command,       chars: "\x005"                       }  # Go to window 5
+  - { key: Key6,     mods: Command,       chars: "\x006"                       }  # Go to window 6
+  - { key: Key7,     mods: Command,       chars: "\x007"                       }  # Go to window 7
+  - { key: Key8,     mods: Command,       chars: "\x008"                       }  # Go to window 8
+  - { key: Key9,     mods: Command,       chars: "\x009"                       }  # Go to window 9
+
     # Alt key mappings to disable default mac os special character insert
   - { key: A,         mods: Alt,          chars: "\x1ba"                       }
   - { key: B,         mods: Alt,          chars: "\x1bb"                       }

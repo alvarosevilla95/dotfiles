@@ -17,7 +17,6 @@ nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 nnoremap - :Ranger<CR>
@@ -80,9 +79,10 @@ nnoremap <leader>/ :FzfPreviewLines<CR>
 nnoremap <leader>? :Lines<CR>
 nnoremap <leader>ds :Files ~/dotfiles/<CR>
 nnoremap <leader>fa :FzfPreviewMru<CR>
-nnoremap <leader>ff :Files .<CR>
+nnoremap <silent> <leader>ff :Files .<CR>
 nnoremap <leader>fF :Files 
-nnoremap <leader>f~ :Files ~<CR>
+nnoremap <silent> <leader>f~ :Files ~<CR>
+nnoremap <silent> <Leader>f. :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <leader>fw :Files ~/Dropbox/wiki/<CR>
 nnoremap <leader>fd :DiarySearch<CR>
 nnoremap <leader>fD :DiarySearch forward<CR>
@@ -127,9 +127,12 @@ nnoremap <Leader>gbb :.Gbrowse!<CR>
 vnoremap <Leader>gbb :Gbrowse!<CR>
 nnoremap <Leader>gbB :.Gbrowse<CR>
 vnoremap <Leader>gbB :Gbrowse<CR>
+nmap <Leader>gk <Plug>(git-messenger)
 " get diff from left / right buffer in 3 way diff
 nnoremap dgh :diffget //2<CR> 
 nnoremap dgl :diffget //3<CR> 
+
+let g:git_messenger_no_default_mappings=v:true
 
 " c -> coc
 nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>

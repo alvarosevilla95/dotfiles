@@ -61,7 +61,12 @@ alias gfs="git fuzzy status"
 
 alias k="kubectl"
 alias kx="kubectx -"
+alias kl="kubectl logs"
+alias kc="kconfig"
+
 
 alias ql='quick-look'
 alias pman='man-preview'
 # cdf - cd to current Finder window. pfd for echo. pfs echo Finder selection
+
+alias ydl='youtube-dl -f best'

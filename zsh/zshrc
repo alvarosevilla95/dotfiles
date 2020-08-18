@@ -13,13 +13,14 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 setopt appendhistory autocd extendedglob nomatch
+zstyle :compinstall filename '/home/alvaro/.zshrc'
+autoload -Uz compinit
+compinit
+
 bindkey "^P" history-beginning-search-backward; 
 bindkey "^N" history-beginning-search-forward
 bindkey "^K" up-line-or-beginning-search #history-beginning-search-backward
 bindkey "^J" down-line-or-beginning-search #history-beginning-search-forward
-zstyle :compinstall filename '/home/alvaro/.zshrc'
-autoload -Uz compinit
-compinit
 
 export PROMPT_EOL_MARK=''
 export HISTFILE=~/.histfile
@@ -43,7 +44,7 @@ export PATH=$PATH:$GOPATH/bin
 
 export SDKMAN_DIR="/Users/alvaro/.sdkman"
 source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
-eval "$(pyenv init -)"
+eval "$(pyenv init - --no-rehash)"
 # eval "$(swiftenv init -)"
 
 source /usr/local/etc/profile.d/z.sh
@@ -51,7 +52,17 @@ source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# eval "$(gh completion -s zsh)"
+# eval "$(kubectl completion zsh)"
 
-eval "$(gh completion -s zsh)"
-eval "$(kubectl completion zsh)"
+# function get_cluster_short() {
+#   echo "$1" | cut -d / -f2
+# }
+
+# KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+# KUBE_PS1_NS_ENABLE=false
+# KUBE_PS1_SYMBOL_ENABLE=false
+# source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+#
+
+export DE_AWS_AUTH_ENABLED=true
