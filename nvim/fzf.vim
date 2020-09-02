@@ -7,13 +7,13 @@ endif
 let g:fzf_prefer_tmux = 0
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
-let g:fzf_preview_use_floating_window = 0
+let g:fzf_preview_floating_window_winblend= 0
 let g:fzf_preview_layout = 'below split new 40%'
 
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
+" augroup fzf_preview
+"   autocmd!
+"   autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+" augroup END
 
 function! s:fugitive_add(paths) abort
   for path in a:paths
@@ -36,13 +36,13 @@ function! s:fugitive_patch(paths) abort
   echomsg 'Git add --patch ' . join(a:paths, ', ')
 endfunction
 
-let g:fzf_preview_fzf_preview_window_option = 'up:30%'
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
-  let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
-  let g:fzf_preview_fugitive_processors['ctrl-r'] = function('s:fugitive_reset')
-  let g:fzf_preview_fugitive_processors['ctrl-c'] = function('s:fugitive_patch')
-endfunction
+" let g:fzf_preview_fzf_preview_window_option = 'up:30%'
+" function! s:fzf_preview_settings() abort
+"   let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
+"   let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
+"   let g:fzf_preview_fugitive_processors['ctrl-r'] = function('s:fugitive_reset')
+"   let g:fzf_preview_fugitive_processors['ctrl-c'] = function('s:fugitive_patch')
+" endfunction
 
 
 function! s:build_quickfix_list(lines)
@@ -118,4 +118,5 @@ command! -bang -nargs=0 GCheckout
   \   },
   \   <bang>0
   \ )
+
 

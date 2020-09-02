@@ -22,12 +22,6 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 nnoremap - :Ranger<CR>
 " nnoremap gl <Plug>VimwikiFollowLink<CR>
 
-" inoremap <expr> <c-x><c-l> fzf#vim#complete(fzf#wrap({
-"   \ 'prefix': '^.*$',
-"   \ 'source': 'rg -n ^ --color always --no-messages',
-"   \ 'options': '--ansi --delimiter : --nth 3..',
-"   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
-
 let mapleader = "\<Space>"
 nnoremap <leader>- <C-^>
 nnoremap <leader>j <C-W>w
@@ -40,8 +34,8 @@ nnoremap <leader>m :TableModeToggle<CR>
 nnoremap <leader>z :tabe %<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 xnoremap <leader>n :normal <CR>
-nnoremap <leader>o :Obsess  ~/.local/share/nvim/sessions/
-nnoremap <leader>O :Obsess!<CR>
+nnoremap <leader>o <C-W>o
+" nnoremap <leader>O :Obsess!<CR>
 " r -> run
 nnoremap <leader>rr :r! 
 nnoremap <leader>rR :! 
@@ -96,7 +90,7 @@ nnoremap <leader>fG :Rg
 nnoremap <leader>fm :CocFzfList outline<CR>
 nnoremap <leader>fc :GCheckout<CR>
 nnoremap <leader>fe :CocList diagnostics<CR>
-nnoremap <silent> <Leader>fb :FzfPreviewBuffers<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>
 
 " s -> search
 nnoremap <leader>se :UltiSnipsEdit<CR>

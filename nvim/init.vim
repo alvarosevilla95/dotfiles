@@ -11,8 +11,8 @@ set termguicolors
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 call plug#begin()
-Plug 'morhetz/gruvbox'
-" Plug 'gruvbox-community/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -50,7 +50,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'godlygeek/tabular'
 Plug 'hdiniz/vim-gradle'
-Plug 'yuki-ycino/fzf-preview.vim'
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
@@ -62,6 +62,7 @@ Plug 'uiiaoo/java-syntax.vim'
 Plug 'arzg/vim-sh'
 Plug 'mipmip/vim-scimark'
 Plug 'rhysd/git-messenger.vim'
+Plug 'lifepillar/vim-gruvbox8'
 call plug#end()
 
 
@@ -76,6 +77,9 @@ let g:LanguageClient_rootMarkers = {
 " Basic defaults
 syntax on
 set background=dark
+if $LIGHT_MODE
+    set background=light
+endif
 " set t_Co=256
 set updatetime=100
 set splitright
@@ -182,7 +186,6 @@ let g:lightline = {
             \   'cocstatus': 'StatusDiagnostic',
             \ }
             \ }
-
 
 source ~/dotfiles/nvim/fzf.vim
 source ~/dotfiles/nvim/coc.vim
