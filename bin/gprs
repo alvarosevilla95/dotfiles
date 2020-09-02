@@ -1,8 +1,25 @@
 #!/bin/bash
 
-set -eo pipefail
+base_command="gh pr list --limit 100"
+out=$($base_command 2>/dev/null | \
+    fzf $1 \
+    --preview="gh pr view {1}" \
+    --expect=ctrl-b,ctrl-m,ctrl-d,ctrl-r \
+    --header='enter: open in browser, C-b: checkout, C-d: diff, C-r: review, C-a: all, C-o: open, C-c: closed, C-g: merged' \
+    --bind "ctrl-a:reload($base_command --state all),ctrl-o:reload($base_command --state open),ctrl-c:reload($base_command --state closed),ctrl-g:reload($base_command --state merged)")
+cmd=$(echo $out | cut -f 1 -d ' ')
+pr=$(echo $out | cut -f 2 -d ' ')
 
-gh pr list 2>/dev/null | fzf --preview 'gh pr view {1}' \
-    --bind "ctrl-d:execute: (gh pr diff {1} | bat --paging=always --style=plain -l diff)" \
-    --bind "ctrl-b:execute: (gh pr checkout {1})" 
-
+if [ "$cmd" = "ctrl-m" ]; then
+    gh pr view --web $pr
+fi
+if [ "$cmd" = "ctrl-d" ]; then
+    $EDITOR <(gh pr diff $pr)
+fi
+if [ "$cmd" = "ctrl-r" ]; then
+    $EDITOR <(gh pr diff $pr)
+    gh pr review $pr
+fi
+if [ "$cmd" = "ctrl-b" ]; then
+    gh pr checkout $pr
+fi
