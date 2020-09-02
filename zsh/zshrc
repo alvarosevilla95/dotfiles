@@ -66,3 +66,5 @@ source ~/dotfiles/zsh/work.zsh
 #
 
 export DE_AWS_AUTH_ENABLED=true
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -1,4 +1,5 @@
-local color00='#282828'
+# local color00='#282828'
+local color00='#1d2021'
 local color01='#3c3836'
 local color02='#504945'
 local color03='#665c54'
@@ -119,7 +120,7 @@ function dates() {
 
 
 function fzf_dates() {
-    dates $1 $2 | fzf --preview="bat ~/Dropbox/wiki/diary/{1}.md --theme="gruvbox" --color=always --style=\"numbers\" 2>/dev/null"
+    dates $1 $2 | fzf --preview="bat ~/Dropbox/wiki/diary/{1}.md --color=always --style=\"numbers\" 2>/dev/null"
 }
 
 # fzf-tab plugin

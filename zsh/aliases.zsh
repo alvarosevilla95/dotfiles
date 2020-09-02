@@ -22,7 +22,7 @@ alias flr="fzf_git_reflog"
 alias fa='fzf_git_add'
 alias fb='fzf_git_checkout'
 alias fk='fzf_kill'
-alias fw='f=$(fd --type f  . ~/Dropbox/wiki | fzf --preview="bat {} --theme="gruvbox" --color=always --style=\"numbers\"") && vim $f'
+alias fw='f=$(fd --type f  . ~/Dropbox/wiki | fzf --preview="bat {} --color=always --style=\"numbers\"") && vim $f'
 alias fj='f=$(fzf_dates 365  | awk "{print \$1}" ) && vim ~/Dropbox/wiki/diary/$f.md'
 alias fJ='f=$(fzf_dates 365 forward | awk "{print \$1}" ) && vim ~/Dropbox/wiki/diary/$f.md'
 
@@ -34,10 +34,10 @@ alias tm="tmux_attach_create main"
 alias tw="tmux_attach_create wiki"
 alias ts="tmux_attach_create ibsuite"
 
-alias ds='f=$(fd --type f  . ~/dotfiles | fzf --preview="bat {} --theme="gruvbox" --color=always --style=\"numbers\"") && vim $f'
+alias ds='f=$(fd --type f  . ~/dotfiles | fzf --preview="bat {} --color=always --style=\"numbers\"") && vim $f'
 
 function e() {
-    f=$(fd --type f  . $1 | fzf --preview="bat {} --theme="gruvbox" --color=always --style=\"numbers\"") && vim $f
+    f=$(fd --type f  . $1 | fzf --preview="bat {} --color=always --style=\"numbers\"") && vim $f
 }
 
 function snipe() {
@@ -70,3 +70,6 @@ alias pman='man-preview'
 # cdf - cd to current Finder window. pfd for echo. pfs echo Finder selection
 
 alias ydl='youtube-dl -f best'
+
+alias github='gh repo view --web'
+alias gpr='gh pr view --web'
