@@ -9,6 +9,8 @@ plugins=(
   pip
   osx
   gradle
+  docker
+  docker-compose
 )
 source $ZSH/oh-my-zsh.sh
 
@@ -47,24 +49,11 @@ source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
 eval "$(pyenv init - --no-rehash)"
 # eval "$(swiftenv init -)"
 
+eval "$(op completion zsh)"; compdef _op op
+
 source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
 
-# eval "$(gh completion -s zsh)"
-# eval "$(kubectl completion zsh)"
-
-# function get_cluster_short() {
-#   echo "$1" | cut -d / -f2
-# }
-
-# KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
-# KUBE_PS1_NS_ENABLE=false
-# KUBE_PS1_SYMBOL_ENABLE=false
-# source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-#
-
-export DE_AWS_AUTH_ENABLED=true
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f "/Users/alvaro/.ghcup/env" ] && source "/Users/alvaro/.ghcup/env" # ghcup-env

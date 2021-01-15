@@ -1,8 +1,9 @@
 onoremap ie :exec "normal! ggVG"<cr>
-nnoremap ; :
-nnoremap : ;
-xnoremap ; :
-xnoremap : :normal 
+" nnoremap ; :
+" nnoremap : ;
+" xnoremap ; :
+" xnoremap : :normal 
+cnoremap <c-A> <Home>
 cnoremap <c-f> <c-f>?
 cnoremap <c-k> <c-p>
 cnoremap <c-j> <c-n>
@@ -23,11 +24,14 @@ nnoremap - :Ranger<CR>
 " nnoremap gl <Plug>VimwikiFollowLink<CR>
 
 let mapleader = "\<Space>"
+" nnoremap <leader>l :nohl
 nnoremap <leader>- <C-^>
-nnoremap <leader>j <C-W>w
-nnoremap <leader>k <C-W>W
-nnoremap <leader>l gt
-nnoremap <leader>h gT
+nnoremap <leader>j <C-W>j
+nnoremap <leader>k <C-W>k
+nnoremap <leader>l <C-W>l
+nnoremap <leader>h <C-W>h
+nnoremap <leader>L gt
+nnoremap <leader>H gT
 nnoremap <leader>dd :Bdelete<CR>
 nnoremap <leader>dD :bufdo bwipeout<CR>
 nnoremap <leader>m :TableModeToggle<CR>
@@ -40,6 +44,9 @@ nnoremap <leader>o <C-W>o
 nnoremap <leader>rr :r! 
 nnoremap <leader>rR :! 
 nnoremap <leader>ri :RunInInteractiveShell<space>
+
+" nnoremap <leader>hc :VCoolor<CR>
+
 
 " q -> quit
 nnoremap <leader>q :close<CR>
@@ -77,9 +84,8 @@ nnoremap <silent> <leader>ff :Files .<CR>
 nnoremap <leader>fF :Files 
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files <C-r>=expand("%:h")<CR>/<CR>
+nnoremap <silent> <Leader>fh :History
 nnoremap <leader>fw :Files ~/Dropbox/wiki/<CR>
-nnoremap <leader>fd :DiarySearch<CR>
-nnoremap <leader>fD :DiarySearch forward<CR>
 nnoremap <leader>fs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>
 nnoremap <leader>fS :FzfPreviewChanges<CR>
 nnoremap <leader>fq :FzfPreviewQuickFix<CR>
@@ -88,8 +94,9 @@ nnoremap <leader>fn :Maps<CR>
 nnoremap <leader>fg :Rg<CR>
 nnoremap <leader>fG :Rg 
 nnoremap <leader>fm :CocFzfList outline<CR>
-nnoremap <leader>fc :GCheckout<CR>
-nnoremap <leader>fe :CocList diagnostics<CR>
+nnoremap <leader>fc :FzfPreviewGitBranches<CR>
+nnoremap <leader>fe :CocCommand fzf-preview.CocCurrentDiagnostics<CR>
+nnoremap <leader>fE :CocCommand fzf-preview.CocDiagnostics<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
 
 " s -> search
@@ -100,9 +107,10 @@ nnoremap <leader>sd :Rg ~/dotfiles<CR>
 nnoremap <leader>sw :Rg ~/Dropbox/wiki/<CR>
 
 " g -> git (fugutive)
-nnoremap <leader>gg :Git<Space>
+nnoremap <leader>gg :FzfPreviewGitActions<CR>
 nnoremap <leader>ge :Gedit<Space>
 nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gS :Git show<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
 nnoremap <leader>gc :Gcommit -v -q<CR>
 nnoremap <leader>gC :Gcommit -v -q --amend<CR>
@@ -112,43 +120,52 @@ nnoremap <leader>gr :Grebase --interactive<Space>
 nnoremap <leader>gR :Grebase<Space>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>gO :Git branch<Space>
-nnoremap <leader>gl :Commits<CR>
+nnoremap <leader>gl :FzfPreviewGitLogs<CR>
 nnoremap <leader>gL :0Glog<CR>
 nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpP :Git pull<CR>
 nnoremap <leader>gbm :Gblame<CR>
-nnoremap <Leader>gbb :.Gbrowse!<CR>
-vnoremap <Leader>gbb :Gbrowse!<CR>
-nnoremap <Leader>gbB :.Gbrowse<CR>
-vnoremap <Leader>gbB :Gbrowse<CR>
+nnoremap <leader>gbb :.Gbrowse!<CR>
+vnoremap <leader>gbb :Gbrowse!<CR>
+nnoremap <leader>gbB :.Gbrowse<CR>
+vnoremap <leader>gbB :Gbrowse<CR>
 nmap <Leader>gk <Plug>(git-messenger)
 " get diff from left / right buffer in 3 way diff
 nnoremap dgh :diffget //2<CR> 
 nnoremap dgl :diffget //3<CR> 
+nnoremap <leader>gpdd :Git diff master...<CR> 
+nnoremap <leader>gpdf :Gdiff master...:%<CR> 
+
 
 let g:git_messenger_no_default_mappings=v:true
 
 " c -> coc
 nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
 nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
-nmap <leader>cn <Plug>(coc-rename)
-nnoremap <leader>cc :CocAction<CR>
-xnoremap <leader>cc :CocAction<CR>
-nnoremap <leader>ce :CocFzfList diagnostics<CR>
-nmap <leader>cf <Plug>(coc-fix-current)
-nmap <leader>cr <Plug>(coc-references)
-nmap <leader>ci <Plug>(coc-implementation)
-nmap <leader>cs <Plug>(coc-code-lens-action)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gD <Plug>(coc-type-definition)
+nnoremap <leader>cn <Plug>(coc-rename)
+nmap <leader>ca <Plug>(coc-codeaction)
+nmap <leader>cc <Plug>(coc-codeaction-selected)$
+xmap <leader>cc <Plug>(coc-codeaction-selected)
+nnoremap <leader>ce :CocCommand fzf-preview.CocCurrentDiagnostics<CR>
+nnoremap <leader>cE :CocCommand fzf-preview.CocDiagnostics<CR>
+" nnoremap <leader>cf <Plug>(coc-fix-current)
+" nnoremap <leader>cr :CocCommand fzf-preview.CocReferences<CR>
+nnoremap <leader>ci :CocCommand fzf-preview.CocImplementations<CR>
+nnoremap <leader>cs <Plug>(coc-code-lens-action)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gD <Plug>(coc-type-definition)
 nnoremap <silent> gd :call CocAction('jumpDefinition', 'drop') <CR>
 nnoremap K  :<C-u>call CocAction('doHover')<CR>
 " Remap for do codeAction of selected region
 function! s:cocActionsOpenFromSelected(type) abort
   execute 'CocCommand actions.open ' . a:type
 endfunction
-nnoremap <silent> <leader>ca :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
-xnoremap <silent> <leader>ca :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <leader>ci <Plug>(coc-implementation)
+nmap <leader>cr <Plug>(coc-references)
+nmap <leader>cq <Plug>(coc-fix-current)
+command! -nargs=0 Format :call CocAction('format')
 
 
 " Vista tagbar
@@ -160,3 +177,10 @@ nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tl :TestLast<CR>
 
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+  \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
+  \  'sink': 'cd'}))
+nnoremap <leader>fz :Cd ~<CR>
+nnoremap <leader>fd :Cd .<CR>
+
+tnoremap <Esc> <C-\><C-n>

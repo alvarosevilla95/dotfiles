@@ -65,7 +65,7 @@ scrolling:
 # Font configuration (changes require restart)
 font:
   normal:
-    family: "Fira Code"
+    family: "Fira Code Nerd Font"
     # style: Retina
     style: Regular
 
@@ -132,7 +132,7 @@ colors:
 
   # Normal colors
   normal:
-    black:   '#282828'
+    black:   '#1d2021'
     red:     '#cc241d'
     green:   '#98971a'
     yellow:  '#d79921'
@@ -215,7 +215,7 @@ colors:
 #
 # To completely disable the visual bell, set its duration to 0.
 #
-visual_bell:
+bell:
   animation: EaseOutExpo
   color: '0xffffff'
   duration: 0

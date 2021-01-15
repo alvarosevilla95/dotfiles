@@ -7,6 +7,10 @@ endif
 let g:fzf_prefer_tmux = 0
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
+let $FZF_DEFAULT_COMMAND='fd --type f --color=never'
+let $FZF_DEFAULT_OPTS="--reverse"
+let $BAT_THEME='gruvbox'
+
 let g:fzf_preview_floating_window_winblend= 0
 let g:fzf_preview_layout = 'below split new 40%'
 

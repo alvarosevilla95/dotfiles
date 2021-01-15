@@ -1,12 +1,13 @@
-let $NVIM_TUI_ENABLE_TRUE_COLOR=0
 let g:gruvbox_contrast_dark="hard"
 let g:gruvbox_contrast_light="soft"
 
+" set termguicolors
 colorscheme gruvbox
-" " let g:gruvbox_termcolors=256
+set termguicolors
+
 hi Visual  guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
-" highlight SignColumn guibg=bg
-" highlight SignColumn ctermbg=bg
+highlight SignColumn guibg=bg
+highlight SignColumn ctermbg=bg
 " highlight GitGutterAdd    guifg=#009900 guibg=bg ctermfg=2 ctermbg=bg
 " highlight GitGutterChange guifg=#bbbb00 guibg=bg ctermfg=3 ctermbg=bg
 " highlight GitGutterDelete guifg=#ff2222 guibg=bg ctermfg=1 ctermbg=bg

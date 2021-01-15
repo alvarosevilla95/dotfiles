@@ -1,8 +1,6 @@
 alias vimrc="vim ~/.config/nvim/init.vim"
 alias zshrc="vim ~/.zshrc"
 
-alias auth="gimme-aws-creds <<< 0"
-
 alias r="ranger"
 alias v="nvim"
 alias vi="nvim"
@@ -60,8 +58,8 @@ alias gfl="git fuzzy log"
 alias gfs="git fuzzy status"
 
 alias k="kubectl"
-alias kx="kubectx -"
 alias kl="kubectl logs"
+alias klf="kubectl logs -f"
 alias kc="kconfig"
 
 
@@ -73,3 +71,9 @@ alias ydl='youtube-dl -f best'
 
 alias github='gh repo view --web'
 alias gpr='gh pr view --web'
+alias gclone='gh repo clone'
+
+function auth() {
+    yes 0 | awsAuth ${1:-$AWS_PROFILE} 
+}
+compdef _aws_complete_profiles auth

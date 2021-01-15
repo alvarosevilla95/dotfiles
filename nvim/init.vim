@@ -5,14 +5,9 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-set t_8f=^[[38;2;%lu;%lu;%lum
-set t_8b=^[[48;2;%lu;%lu;%lum
-set termguicolors
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-
 call plug#begin()
-" Plug 'morhetz/gruvbox'
-Plug 'gruvbox-community/gruvbox'
+Plug 'morhetz/gruvbox'
+" Plug 'gruvbox-community/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -39,6 +34,7 @@ Plug 'xolox/vim-misc'
 Plug 'keith/swift.vim'
 Plug 'mattn/calendar-vim'
 Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim' " for ranger nested windows
 Plug 'dhruvasagar/vim-zoom'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'ryanoasis/vim-devicons'
@@ -63,6 +59,12 @@ Plug 'arzg/vim-sh'
 Plug 'mipmip/vim-scimark'
 Plug 'rhysd/git-messenger.vim'
 Plug 'lifepillar/vim-gruvbox8'
+Plug 'derekwyatt/vim-scala'
+Plug 'KabbAmine/vCoolor.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim' 
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
 
@@ -217,3 +219,17 @@ let g:vimwiki_global_ext = 0
 " let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 " let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 let g:haskell_classic_highlighting = 1
+let g:fzf_preview_fzf_color_option = ''
+augroup fzf_preview
+  autocmd!
+  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
+augroup END
+
+function! s:fzf_preview_settings() abort
+  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
+  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
+endfunction
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
+let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
+
+autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab

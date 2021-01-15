@@ -4,6 +4,12 @@
             "command": "gopls",
             "rootPatterns": ["go.mod"],
             "filetypes": ["go"]
+        },
+        "haskell": {
+            "command": "haskell-language-server-wrapper",
+            "args": ["--lsp"],
+            "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+            "filetypes": ["haskell", "lhaskell"]
         }
     },
     "java.jdt.ls.vmargs": "-javaagent:/Users/alvaro/.config/nvim/lombok.jar",
@@ -13,5 +19,6 @@
     "java.completion.enabled": true,
     "coc.preferences.extensionUpdateCheck": "never",
     "coc.preferences.hoverTarget": "float",
-    "java.errors.incompleteClasspath.severity": "ignore"
+    "java.errors.incompleteClasspath.severity": "ignore",
+    "coc.preferences.formatOnSaveFiletypes": ["js"]
 }
