@@ -95,6 +95,8 @@ nnoremap <leader>fg :Cdz<CR>
 nnoremap <leader>fG :Cd .<CR>
 nnoremap <leader>fc :FzfPreviewGitBranches<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <leader>fz :Cdz<CR>
+nnoremap <leader>fd :Cd .<CR>
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
@@ -150,11 +152,12 @@ nnoremap <leader>cn :lua vim.lsp.buf.rename()<CR>
 nnoremap K  :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
-nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
-
+nnoremap <leader>cf :lua vim.lsp.buf.formatting()<CR>
+vnoremap <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <leader>cc :CodeActions<CR>
 vnoremap <leader>cc :RangeCodeActions<CR>
+nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
+nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
 au FileType java nnoremap <leader>cc :lua require('jdtls').code_action()<CR>
 au FileType java vnoremap <leader>cc <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
 au FileType java nnoremap <leader>r <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
@@ -167,25 +170,10 @@ au FileType java nnoremap <leader>r <Cmd>lua require('jdtls').code_action(false,
 " au FileType java nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
 " au FileType java nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
 
-
-
-" Vista tagbar
-nnoremap <leader>v  :Vista!! <CR>
-
 " t -> Tests
 nnoremap <leader>tn :TestNearest<CR>
 nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tl :TestLast<CR>
-
-command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
-  \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
-  \  'sink': 'cd'}))
-
-command! -nargs=0 Cdz call fzf#run(fzf#wrap(
-  \ {'source': 'cat ~/.z | cut -d "|" -f1',
-  \  'sink': 'cd'}))
-nnoremap <leader>fz :Cdz<CR>
-nnoremap <leader>fd :Cd .<CR>
 
 tnoremap <Esc> <C-\><C-n>

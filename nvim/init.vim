@@ -6,8 +6,8 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 call plug#begin()
-Plug 'morhetz/gruvbox'
-" Plug 'gruvbox-community/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
@@ -65,19 +65,18 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-lsp'
 Plug 'gfanto/fzf-lsp.nvim'
 Plug 'vijaymarupudi/nvim-fzf'
+Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
 call plug#end()
 
+source ~/dotfiles/nvim/fzf.vim
+source ~/dotfiles/nvim/maps.vim
+source ~/dotfiles/nvim/colors.vim
 
-autocmd BufReadPost fugitive://* set bufhidden=delete
-autocmd BufReadPost jdt://* set bufhidden=delete
+lua require('config')
 
 " Basic defaults
-syntax on
 set background=dark
-if $LIGHT_MODE
-    set background=light
-endif
 set updatetime=100
 set splitright
 set cursorline
@@ -90,7 +89,6 @@ set ignorecase
 set smartcase
 set backspace=indent,eol,start
 set autoindent
-set nostartofline
 set ruler
 set laststatus=2
 set confirm
@@ -121,20 +119,19 @@ augroup active_relative_number
   " au WinLeave * :setlocal signcolumn=no
   au BufEnter * :setlocal number relativenumber
   au WinEnter * :setlocal number relativenumber
-  au BufLeave * :setlocal nonumber norelativenumber
-  au WinLeave * :setlocal nonumber norelativenumber
+  au BufLeave * :setlocal norelativenumber
+  au WinLeave * :setlocal norelativenumber
 augroup END
 
-let g:LanguageClient_serverCommands = {
-    \ 'java': ['/usr/local/bin/jdtls', '-data', getcwd()],
-    \ }
+autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd BufReadPost jdt://* set bufhidden=delete
 
-let g:gitgutter_map_keys = 0
+augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
+augroup end
 
-let g:prosession_dir = "~/.local/share/nvim/sessions"
-let g:startify_session_dir= "~/.local/share/nvim/sessions"
-let g:startify_change_to_dir=0
-let g:animate#duration = 200.0
+autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
 
 let g:ranger_map_keys = 0
 let g:netrw_liststyle = 3
@@ -147,24 +144,15 @@ let test#strategy = "vimux"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:coc_snippet_next = '<tab>'
+
+let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 
 let g:java_highlight_all = 1 
 
-" GitGutter
-let g:gitgutter_override_sign_column_highlight = 1
-
-" Vista
-" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-let g:vista_default_executive = 'coc'
-let g:vista#renderer#enable_icon = 0
-let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
-
 " vim-go
 let g:go_fmt_command = "goimports"
+
+let g:haskell_classic_highlighting = 1
 
 let g:lightline = {
             \ 'tabline': {
@@ -174,28 +162,18 @@ let g:lightline = {
             \ 'colorscheme': 'gruvbox',
             \ 'active': {
             \   'left':  [[ 'mode', 'paste' ], ['fugitive'], ['filename']],
-            \   'right': [['lineinfo'], ['percent'], ['filetype'], ['cocstatus']]
-            \ },
-            \ 'component_function': {
-            \   'fugitive': 'FugitiveHead',
-            \   'cocstatus': 'StatusDiagnostic',
+            \   'right': [['lineinfo'], ['percent'], ['filetype']]
             \ }
             \ }
 
-source ~/dotfiles/nvim/fzf.vim
-source ~/dotfiles/nvim/maps.vim
-source ~/dotfiles/nvim/colors.vim
-
+" vimwiki
 let wiki_1 = {}
 let wiki_1.path = '/Users/alvaro/Dropbox/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.md'
 let g:vimwiki_global_ext = 0
-
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
-let g:haskell_classic_highlighting = 1
 
 let g:fzf_preview_fzf_color_option = ''
 augroup fzf_preview
@@ -207,17 +185,4 @@ function! s:fzf_preview_settings() abort
   let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
 endfunction
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
-
-let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
-
-autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
-
-if has('nvim-0.5')
-  augroup lsp
-    au!
-    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
-  augroup end
-endif
-
-let g:deoplete#enable_at_startup = 1
 

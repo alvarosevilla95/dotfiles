@@ -132,5 +132,11 @@ command! -bang -nargs=0 FCP
   \   <bang>0
   \ )
 
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+  \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
+  \  'sink': 'cd'}))
 
+command! -nargs=0 Cdz call fzf#run(fzf#wrap(
+  \ {'source': 'cat ~/.z | cut -d "|" -f1',
+  \  'sink': 'cd'}))
 
