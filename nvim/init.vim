@@ -14,7 +14,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'benmills/vimux'
 Plug 'vimwiki/vimwiki'
 Plug 'liuchengxu/vista.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go'
 Plug 'janko/vim-test'
@@ -28,7 +27,6 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-" Plug 'airblade/vim-gitgutter'
 Plug 'svermeulen/vim-subversive'
 Plug 'xolox/vim-misc'
 Plug 'keith/swift.vim'
@@ -41,18 +39,13 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'rbgrouleff/bclose.vim'
-" Plug 'camspiers/animate.vim'
-" Plug 'camspiers/lens.vim'
-Plug 'antoinemadec/coc-fzf'
 Plug 'godlygeek/tabular'
 Plug 'hdiniz/vim-gradle'
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
-" Plug 'mhinz/vim-startify'
 Plug 'tpope/vim-obsession'
-" Plug 'masukomi/vim-markdown-folding'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'uiiaoo/java-syntax.vim'
 Plug 'arzg/vim-sh'
@@ -66,16 +59,18 @@ Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neovimhaskell/haskell-vim'
 Plug 'lingceng/z.vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-jdtls'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'deoplete-plugins/deoplete-lsp'
+Plug 'gfanto/fzf-lsp.nvim'
+Plug 'vijaymarupudi/nvim-fzf'
+Plug 'RishabhRD/nvim-lsputils'
 call plug#end()
 
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd BufReadPost jdt://* set bufhidden=delete
-
-let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
-let g:LanguageClient_rootMarkers = {
-    \ 'java': ['.git']
-    \ }
 
 " Basic defaults
 syntax on
@@ -83,7 +78,6 @@ set background=dark
 if $LIGHT_MODE
     set background=light
 endif
-" set t_Co=256
 set updatetime=100
 set splitright
 set cursorline
@@ -101,7 +95,6 @@ set ruler
 set laststatus=2
 set confirm
 set visualbell
-" set ttymouse=xterm2
 set mouse=a
 set number
 set notimeout ttimeout ttimeoutlen=0
@@ -126,7 +119,6 @@ augroup active_relative_number
   " au WinEnter * :setlocal signcolumn=yes
   " au BufLeave * :setlocal signcolumn=no
   " au WinLeave * :setlocal signcolumn=no
-
   au BufEnter * :setlocal number relativenumber
   au WinEnter * :setlocal number relativenumber
   au BufLeave * :setlocal nonumber norelativenumber
@@ -191,46 +183,41 @@ let g:lightline = {
             \ }
 
 source ~/dotfiles/nvim/fzf.vim
-source ~/dotfiles/nvim/coc.vim
 source ~/dotfiles/nvim/maps.vim
 source ~/dotfiles/nvim/colors.vim
-
-let g:calendar_options = 'nornu'
-let g:calendar_monday = 1
 
 let wiki_1 = {}
 let wiki_1.path = '/Users/alvaro/Dropbox/wiki/'
 let wiki_1.syntax = 'markdown'
 let wiki_1.ext = '.md'
+let g:vimwiki_global_ext = 0
 
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-" let g:markdown_folding = 1
-" let g:vimwiki_folding = 'expr'
 
-let g:vimwiki_global_ext = 0
-" let g:rainbow_active = 1
-" au FileType c,cpp,objc,objcpp,java call rainbow#load()
-
-" let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
-" let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
-" let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
-" let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
-" let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
-" let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
-" let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 let g:haskell_classic_highlighting = 1
+
 let g:fzf_preview_fzf_color_option = ''
 augroup fzf_preview
   autocmd!
   autocmd User fzf_preview#initialized call s:fzf_preview_settings()
 augroup END
-
 function! s:fzf_preview_settings() abort
   let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
   let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
 endfunction
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
+
 let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 
 autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+
+if has('nvim-0.5')
+  augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
+  augroup end
+endif
+
+let g:deoplete#enable_at_startup = 1
+

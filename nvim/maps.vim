@@ -93,10 +93,7 @@ nnoremap <leader>fj :FzfPreviewJumps<CR>
 nnoremap <leader>fn :Maps<CR>
 nnoremap <leader>fg :Cdz<CR>
 nnoremap <leader>fG :Cd .<CR>
-nnoremap <leader>fm :CocFzfList outline<CR>
 nnoremap <leader>fc :FzfPreviewGitBranches<CR>
-nnoremap <leader>fe :CocCommand fzf-preview.CocCurrentDiagnostics<CR>
-nnoremap <leader>fE :CocCommand fzf-preview.CocDiagnostics<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
@@ -141,33 +138,35 @@ nnoremap <leader>gpdf :Gdiff master...:%<CR>
 
 let g:git_messenger_no_default_mappings=v:true
 
-" c -> coc
+" c -> lsp
+nnoremap <leader>cr :References<CR>
+nnoremap <leader>ci :Implementations<CR>
+nnoremap <leader>ce :Diagnostics<CR>
+nnoremap <leader>fm :DocumentSymbols<CR>
+nnoremap <leader>fM :WorkspaceSymbols<CR>
+nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gD :lua vim.lsp.buf.type_definition()<CR>
+nnoremap <leader>cn :lua vim.lsp.buf.rename()<CR>
+nnoremap K  :lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
 nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
-nnoremap <leader>cn <Plug>(coc-rename)
-nmap <leader>ca <Plug>(coc-codeaction)
-nmap <leader>cc <Plug>(coc-codeaction-selected)$
-xmap <leader>cc <Plug>(coc-codeaction-selected)
-nnoremap <leader>ce :CocCommand fzf-preview.CocCurrentDiagnostics<CR>
-nnoremap <leader>cE :CocCommand fzf-preview.CocDiagnostics<CR>
-" nnoremap <leader>cf <Plug>(coc-fix-current)
-" nnoremap <leader>cr :CocCommand fzf-preview.CocReferences<CR>
-nnoremap <leader>ci :CocCommand fzf-preview.CocImplementations<CR>
-nnoremap <leader>cs <Plug>(coc-code-lens-action)
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gD <Plug>(coc-type-definition)
-nnoremap <silent> gd :call CocAction('jumpDefinition', 'drop') <CR>
-nnoremap K  :<C-u>call CocAction('doHover')<CR>
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <leader>ci <Plug>(coc-implementation)
-nmap <leader>cr <Plug>(coc-references)
-nmap <leader>cq <Plug>(coc-fix-current)
-command! -nargs=0 Format :call CocAction('format')
+
+nnoremap <leader>cc :CodeActions<CR>
+vnoremap <leader>cc :RangeCodeActions<CR>
+au FileType java nnoremap <leader>cc :lua require('jdtls').code_action()<CR>
+au FileType java vnoremap <leader>cc <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
+au FileType java nnoremap <leader>r <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+
+" au FileType java command! -buffer JdtCompile lua require('jdtls').compile()
+" au FileType java command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
+" au FileType java command! -buffer JdtJol lua require('jdtls').jol()
+" au FileType java command! -buffer JdtBytecode lua require('jdtls').javap()
+" au FileType java command! -buffer JdtJshell lua require('jdtls').jshell()
+" au FileType java nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
+" au FileType java nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
+
 
 
 " Vista tagbar
