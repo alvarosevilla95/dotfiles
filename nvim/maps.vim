@@ -20,7 +20,7 @@ nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
-nnoremap - :Ranger<CR>
+nnoremap _ :Ranger<CR>
 " nnoremap gl <Plug>VimwikiFollowLink<CR>
 
 let mapleader = "\<Space>"
@@ -91,13 +91,15 @@ nnoremap <leader>fS :FzfPreviewChanges<CR>
 nnoremap <leader>fq :FzfPreviewQuickFix<CR>
 nnoremap <leader>fj :FzfPreviewJumps<CR>
 nnoremap <leader>fn :Maps<CR>
-nnoremap <leader>fg :Rg<CR>
-nnoremap <leader>fG :Rg 
+nnoremap <leader>fg :Cdz<CR>
+nnoremap <leader>fG :Cd .<CR>
 nnoremap <leader>fm :CocFzfList outline<CR>
 nnoremap <leader>fc :FzfPreviewGitBranches<CR>
 nnoremap <leader>fe :CocCommand fzf-preview.CocCurrentDiagnostics<CR>
 nnoremap <leader>fE :CocCommand fzf-preview.CocDiagnostics<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " s -> search
 nnoremap <leader>se :UltiSnipsEdit<CR>
@@ -180,7 +182,11 @@ nnoremap <leader>tl :TestLast<CR>
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
   \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
   \  'sink': 'cd'}))
-nnoremap <leader>fz :Cd ~<CR>
+
+command! -nargs=0 Cdz call fzf#run(fzf#wrap(
+  \ {'source': 'cat ~/.z | cut -d "|" -f1',
+  \  'sink': 'cd'}))
+nnoremap <leader>fz :Cdz<CR>
 nnoremap <leader>fd :Cd .<CR>
 
 tnoremap <Esc> <C-\><C-n>

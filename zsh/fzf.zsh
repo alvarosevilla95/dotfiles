@@ -36,7 +36,7 @@ export FZF_PREVIEW_PREVIEW_BAT_THEME='gruvbox'
 source ~/.fzf.zsh
 source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
 source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
-bindkey "^G" fzf-cd-widget
+bindkey "^G" fzf-dir-widget
 bindkey "^F" fzf-file-widget
 
 function  _fzf_compgen_path() {
@@ -45,6 +45,32 @@ function  _fzf_compgen_path() {
 function  _fzf_compgen_dir() {
     command fd --type d --color=never
 }
+
+fzf_dir() {
+    echo "$(_fzf_compgen_dir | fzf --height 40% --preview='exa {} -lh --color=always')"
+}
+
+fzf-dir-widget () {
+        LBUFFER="${LBUFFER}$(__fdir)"
+        local ret=$?
+        zle reset-prompt
+        return $ret
+}
+
+__fdir () {
+        local cmd="_fzf_compgen_dir"
+        setopt localoptions pipefail no_aliases 2> /dev/null
+        local item
+        eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) -m "$@" | while read item
+        do
+                echo -n "${(q)item} "
+        done
+        local ret=$?
+        echo
+        return $ret
+}
+
+zle -N fzf-dir-widget
 
 fzf_z() {
   if [[ -z "$*" ]]; then

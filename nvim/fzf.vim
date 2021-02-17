@@ -123,4 +123,14 @@ command! -bang -nargs=0 GCheckout
   \   <bang>0
   \ )
 
+command! -bang -nargs=0 FCP
+  \ call fzf#vim#grep(
+  \   'git branch -v', 0,
+  \   {
+  \     'sink': function('s:open_branch_fzf')
+  \   },
+  \   <bang>0
+  \ )
+
+
 

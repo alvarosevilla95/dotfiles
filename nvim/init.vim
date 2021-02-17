@@ -46,7 +46,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'antoinemadec/coc-fzf'
 Plug 'godlygeek/tabular'
 Plug 'hdiniz/vim-gradle'
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
@@ -65,6 +65,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim' 
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neovimhaskell/haskell-vim'
+Plug 'lingceng/z.vim'
 call plug#end()
 
 

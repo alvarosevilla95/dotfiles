@@ -77,3 +77,5 @@ function auth() {
     yes 0 | awsAuth ${1:-$AWS_PROFILE} 
 }
 compdef _aws_complete_profiles auth
+
+alias ts='tools'
