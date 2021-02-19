@@ -1,74 +1,20 @@
-if has('nvim') && !exists('g:fzf_layout')
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-endif
-
-let g:fzf_prefer_tmux = 0
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
 let $FZF_DEFAULT_COMMAND='fd --type f --color=never'
 let $FZF_DEFAULT_OPTS="--reverse"
 let $BAT_THEME='gruvbox'
 
-let g:fzf_preview_floating_window_winblend= 0
-let g:fzf_preview_layout = 'below split new 40%'
-
-" augroup fzf_preview
-"   autocmd!
-"   autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-" augroup END
-
-function! s:fugitive_add(paths) abort
-  for path in a:paths
-    execute 'silent G add ' . path
-  endfor
-  echomsg 'Git add ' . join(a:paths, ', ')
-endfunction
-
-function! s:fugitive_reset(paths) abort
-  for path in a:paths
-    execute 'silent G reset ' . path
-  endfor
-  echomsg 'Git reset ' . join(a:paths, ', ')
-endfunction
-
-function! s:fugitive_patch(paths) abort
-  for path in a:paths
-    execute 'silent tabedit ' . path . ' | silent Gdiff'
-  endfor
-  echomsg 'Git add --patch ' . join(a:paths, ', ')
-endfunction
-
-" let g:fzf_preview_fzf_preview_window_option = 'up:30%'
-" function! s:fzf_preview_settings() abort
-"   let g:fzf_preview_fugitive_processors = fzf_preview#resource_processor#get_processors()
-"   let g:fzf_preview_fugitive_processors['ctrl-a'] = function('s:fugitive_add')
-"   let g:fzf_preview_fugitive_processors['ctrl-r'] = function('s:fugitive_reset')
-"   let g:fzf_preview_fugitive_processors['ctrl-c'] = function('s:fugitive_patch')
-" endfunction
-
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
+let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
   copen
   cc
 endfunction
-
 let g:fzf_action = {
   \ 'ctrl-q': function('s:build_quickfix_list'),
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-
-command! -bang -nargs=? -complete=dir Files call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --no-messages --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%', '?'),
-  \   <bang>0)
 
 function! RipgrepFzf(dir, fullscreen)
   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
@@ -77,7 +23,6 @@ function! RipgrepFzf(dir, fullscreen)
   let spec = {'options': ['--phony', '--query', "", '--bind', 'change:reload:'.reload_command]}
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
-
 command! -bang -nargs=? -complete=dir Rg call RipgrepFzf(<q-args>, <bang>0)
 
 command! -bang -nargs=* VimwikiSearch
@@ -91,51 +36,11 @@ function! s:date_line_handler(l)
   let keys = split(a:l, ' ')
   exec 'e' '~/Dropbox/wiki/diary/' . keys[0] . '.md'
 endfunction
-
 command! -nargs=* -bang DiarySearch call fzf#run(fzf#wrap({'source': 'dates 365 ' . <q-args>, 'sink': function('<sid>date_line_handler')}, <bang>0)) 
-
-function! s:buflist()
-    redir => ls
-    silent ls
-    redir END
-    return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-    execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-function! s:open_branch_fzf(line)
-  let l:parser = split(a:line)
-  let l:branch = l:parser[0]
-  if l:branch ==? '*'
-    let l:branch = l:parser[1]
-  endif
-  execute '!git checkout ' . l:branch
-endfunction
-
-command! -bang -nargs=0 GCheckout
-  \ call fzf#vim#grep(
-  \   'git branch -v', 0,
-  \   {
-  \     'sink': function('s:open_branch_fzf')
-  \   },
-  \   <bang>0
-  \ )
-
-command! -bang -nargs=0 FCP
-  \ call fzf#vim#grep(
-  \   'git branch -v', 0,
-  \   {
-  \     'sink': function('s:open_branch_fzf')
-  \   },
-  \   <bang>0
-  \ )
 
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
   \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
   \  'sink': 'cd'}))
-
 command! -nargs=0 Cdz call fzf#run(fzf#wrap(
   \ {'source': 'cat ~/.z | cut -d "|" -f1',
   \  'sink': 'cd'}))

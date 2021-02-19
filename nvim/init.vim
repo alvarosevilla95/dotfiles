@@ -147,10 +147,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 
-let g:java_highlight_all = 1 
-
-let g:haskell_classic_highlighting = 1
-
 let g:lightline = {
             \ 'tabline': {
             \   'left': [['tabs']],
@@ -174,19 +170,6 @@ let wiki_1.ext = '.md'
 let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
-let g:fzf_preview_fzf_color_option = ''
-augroup fzf_preview
-  autocmd!
-  autocmd User fzf_preview#initialized call s:fzf_preview_settings()
-augroup END
-function! s:fzf_preview_settings() abort
-  let g:fzf_preview_command = 'COLORTERM=truecolor ' . g:fzf_preview_command
-  let g:fzf_preview_grep_preview_cmd = 'COLORTERM=truecolor ' . g:fzf_preview_grep_preview_cmd
-endfunction
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
-
-
 
 source ~/dotfiles/nvim/fzf.vim
 source ~/dotfiles/nvim/maps.vim
