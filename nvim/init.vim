@@ -8,13 +8,18 @@ endif
 call plug#begin()
 " Plug 'morhetz/gruvbox'
 Plug 'gruvbox-community/gruvbox'
+Plug 'itchyny/lightline.vim'
+" External tools
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'benmills/vimux'
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
+Plug 'francoiscabrol/ranger.vim'
 Plug 'vimwiki/vimwiki'
-Plug 'liuchengxu/vista.vim'
-Plug 'janko/vim-test'
+Plug 'rbgrouleff/bclose.vim' " for ranger nested windows
+Plug 'lingceng/z.vim'
+Plug 'benmills/vimux'
+Plug 'christoomey/vim-run-interactive'
+" Editing
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
@@ -23,52 +28,48 @@ Plug 'tpope/vim-speeddating'
 Plug 'svermeulen/vim-yoink'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
+Plug 'svermeulen/vim-subversive'
+Plug 'dhruvasagar/vim-zoom'
+Plug 'mbbill/undotree'
+Plug 'KabbAmine/vCoolor.vim'
+" Git
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'svermeulen/vim-subversive'
+Plug 'rhysd/git-messenger.vim'
+"Misc
 Plug 'xolox/vim-misc'
-Plug 'keith/swift.vim'
-Plug 'mattn/calendar-vim'
-Plug 'francoiscabrol/ranger.vim'
-Plug 'rbgrouleff/bclose.vim' " for ranger nested windows
-Plug 'dhruvasagar/vim-zoom'
-Plug 'ryanoasis/vim-devicons'
 Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'rbgrouleff/bclose.vim'
 Plug 'godlygeek/tabular'
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
-Plug 'mbbill/undotree'
-Plug 'christoomey/vim-run-interactive'
-Plug 'Shougo/neomru.vim'
-Plug 'tpope/vim-obsession'
-Plug 'arzg/vim-sh'
-Plug 'mipmip/vim-scimark'
-Plug 'rhysd/git-messenger.vim'
-Plug 'lingceng/z.vim'
-
-Plug 'KabbAmine/vCoolor.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'uiiaoo/java-syntax.vim'
-Plug 'hdiniz/vim-gradle'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim' 
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'derekwyatt/vim-scala'
-
+" Plug 'liuchengxu/vista.vim'
+" Plug 'janko/vim-test'
+" Plug 'Shougo/neomru.vim'
+" Language
+" Plug 'arzg/vim-sh'
+" Plug 'keith/swift.vim'
+" Plug 'rust-lang/rust.vim'
+" Plug 'uiiaoo/java-syntax.vim'
+" Plug 'hdiniz/vim-gradle'
+" Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim' 
+" Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'neovimhaskell/haskell-vim'
+" Plug 'martinda/Jenkinsfile-vim-syntax'
+" Plug 'derekwyatt/vim-scala'
+" Lua
+Plug 'RishabhRD/popfix'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'vijaymarupudi/nvim-fzf'
+" LSP
 Plug 'neovim/nvim-lspconfig'
+Plug 'RishabhRD/nvim-lsputils'
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'deoplete-plugins/deoplete-lsp'
 Plug 'gfanto/fzf-lsp.nvim'
-Plug 'vijaymarupudi/nvim-fzf'
-Plug 'RishabhRD/popfix'
-Plug 'RishabhRD/nvim-lsputils'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
 " Basic defaults
