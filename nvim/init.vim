@@ -41,6 +41,7 @@ Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'godlygeek/tabular'
 " Lua
+Plug 'svermeulen/vimpeccable'
 Plug 'RishabhRD/popfix'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -92,41 +93,17 @@ set shortmess=I
 " set undofile
 " set undodir=~/.config/nvim/undodir
 
-let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
+lua require('config')
 
-let g:lightline = {
-            \ 'tabline': {
-            \   'left': [['tabs']],
-            \   'right': [['']]
-            \ },
-            \ 'colorscheme': 'gruvbox',
-            \ 'active': {
-            \   'left':  [[ 'mode', 'paste' ], ['fugitive'], ['filename']],
-            \   'right': [['lineinfo'], ['percent'], ['filetype']]
-            \ },
-            \ 'component_function': {
-            \   'fugitive': 'FugitiveHead',
-            \ }
-            \ }
+augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
+augroup end
 
 autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd BufReadPost jdt://* set bufhidden=delete
-
-let g:deoplete#enable_at_startup = 1
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-
-let g:ranger_map_keys = 0
-let g:netrw_liststyle = 3
-
-" Test
-let test#java#runner = 'gradletest'
-let test#strategy = "vimux"
-
-" Ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " Colors
 let g:gruvbox_contrast_dark="hard"
@@ -140,11 +117,6 @@ highlight SignColumn guibg=bg
 highlight SignColumn ctermbg=bg
 
 " FZF
-let $FZF_DEFAULT_COMMAND='fd --type f --color=never'
-let $FZF_DEFAULT_OPTS="--reverse"
-let $BAT_THEME='gruvbox'
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -187,15 +159,6 @@ command! -nargs=0 Cdz call fzf#run(fzf#wrap(
   \ {'source': 'cat ~/.z | cut -d "|" -f1',
   \  'sink': 'cd'}))
 
-" Wiki
-let wiki_1 = {}
-let wiki_1.path = '/Users/alvaro/Dropbox/wiki/'
-let wiki_1.syntax = 'markdown'
-let wiki_1.ext = '.md'
-let g:vimwiki_global_ext = 0
-let g:vimwiki_list = [wiki_1]
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
 command! -bang -nargs=* VimwikiSearch
   \ call fzf#vim#grep(
   \   'rg --no-messages --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>). ' ~/Dropbox/wiki/' , 1,
@@ -207,17 +170,6 @@ function! s:date_line_handler(l)
   exec 'e' '~/Dropbox/wiki/diary/' . keys[0] . '.md'
 endfunction
 command! -nargs=* -bang DiarySearch call fzf#run(fzf#wrap({'source': 'dates 365 ' . <q-args>, 'sink': function('<sid>date_line_handler')}, <bang>0)) 
-
-" Lua
-lua require('config')
-lua require'lspconfig'.gopls.setup{}
-lua require'lspconfig'.tsserver.setup{}
-lua require'lspconfig'.vimls.setup{}
-lua require'lspconfig'.pyright.setup{}
-augroup lsp
-    au!
-    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
-augroup end
 
 source ~/dotfiles/nvim/maps.vim
 
