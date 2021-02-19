@@ -71,6 +71,8 @@ nnoremap <leader>wc :Calendar<CR>
 " f -> find (fzf)
 inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
 inoremap <expr> <plug>(fzf-complete-file)  fzf#vim#complete#path("fd --type f . --color=never")
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-l> <plug>(fzf-complete-line)
 imap <c-f> <plug>(fzf-complete-path)
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -84,7 +86,7 @@ nnoremap <silent> <leader>ff :Files .<CR>
 nnoremap <leader>fF :Files 
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent> <Leader>fh :History
+nnoremap <silent> <Leader>fh :History<CR>
 nnoremap <leader>fw :Files ~/Dropbox/wiki/<CR>
 nnoremap <leader>fs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>
 nnoremap <leader>fS :FzfPreviewChanges<CR>
@@ -97,8 +99,6 @@ nnoremap <leader>fc :FzfPreviewGitBranches<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
 nnoremap <leader>fz :Cdz<CR>
 nnoremap <leader>fd :Cd .<CR>
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " s -> search
 nnoremap <leader>se :UltiSnipsEdit<CR>
@@ -160,7 +160,7 @@ nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
 nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
 au FileType java nnoremap <leader>cc :lua require('jdtls').code_action()<CR>
 au FileType java vnoremap <leader>cc <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
-au FileType java nnoremap <leader>r <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+au FileType java nnoremap <leader>cN <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
 
 " au FileType java command! -buffer JdtCompile lua require('jdtls').compile()
 " au FileType java command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()

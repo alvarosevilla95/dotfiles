@@ -14,8 +14,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'benmills/vimux'
 Plug 'vimwiki/vimwiki'
 Plug 'liuchengxu/vista.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go'
 Plug 'janko/vim-test'
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
@@ -34,31 +32,32 @@ Plug 'mattn/calendar-vim'
 Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim' " for ranger nested windows
 Plug 'dhruvasagar/vim-zoom'
-Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'ryanoasis/vim-devicons'
 Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'godlygeek/tabular'
-Plug 'hdiniz/vim-gradle'
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 Plug 'mbbill/undotree'
 Plug 'christoomey/vim-run-interactive'
 Plug 'Shougo/neomru.vim'
 Plug 'tpope/vim-obsession'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'uiiaoo/java-syntax.vim'
 Plug 'arzg/vim-sh'
 Plug 'mipmip/vim-scimark'
 Plug 'rhysd/git-messenger.vim'
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'derekwyatt/vim-scala'
+Plug 'lingceng/z.vim'
+
 Plug 'KabbAmine/vCoolor.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'uiiaoo/java-syntax.vim'
+Plug 'hdiniz/vim-gradle'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim' 
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'neovimhaskell/haskell-vim'
-Plug 'lingceng/z.vim'
+Plug 'martinda/Jenkinsfile-vim-syntax'
+Plug 'derekwyatt/vim-scala'
+
 Plug 'neovim/nvim-lspconfig'
 Plug 'mfussenegger/nvim-jdtls'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -67,13 +66,10 @@ Plug 'gfanto/fzf-lsp.nvim'
 Plug 'vijaymarupudi/nvim-fzf'
 Plug 'RishabhRD/popfix'
 Plug 'RishabhRD/nvim-lsputils'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
-
-source ~/dotfiles/nvim/fzf.vim
-source ~/dotfiles/nvim/maps.vim
-source ~/dotfiles/nvim/colors.vim
-
-lua require('config')
 
 " Basic defaults
 set background=dark
@@ -108,20 +104,20 @@ set wildmode=longest,full
 set foldlevel=2
 " set undofile
 " set undodir=~/.config/nvim/undodir
-
 set signcolumn=no
 set shortmess=I
-augroup active_relative_number
-  au!
-  " au BufEnter * :setlocal signcolumn=yes
-  " au WinEnter * :setlocal signcolumn=yes
-  " au BufLeave * :setlocal signcolumn=no
-  " au WinLeave * :setlocal signcolumn=no
-  au BufEnter * :setlocal number relativenumber
-  au WinEnter * :setlocal number relativenumber
-  au BufLeave * :setlocal norelativenumber
-  au WinLeave * :setlocal norelativenumber
-augroup END
+
+" augroup active_relative_number
+"   au!
+"   " au BufEnter * :setlocal signcolumn=yes
+"   " au WinEnter * :setlocal signcolumn=yes
+"   " au BufLeave * :setlocal signcolumn=no
+"   " au WinLeave * :setlocal signcolumn=no
+"   au BufEnter * :setlocal number relativenumber
+"   au WinEnter * :setlocal number relativenumber
+"   au BufLeave * :setlocal norelativenumber
+"   au WinLeave * :setlocal norelativenumber
+" augroup END
 
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd BufReadPost jdt://* set bufhidden=delete
@@ -132,6 +128,9 @@ augroup lsp
 augroup end
 
 autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+
+let g:deoplete#enable_at_startup = 1
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 let g:ranger_map_keys = 0
 let g:netrw_liststyle = 3
@@ -149,9 +148,6 @@ let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 
 let g:java_highlight_all = 1 
 
-" vim-go
-let g:go_fmt_command = "goimports"
-
 let g:haskell_classic_highlighting = 1
 
 let g:lightline = {
@@ -163,6 +159,9 @@ let g:lightline = {
             \ 'active': {
             \   'left':  [[ 'mode', 'paste' ], ['fugitive'], ['filename']],
             \   'right': [['lineinfo'], ['percent'], ['filetype']]
+            \ },
+            \ 'component_function': {
+            \   'fugitive': 'FugitiveHead',
             \ }
             \ }
 
@@ -186,3 +185,14 @@ function! s:fzf_preview_settings() abort
 endfunction
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
 
+
+
+source ~/dotfiles/nvim/fzf.vim
+source ~/dotfiles/nvim/maps.vim
+source ~/dotfiles/nvim/colors.vim
+
+lua require('config')
+lua require'lspconfig'.gopls.setup{}
+lua require'lspconfig'.tsserver.setup{}
+lua require'lspconfig'.vimls.setup{}
+lua require'lspconfig'.pyright.setup{}
