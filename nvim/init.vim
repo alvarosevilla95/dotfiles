@@ -57,59 +57,15 @@ Plug 'gfanto/fzf-lsp.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
-" Basic defaults
-set background=dark
-set updatetime=100
-set splitright
-set cursorline
-set relativenumber
-set hidden
-set wildmenu
-set showcmd
-set hlsearch
-set ignorecase
-set smartcase
-set backspace=indent,eol,start
-set autoindent
-set ruler
-set laststatus=2
-set confirm
-set visualbell
-set mouse=a
-set number
-set notimeout ttimeout ttimeoutlen=0
-set pastetoggle=<F11>
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set clipboard=unnamed
-set noshowmode
-set autowrite
-set wildmode=longest,full
-set foldlevel=2
-set signcolumn=no
-set shortmess=I
-" set undofile
-" set undodir=~/.config/nvim/undodir
-
 lua require('config')
 
-augroup lsp
-    au!
-    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
-augroup end
-
+autocmd FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
 autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
 autocmd BufReadPost fugitive://* set bufhidden=delete
 autocmd BufReadPost jdt://* set bufhidden=delete
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " Colors
-let g:gruvbox_contrast_dark="hard"
-let g:gruvbox_contrast_light="soft"
-colorscheme gruvbox
-set termguicolors
 hi Visual  guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
 highlight Search guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
 highlight IncSearch guifg=#282828 guibg=#fabd2f gui=none " simple orange visual
@@ -172,4 +128,3 @@ endfunction
 command! -nargs=* -bang DiarySearch call fzf#run(fzf#wrap({'source': 'dates 365 ' . <q-args>, 'sink': function('<sid>date_line_handler')}, <bang>0)) 
 
 source ~/dotfiles/nvim/maps.vim
-
