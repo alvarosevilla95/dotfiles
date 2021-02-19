@@ -6,7 +6,6 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 call plug#begin()
-" Plug 'morhetz/gruvbox'
 Plug 'gruvbox-community/gruvbox'
 Plug 'itchyny/lightline.vim'
 " External tools
@@ -41,21 +40,6 @@ Plug 'xolox/vim-misc'
 Plug 'moll/vim-bbye'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'godlygeek/tabular'
-" Plug 'liuchengxu/vista.vim'
-" Plug 'janko/vim-test'
-" Plug 'Shougo/neomru.vim'
-" Language
-" Plug 'arzg/vim-sh'
-" Plug 'keith/swift.vim'
-" Plug 'rust-lang/rust.vim'
-" Plug 'uiiaoo/java-syntax.vim'
-" Plug 'hdiniz/vim-gradle'
-" Plug 'pangloss/vim-javascript'
-" Plug 'leafgarland/typescript-vim' 
-" Plug 'MaxMEllon/vim-jsx-pretty'
-" Plug 'neovimhaskell/haskell-vim'
-" Plug 'martinda/Jenkinsfile-vim-syntax'
-" Plug 'derekwyatt/vim-scala'
 " Lua
 Plug 'RishabhRD/popfix'
 Plug 'nvim-lua/popup.nvim'
@@ -103,47 +87,10 @@ set noshowmode
 set autowrite
 set wildmode=longest,full
 set foldlevel=2
-" set undofile
-" set undodir=~/.config/nvim/undodir
 set signcolumn=no
 set shortmess=I
-
-" augroup active_relative_number
-"   au!
-"   " au BufEnter * :setlocal signcolumn=yes
-"   " au WinEnter * :setlocal signcolumn=yes
-"   " au BufLeave * :setlocal signcolumn=no
-"   " au WinLeave * :setlocal signcolumn=no
-"   au BufEnter * :setlocal number relativenumber
-"   au WinEnter * :setlocal number relativenumber
-"   au BufLeave * :setlocal norelativenumber
-"   au WinLeave * :setlocal norelativenumber
-" augroup END
-
-autocmd BufReadPost fugitive://* set bufhidden=delete
-autocmd BufReadPost jdt://* set bufhidden=delete
-
-augroup lsp
-    au!
-    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
-augroup end
-
-autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
-
-let g:deoplete#enable_at_startup = 1
-autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-
-let g:ranger_map_keys = 0
-let g:netrw_liststyle = 3
-
-" Test
-let test#java#runner = 'gradletest'
-let test#strategy = "vimux"
-
-" Ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" set undofile
+" set undodir=~/.config/nvim/undodir
 
 let g:python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 
@@ -162,7 +109,85 @@ let g:lightline = {
             \ }
             \ }
 
-" vimwiki
+autocmd FileType javascript,js,javascript.jsx,typescipt,typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd BufReadPost fugitive://* set bufhidden=delete
+autocmd BufReadPost jdt://* set bufhidden=delete
+
+let g:deoplete#enable_at_startup = 1
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+
+let g:ranger_map_keys = 0
+let g:netrw_liststyle = 3
+
+" Test
+let test#java#runner = 'gradletest'
+let test#strategy = "vimux"
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" Colors
+let g:gruvbox_contrast_dark="hard"
+let g:gruvbox_contrast_light="soft"
+colorscheme gruvbox
+set termguicolors
+hi Visual  guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
+highlight Search guifg=#282828 guibg=#fe8019 gui=none " simple orange visual
+highlight IncSearch guifg=#282828 guibg=#fabd2f gui=none " simple orange visual
+highlight SignColumn guibg=bg
+highlight SignColumn ctermbg=bg
+
+" FZF
+let $FZF_DEFAULT_COMMAND='fd --type f --color=never'
+let $FZF_DEFAULT_OPTS="--reverse"
+let $BAT_THEME='gruvbox'
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9, 'highlight': 'Comment' } }
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+function! RipgrepFzf(dir, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, '"" ' . a:dir)
+  let reload_command = printf(command_fmt, '{q} ' . a:dir)
+  let spec = {'options': ['--phony', '--query', "", '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+command! -bang -nargs=? -complete=dir Rg call RipgrepFzf(<q-args>, <bang>0)
+
+command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
+  \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
+  \  'sink': 'cd'}))
+command! -nargs=0 Cdz call fzf#run(fzf#wrap(
+  \ {'source': 'cat ~/.z | cut -d "|" -f1',
+  \  'sink': 'cd'}))
+
+" Wiki
 let wiki_1 = {}
 let wiki_1.path = '/Users/alvaro/Dropbox/wiki/'
 let wiki_1.syntax = 'markdown'
@@ -171,12 +196,28 @@ let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [wiki_1]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
-source ~/dotfiles/nvim/fzf.vim
-source ~/dotfiles/nvim/maps.vim
-source ~/dotfiles/nvim/colors.vim
+command! -bang -nargs=* VimwikiSearch
+  \ call fzf#vim#grep(
+  \   'rg --no-messages --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>). ' ~/Dropbox/wiki/' , 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%', '?'),
+  \   <bang>0)
+function! s:date_line_handler(l)
+  let keys = split(a:l, ' ')
+  exec 'e' '~/Dropbox/wiki/diary/' . keys[0] . '.md'
+endfunction
+command! -nargs=* -bang DiarySearch call fzf#run(fzf#wrap({'source': 'dates 365 ' . <q-args>, 'sink': function('<sid>date_line_handler')}, <bang>0)) 
 
+" Lua
 lua require('config')
 lua require'lspconfig'.gopls.setup{}
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.vimls.setup{}
 lua require'lspconfig'.pyright.setup{}
+augroup lsp
+    au!
+    au FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
+augroup end
+
+source ~/dotfiles/nvim/maps.vim
+
