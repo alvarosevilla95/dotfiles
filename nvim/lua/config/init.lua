@@ -1,4 +1,81 @@
 -- Neovim configuraion
+
+-- Auto install packer
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+  vim.api.nvim_command 'packadd packer.nvim'
+end
+
+vim.cmd [[packadd packer.nvim]]
+require('packer').startup(function()
+    use {'wbthomason/packer.nvim', opt = true}
+    use 'gruvbox-community/gruvbox'
+    use 'itchyny/lightline.vim'
+    -- External tools
+    use { 
+        'junegunn/fzf',
+        run = function() vim.fn['fzf#install']() end 
+    }
+    use 'junegunn/fzf.vim'
+    use { 
+        'yuki-ycino/fzf-preview.vim',
+        branch = 'release/remote',
+        run = ':UpdateRemotePlugins' 
+    }
+    use { 
+        'francoiscabrol/ranger.vim',
+        requires = 'rbgrouleff/bclose.vim' 
+    }
+    use 'vimwiki/vimwiki'
+    use 'lingceng/z.vim'
+    use 'benmills/vimux'
+    use 'christoomey/vim-run-interactive'
+    -- Editing
+    use 'sirver/ultisnips'
+    use 'honza/vim-snippets'
+    use 'tpope/vim-surround'
+    use 'tpope/vim-commentary'
+    use 'tpope/vim-speeddating'
+    use 'svermeulen/vim-yoink'
+    use 'tpope/vim-unimpaired'
+    use 'tpope/vim-repeat'
+    use 'svermeulen/vim-subversive'
+    use 'dhruvasagar/vim-zoom'
+    use 'mbbill/undotree'
+    use 'KabbAmine/vCoolor.vim'
+    -- Git
+    use 'tpope/vim-fugitive'
+    use 'tpope/vim-rhubarb'
+    use 'rhysd/git-messenger.vim'
+    -- Misc
+    use 'xolox/vim-misc'
+    use 'moll/vim-bbye'
+    use 'dhruvasagar/vim-table-mode'
+    use 'godlygeek/tabular'
+    -- Lua
+    use 'svermeulen/vimpeccable'
+    use 'RishabhRD/popfix'
+    use 'nvim-lua/popup.nvim'
+    use 'nvim-lua/plenary.nvim'
+    use 'nvim-telescope/telescope.nvim'
+    use 'vijaymarupudi/nvim-fzf'
+    -- LSP
+    use 'neovim/nvim-lspconfig'
+    use 'RishabhRD/nvim-lsputils'
+    use 'mfussenegger/nvim-jdtls'
+    use { 
+        'Shougo/deoplete.nvim', 
+        run = ':UpdateRemotePlugins' 
+    }
+    use 'deoplete-plugins/deoplete-lsp'
+    use 'gfanto/fzf-lsp.nvim'
+    use { 
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate' 
+    }
+end)
+
 vim.o.termguicolors   = true;
 vim.o.background      = 'dark';
 vim.o.updatetime      = 100;
@@ -90,67 +167,3 @@ require'nvim-treesitter.configs'.setup {
     enable = true,              -- false will disable the whole extension
   },
 }
-
-local actions = require('telescope.actions')
-require('telescope').setup{
-    defaults = {
-        mappings = {
-            i = {
-                -- To disable a keymap, put [map] = false
-                -- So, to not map "<C-n>", just put
-                -- ["<c-x>"] = false,
-                -- Otherwise, just set the mapping to the function that you want it to be.
-                -- ["<C-i>"] = actions.goto_file_selection_split,
-                -- Add up multiple actions
-                -- ["<CR>"] = actions.goto_file_selection_edit + actions.center,
-                -- You can perform as many actions in a row as you like
-                -- ["<CR>"] = actions.goto_file_selection_edit + actions.center + my_cool_custom_action,
-                ["<C-j>"] = actions.move_selection_next,
-                ["<C-k>"] = actions.move_selection_previous,
-            },
-            n = {
-                ["<esc>"] = actions.close,
-                ["<C-i>"] = my_cool_custom_action,
-            },
-        },
-        vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case'
-        },
-        prompt_position = "top",
-        prompt_prefix = ">",
-        initial_mode = "insert",
-        selection_strategy = "reset",
-        sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
-        layout_defaults = {
-            -- TODO add builtin options.
-        },
-        file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-        file_ignore_patterns = {},
-        generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-        shorten_path = true,
-        winblend = 0,
-        width = 0.75,
-        preview_cutoff = 120,
-        results_height = 1,
-        results_width = 0.8,
-        border = {},
-        borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-        color_devicons = true,
-        use_less = true,
-        set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
-        file_previewer = require'telescope.previewers'.cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
-        grep_previewer = require'telescope.previewers'.vimgrep.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_vimgrep.new`
-        qflist_previewer = require'telescope.previewers'.qflist.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_qflist.new`
-
-        -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
-    }
-}
-

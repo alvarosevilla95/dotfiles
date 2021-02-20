@@ -1,62 +1,3 @@
-" Install vim-plug automatically
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin()
-Plug 'gruvbox-community/gruvbox'
-Plug 'itchyny/lightline.vim'
-" External tools
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
-Plug 'francoiscabrol/ranger.vim'
-Plug 'vimwiki/vimwiki'
-Plug 'rbgrouleff/bclose.vim' " for ranger nested windows
-Plug 'lingceng/z.vim'
-Plug 'benmills/vimux'
-Plug 'christoomey/vim-run-interactive'
-" Editing
-Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-speeddating'
-Plug 'svermeulen/vim-yoink'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-repeat'
-Plug 'svermeulen/vim-subversive'
-Plug 'dhruvasagar/vim-zoom'
-Plug 'mbbill/undotree'
-Plug 'KabbAmine/vCoolor.vim'
-" Git
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-Plug 'rhysd/git-messenger.vim'
-"Misc
-Plug 'xolox/vim-misc'
-Plug 'moll/vim-bbye'
-Plug 'dhruvasagar/vim-table-mode'
-Plug 'godlygeek/tabular'
-" Lua
-Plug 'svermeulen/vimpeccable'
-Plug 'RishabhRD/popfix'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'vijaymarupudi/nvim-fzf'
-" LSP
-Plug 'neovim/nvim-lspconfig'
-Plug 'RishabhRD/nvim-lsputils'
-Plug 'mfussenegger/nvim-jdtls'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'deoplete-plugins/deoplete-lsp'
-Plug 'gfanto/fzf-lsp.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-call plug#end()
-
 lua require('config')
 
 autocmd FileType java lua require('jdtls').start_or_attach({cmd = {'/Users/alvaro/dotfiles/bin/start-java-lsp.sh'}})
@@ -73,6 +14,7 @@ highlight SignColumn guibg=bg
 highlight SignColumn ctermbg=bg
 
 " FZF
+" TODO: fix colors when using fzf from packer
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -107,7 +49,6 @@ function! RipgrepFzf(dir, fullscreen)
   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 command! -bang -nargs=? -complete=dir Rg call RipgrepFzf(<q-args>, <bang>0)
-
 command! -nargs=* -complete=dir Cd call fzf#run(fzf#wrap(
   \ {'source': 'fd . '.(empty(<f-args>) ? '.' : <f-args>).' --type=d 2>/dev/null',
   \  'sink': 'cd'}))

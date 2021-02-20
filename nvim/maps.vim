@@ -39,6 +39,8 @@ nnoremap <leader>z :tabe %<CR>
 nnoremap <leader>u :UndotreeToggle<CR>
 xnoremap <leader>n :normal <CR>
 nnoremap <leader>o <C-W>o
+vnoremap <leader>= :'<,'> Tabularize /
+
 " nnoremap <leader>O :Obsess!<CR>
 " r -> run
 nnoremap <leader>rr :r! 
@@ -176,4 +178,4 @@ nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tl :TestLast<CR>
 
-tnoremap <Esc> <C-\><C-n>
+" tnoremap <Esc> <C-\><C-n>
