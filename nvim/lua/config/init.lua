@@ -3,8 +3,8 @@
 -- Auto install packer
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-  vim.api.nvim_command 'packadd packer.nvim'
+    vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
+    vim.api.nvim_command 'packadd packer.nvim'
 end
 
 vim.cmd [[packadd packer.nvim]]
@@ -146,10 +146,11 @@ vim.g.UltiSnipsJumpBackwardTrigger="<c-k>"
 vim.g.fzf_history_dir = '~/.local/share/fzf-history'
 vim.g.fzf_layout = { window = { width = 0.9, height = 0.9, highlight = 'Comment' } }
 
-local wiki_1 = { syntax = 'markdown', ext = '.md', path = '/Users/alvaro/Dropbox/wiki/'}
-vim.g.vimwiki_list = {wiki_1}
+vim.g.vimwiki_list = {{ syntax = 'markdown', ext = '.md', path = '/Users/alvaro/Dropbox/wiki/'}}
 vim.g.vimwiki_global_ext = 0
 vim.g.vimwiki_ext2syntax = {['.md'] = 'markdown',['.markdown'] = 'markdown', ['.mdown'] = 'markdown'}
+
+vim.g.git_messenger_no_default_mappings = true
 
 require'lspconfig'.gopls.setup{}
 require'lspconfig'.tsserver.setup{}
@@ -162,8 +163,8 @@ function jdtls_ui.pick_one_async(items, _, _, cb)
 end
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
+    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    highlight = {
+        enable = true,              -- false will disable the whole extension
+    },
 }

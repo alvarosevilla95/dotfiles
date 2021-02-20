@@ -17,6 +17,7 @@ nmap <c-p> <plug>(YoinkPostPasteSwapForward)
 nmap p <plug>(YoinkPaste_p)
 nmap P <plug>(YoinkPaste_P)
 nmap s <plug>(SubversiveSubstitute)
+xmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
@@ -115,8 +116,8 @@ nnoremap <leader>ge :Gedit<Space>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gS :Git show<CR>
 nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gc :Gcommit -v -q<CR>
-nnoremap <leader>gC :Gcommit -v -q --amend<CR>
+nnoremap <leader>gc :Git commit -v -q<CR>
+nnoremap <leader>gC :Git commit -v -q --amend<CR>
 nnoremap <leader>gd :Gdiffsplit!<CR>
 nnoremap <leader>gD :Git diff<CR>
 nnoremap <leader>gr :Grebase --interactive<Space>
@@ -138,9 +139,6 @@ nnoremap dgh :diffget //2<CR>
 nnoremap dgl :diffget //3<CR> 
 nnoremap <leader>gpdd :Git diff master...<CR> 
 nnoremap <leader>gpdf :Gdiff master...:%<CR> 
-
-
-let g:git_messenger_no_default_mappings=v:true
 
 " c -> lsp
 nnoremap <leader>cr :References<CR>
@@ -171,11 +169,3 @@ au FileType java nnoremap <leader>cN <Cmd>lua require('jdtls').code_action(false
 " au FileType java command! -buffer JdtJshell lua require('jdtls').jshell()
 " au FileType java nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
 " au FileType java nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
-
-" t -> Tests
-nnoremap <leader>tn :TestNearest<CR>
-nnoremap <leader>tf :TestFile<CR>
-nnoremap <leader>ts :TestSuite<CR>
-nnoremap <leader>tl :TestLast<CR>
-
-" tnoremap <Esc> <C-\><C-n>
