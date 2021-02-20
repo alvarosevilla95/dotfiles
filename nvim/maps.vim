@@ -141,6 +141,7 @@ nnoremap <leader>gpdd :Git diff master...<CR>
 nnoremap <leader>gpdf :Gdiff master...:%<CR> 
 
 " c -> lsp
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" :  "\<CR>"
 nnoremap <leader>cr :References<CR>
 nnoremap <leader>ci :Implementations<CR>
 nnoremap <leader>ce :Diagnostics<CR>
@@ -154,7 +155,7 @@ nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>cf :lua vim.lsp.buf.formatting()<CR>
 vnoremap <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
-nnoremap <leader>cc :CodeActions<CR>
+nnoremap <leader>cc :lua vim.lsp.buf.code_action()<CR>
 vnoremap <leader>cc :RangeCodeActions<CR>
 nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
 nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>

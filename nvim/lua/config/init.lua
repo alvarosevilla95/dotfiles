@@ -13,20 +13,10 @@ require('packer').startup(function()
     use 'gruvbox-community/gruvbox'
     use 'itchyny/lightline.vim'
     -- External tools
-    use { 
-        'junegunn/fzf',
-        run = function() vim.fn['fzf#install']() end 
-    }
+    use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
     use 'junegunn/fzf.vim'
-    use { 
-        'yuki-ycino/fzf-preview.vim',
-        branch = 'release/remote',
-        run = ':UpdateRemotePlugins' 
-    }
-    use { 
-        'francoiscabrol/ranger.vim',
-        requires = 'rbgrouleff/bclose.vim' 
-    }
+    use { 'yuki-ycino/fzf-preview.vim', branch = 'release/remote', run = ':UpdateRemotePlugins' }
+    use { 'francoiscabrol/ranger.vim', requires = 'rbgrouleff/bclose.vim' }
     use 'vimwiki/vimwiki'
     use 'lingceng/z.vim'
     use 'benmills/vimux'
@@ -60,20 +50,13 @@ require('packer').startup(function()
     use 'nvim-lua/plenary.nvim'
     use 'nvim-telescope/telescope.nvim'
     use 'vijaymarupudi/nvim-fzf'
+    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     -- LSP
     use 'neovim/nvim-lspconfig'
     use 'RishabhRD/nvim-lsputils'
     use 'mfussenegger/nvim-jdtls'
-    use { 
-        'Shougo/deoplete.nvim', 
-        run = ':UpdateRemotePlugins' 
-    }
-    use 'deoplete-plugins/deoplete-lsp'
+    use 'nvim-lua/completion-nvim'
     use 'gfanto/fzf-lsp.nvim'
-    use { 
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate' 
-    }
 end)
 
 vim.o.termguicolors   = true;
@@ -101,18 +84,21 @@ vim.o.showmode        = false;
 vim.o.autowrite       = true;
 vim.o.wildmode        = 'longest,full';
 vim.o.foldlevel       = 2;
-vim.o.shortmess       = 'I';
+vim.o.shortmess       = 'IOc';
+vim.o.completeopt     = 'menuone,noinsert,noselect';
+vim.o.tabstop         = 4;
+vim.o.shiftwidth      = 4;
+vim.o.softtabstop     = 4;
 vim.wo.cursorline     = true;
 vim.wo.relativenumber = true;
 vim.wo.number         = true;
 vim.wo.signcolumn     = 'no';
 vim.bo.autoindent     = true;
-vim.bo.tabstop        = 4;
-vim.bo.shiftwidth     = 4;
-vim.bo.softtabstop    = 4;
 vim.bo.expandtab      = true;
 -- vim.o.undofile
 -- vim.o.undodir=~/.config/nvim/undodir
+-- vim.cmd('set shortmess+=O')
+-- vim.cmd('set shortmess+=c')
 
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "soft"
@@ -135,9 +121,18 @@ vim.g.lightline = {
     },
 }
 
-vim.g["deoplete#enable_at_startup"] = 1
 vim.g.ranger_map_keys = 0
 vim.g.netrw_liststyle = 3
+
+vim.g.completion_enable_snippet = 'UltiSnips'
+vim.g.completion_confirm_key = ""
+vim.g.completion_items_priority = {
+	['Variable']  = 5,
+	['Method']    = 4,
+	['Class']     = 3,
+	['Interface'] = 3,
+}
+
 
 vim.g.UltiSnipsExpandTrigger="<tab>"
 vim.g.UltiSnipsJumpForwardTrigger="<c-j>"
@@ -157,10 +152,7 @@ require'lspconfig'.tsserver.setup{}
 require'lspconfig'.vimls.setup{}
 require'lspconfig'.pyright.setup{}
 
-local jdtls_ui = require'jdtls.ui'
-function jdtls_ui.pick_one_async(items, _, _, cb)
-    require'lsputil.codeAction'.code_action_handler(nil, nil, items, nil, nil, nil, cb)
-end
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
 require'nvim-treesitter.configs'.setup {
     ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
@@ -168,3 +160,41 @@ require'nvim-treesitter.configs'.setup {
         enable = true,              -- false will disable the whole extension
     },
 }
+
+
+local vimp = require("vimp")
+local nvim_fzf = require("fzf")
+
+function Cd(path)
+    path = path or '.'
+    coroutine.wrap(function()
+        local res = nvim_fzf.fzf(string.format("fd . %s --type=d 2>/dev/null", path))[1]
+        vim.cmd(string.format("cd %s", res))
+    end)()
+end
+
+function Cdz()
+    coroutine.wrap(function()
+        local res = nvim_fzf.fzf("cat ~/.z | cut -d '|' -f1")[1]
+        vim.cmd(string.format("cd %s", res))
+    end)()
+end
+
+function RipgrepFzf(dir)
+    dir = dir or './'
+    local command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+    local initial_command = string.format(command_fmt, '"" ' .. dir)
+    local reload_command = string.format(command_fmt, '{q} ' .. dir)
+    local spec = {options= {'--phony', '--query', '', '--bind', 'change:reload:' .. reload_command}}
+    vim.fn['fzf#vim#grep'](initial_command, 1, vim.fn['fzf#vim#with_preview'](spec), 0)
+end
+
+vim.cmd("command! -nargs=? -complete=dir Rg lua RipgrepFzf(<q-args>)")
+vim.cmd("command! -nargs=? -complete=dir Cd lua Cd(<q-args>)")
+vim.cmd("command! -nargs=0 -complete=dir Cdz lua Cdz()")
+
+vim.cmd("autocmd FileType java lua require'jdtls_setup'.setup()")
+vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
+vim.cmd("autocmd FileType javascript,js,javascript.jsx,typescript,typescriptreact setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab")
+vim.cmd("autocmd BufReadPost fugitive://* set bufhidden=delete")
+vim.cmd("autocmd BufReadPost jdt://* set bufhidden=delete")
