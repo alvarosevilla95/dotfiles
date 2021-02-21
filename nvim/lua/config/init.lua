@@ -3,11 +3,10 @@
 -- Auto install packer
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
-    vim.api.nvim_command 'packadd packer.nvim'
+    vim.cmd('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
 end
+vim.cmd 'packadd packer.nvim'
 
-vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function()
     use {'wbthomason/packer.nvim', opt = true}
     use 'gruvbox-community/gruvbox'
@@ -97,8 +96,6 @@ vim.bo.autoindent     = true;
 vim.bo.expandtab      = true;
 -- vim.o.undofile
 -- vim.o.undodir=~/.config/nvim/undodir
--- vim.cmd('set shortmess+=O')
--- vim.cmd('set shortmess+=c')
 
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "soft"
@@ -147,10 +144,11 @@ vim.g.vimwiki_ext2syntax = {['.md'] = 'markdown',['.markdown'] = 'markdown', ['.
 
 vim.g.git_messenger_no_default_mappings = true
 
-require'lspconfig'.gopls.setup{}
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.vimls.setup{}
-require'lspconfig'.pyright.setup{}
+local lspconfig = require'lspconfig'
+lspconfig.gopls.setup{}
+lspconfig.tsserver.setup{}
+lspconfig.vimls.setup{}
+lspconfig.pyright.setup{}
 
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
@@ -162,21 +160,20 @@ require'nvim-treesitter.configs'.setup {
 }
 
 
-local vimp = require("vimp")
-local nvim_fzf = require("fzf")
+local fzf = require("fzf").fzf
 
 function Cd(path)
     path = path or '.'
     coroutine.wrap(function()
-        local res = nvim_fzf.fzf(string.format("fd . %s --type=d 2>/dev/null", path))[1]
-        vim.cmd(string.format("cd %s", res))
+        local res = fzf(string.format("fd . %s --type=d 2>/dev/null", path))[1]
+        vim.cmd("cd " .. res)
     end)()
 end
 
 function Cdz()
     coroutine.wrap(function()
-        local res = nvim_fzf.fzf("cat ~/.z | cut -d '|' -f1")[1]
-        vim.cmd(string.format("cd %s", res))
+        local res = fzf("cat ~/.z | cut -d '|' -f1")[1]
+        vim.cmd("cd " .. res)
     end)()
 end
 
@@ -185,16 +182,16 @@ function RipgrepFzf(dir)
     local command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
     local initial_command = string.format(command_fmt, '"" ' .. dir)
     local reload_command = string.format(command_fmt, '{q} ' .. dir)
-    local spec = {options= {'--phony', '--query', '', '--bind', 'change:reload:' .. reload_command}}
+    local spec = { options = {'--phony', '--query', '', '--bind', 'change:reload:' .. reload_command} }
     vim.fn['fzf#vim#grep'](initial_command, 1, vim.fn['fzf#vim#with_preview'](spec), 0)
 end
 
-vim.cmd("command! -nargs=? -complete=dir Rg lua RipgrepFzf(<q-args>)")
-vim.cmd("command! -nargs=? -complete=dir Cd lua Cd(<q-args>)")
-vim.cmd("command! -nargs=0 -complete=dir Cdz lua Cdz()")
+vim.cmd "command! -nargs=? -complete=dir Rg lua RipgrepFzf(<q-args>)"
+vim.cmd "command! -nargs=? -complete=dir Cd lua Cd(<q-args>)"
+vim.cmd "command! -nargs=0 -complete=dir Cdz lua Cdz()"
 
-vim.cmd("autocmd FileType java lua require'jdtls_setup'.setup()")
-vim.cmd("autocmd BufEnter * lua require'completion'.on_attach()")
-vim.cmd("autocmd FileType javascript,js,javascript.jsx,typescript,typescriptreact setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab")
-vim.cmd("autocmd BufReadPost fugitive://* set bufhidden=delete")
-vim.cmd("autocmd BufReadPost jdt://* set bufhidden=delete")
+vim.cmd "autocmd FileType java lua require'jdtls_setup'.setup()"
+vim.cmd "autocmd BufEnter * lua require'completion'.on_attach()"
+vim.cmd "autocmd FileType javascript,js,javascript.jsx,typescript,typescriptreact setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab"
+vim.cmd "autocmd BufReadPost fugitive://* set bufhidden=delete"
+vim.cmd "autocmd BufReadPost jdt://* set bufhidden=delete"
