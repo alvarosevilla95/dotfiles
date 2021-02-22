@@ -79,3 +79,18 @@ function auth() {
 compdef _aws_complete_profiles auth
 
 alias ts='tools'
+
+function toggle_colors() {
+    if [[ "$BC" = "dark" ]]; then
+        cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-light.yml > ~/.alacritty.yml
+        gsed -i 's:BC=dark:BC=light:' ~/dotfiles/zsh/zshrc
+        gsed -i 's:BAT_THEME=gruvbox:BAT_THEME=gruvbox-light:' ~/dotfiles/zsh/zshrc
+    fi
+    if [[ "$BC" = "light" ]]; then
+        cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-dark.yml > ~/.alacritty.yml
+        gsed -i 's:BC=light:BC=dark:' ~/dotfiles/zsh/zshrc
+        gsed -i 's:BAT_THEME=gruvbox-light$:BAT_THEME=gruvbox:' ~/dotfiles/zsh/zshrc
+    fi
+    source ~/.zshrc
+}
+alias tc="toggle_colors"
