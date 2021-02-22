@@ -1,6 +1,14 @@
 local M = {}
 
-function M.setup()
+local lspconfig = require 'lspconfig'
+lspconfig.gopls.setup{}
+lspconfig.tsserver.setup{}
+lspconfig.vimls.setup{}
+lspconfig.pyright.setup{}
+vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+
+vim.cmd "autocmd FileType java lua require'lsp'.java_setup()"
+function M.java_setup()
     local on_attach = function(client, bufnr)
       require'jdtls.setup'.add_commands()
       -- require'jdtls'.setup_dap()
