@@ -7,7 +7,7 @@
 # If you're not using Linux you'll need to adjust the `-configuration` option
 # to point to the `config_mac' or `config_win` folders depending on your system.
 
-JAR="$HOME/Developer/eclipse.jdt.ls.build/plugins/org.eclipse.equinox.launcher_*.jar"
+JAR="$HOME/Developer/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_*.jar"
 GRADLE_HOME=$HOME/gradle java \
   -javaagent:/Users/alvaro/.config/nvim/lombok.jar\
   -Declipse.application=org.eclipse.jdt.ls.core.id1 \
@@ -18,7 +18,7 @@ GRADLE_HOME=$HOME/gradle java \
   -Xms1g \
   -Xmx2G \
   -jar $(echo "$JAR") \
-  -configuration "$HOME/Developer/eclipse.jdt.ls.build/config_mac" \
+  -configuration "$HOME/Developer/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_mac" \
   -data "${1:-$HOME/workspace}" \
   --add-modules=ALL-SYSTEM \
   --add-opens java.base/java.util=ALL-UNNAMED \
