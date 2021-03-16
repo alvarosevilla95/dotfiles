@@ -33,13 +33,9 @@ export EDITOR="nvim"
 export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
 export HOMEBREW_NO_AUTO_UPDATE=true
 
-export BC=dark
-export BAT_THEME=gruvbox
-
 export DOTFILES=/Users/alvaro/dotfiles
 export PATH="$PATH:$DOTFILES/bin"
 export PATH="$PATH:$DOTFILES/bin/git-fuzzy/bin"
-
 
 export GOPATH=~/Developer/go
 export PATH=$PATH:$GOPATH/bin
@@ -52,6 +48,7 @@ eval "$(pyenv init - --no-rehash)"
 # eval "$(op completion zsh)"; compdef _op op
 
 source /usr/local/etc/profile.d/z.sh
+source ~/dotfiles/zsh/colors.zsh
 source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
