@@ -1,13 +1,18 @@
 onoremap ie :exec "normal! ggVG"<cr>
-cnoremap <c-A> <Home>
+cnoremap <c-a> <Home>
 cnoremap <c-k> <c-p>
 cnoremap <c-j> <c-n>
-cmap w!! w !sudo tee > /dev/null %
+cnoremap <c-d> <c-r>=expand('')<Left><Left>
+inoremap <c-d> <c-r>=expand('')<Left><Left>
+
+" cmap w!! w !sudo tee > /dev/null %
+nnoremap <C-F> :<C-F>?
 nnoremap <C-L> :nohl<CR>
 map Y y$
 nmap s <plug>(SubversiveSubstitute)
 xmap s <plug>(SubversiveSubstitute)
-nmap ss :%s::g<Left><Left>
+nmap ss :s//g<Left><Left>
+nmap sg :silent grep 
 " nmap ss <plug>(SubversiveSubstituteLine)
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
@@ -25,110 +30,126 @@ nnoremap <leader>J <C-W>J
 nnoremap <leader>K <C-W>K
 nnoremap <leader>L <C-W>L
 nnoremap <leader>H <C-W>H
-nnoremap <leader>[ gt
-nnoremap <leader>] gT
+nnoremap <leader>[ gT
+nnoremap <leader>] gt
 nnoremap <leader>dd :Bdelete<CR>
-nnoremap <leader>dD :bufdo bwipeout<CR>
+nnoremap <leader>dD :Bdelete!<CR>
+nnoremap <leader>da :bufdo bwipeout<CR>
+nnoremap <leader>dn :enew<CR>
 nnoremap <leader>z :tabe %<CR>
-nnoremap <leader>u :UndotreeToggle<CR>
 vnoremap <leader>= :'<,'> Tabularize /
 
 nnoremap <leader>ww :topleft sp ~/Dropbox/wiki/index.md<CR>
-nnoremap <leader>wW :VimwikiIndex
+nnoremap <leader>wW :VimwikiIndex<CR>
+au FileType vimwiki nmap <expr> <CR> pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" : "\<Plug>VimwikiFollowLink"
+au FileType vimwiki xmap <CR> <Plug>VimwikiNormalizeLinkVisualCR
 
 " r -> run
-nnoremap <leader>rr :r! 
-nnoremap <leader>rR :! 
-nnoremap <leader>ri :RunInInteractiveShell<space>
+nnoremap <leader>r<space> :!<space>
+nnoremap <leader>R<space> :r!<space>
+nnoremap <leader>rlf :luafile %<CR>
+nnoremap <leader>rs :source $DOTFILES/nvim/init.vim<CR>
 
 " f -> find (fzf)
+nnoremap <silent> <leader>ff :Files .<CR>
+nnoremap <silent> <leader>fd :Files ~/dotfiles/<CR>
+nnoremap <silent> <leader>f~ :Files ~<CR>
+nnoremap <silent> <Leader>f. :Files %:h<CR>
+nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
+nnoremap <leader>f<Space> :Files<Space>
+nnoremap <silent> <Leader>fb :Buffers<CR>
 inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
 imap <c-x><c-f> <plug>(fzf-complete-path)
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
 nnoremap <silent>  <leader>; :Commands<CR>
-nnoremap <silent> <Leader>fh :History<CR>
-nnoremap <silent> <leader>ds :Files ~/dotfiles/<CR>
-nnoremap <silent> <leader>ff :Files .<CR>
-nnoremap <leader>fF :Files 
-nnoremap <silent> <leader>f~ :Files ~<CR>
-nnoremap <silent> <Leader>f. :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
-nnoremap <silent> <leader>fs :<C-u>FzfPreviewGitStatus -processors=g:fzf_preview_fugitive_processors<CR>
-nnoremap <silent> <leader>fq :FzfPreviewQuickFix<CR>
-nnoremap <silent> <leader>fg :Cdz<CR>
-nnoremap <silent> <leader>fG :Cd .<CR>
-nnoremap <silent> <leader>fc :FzfPreviewGitBranches<CR>
-nnoremap <silent> <Leader>fb :Buffers<CR>
+
+nnoremap <leader>cg :Gcd<CR>
+nnoremap <leader>cl :lcd %:h<CR>
+nnoremap <leader>cf :Cdz<CR>
+nnoremap <leader>ch :cd ~<CR>
+nnoremap <leader>c. :Cd .<CR>
+nnoremap <leader>c<space> :Cd<space>
+
+nnoremap <silent> <Leader>qo :copen<CR>
+nnoremap <silent> <Leader>qc :cclose<CR>
 
 " s -> search
 nnoremap <silent> <leader>ss :Rg<CR>
 nnoremap <silent> <leader>sd :Rg ~/dotfiles<CR>
 nnoremap <silent> <leader>sw :Rg ~/Dropbox/wiki/<CR>
-nnoremap <leader>sg :Google 
-nnoremap <silent> <leader>se :UltiSnipsEdit<CR>
+lnoremap <silent> <leader>se :UltiSnipsEdit<CR>
 
 " g -> git (fugutive)
-nnoremap <leader>gg :FzfPreviewGitActions<CR>
+nnoremap <leader>G :Gedit :<CR>
+nnoremap <leader>gg :Gedit :<CR>
 nnoremap <leader>ge :Gedit<Space>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gS :Git show<CR>
-nnoremap <leader>gw :Gwrite<CR><CR>
-nnoremap <leader>gc :Git commit -v -q<CR>
-nnoremap <leader>gC :Git commit -v -q --amend<CR>
+nnoremap <leader>gs :Gsplit<Space>
 nnoremap <leader>gd :Gdiffsplit!<CR>
 nnoremap <leader>gD :Git diff<CR>
-nnoremap <leader>gr :Grebase --interactive<Space>
-nnoremap <leader>gR :Grebase<Space>
-nnoremap <leader>go :Git checkout<Space>
-nnoremap <leader>gO :Git branch<Space>
-nnoremap <leader>gl :FzfPreviewGitLogs<CR>
+nnoremap <leader>gl :GV<CR>
 nnoremap <leader>gL :0Glog<CR>
-nnoremap <leader>gpp :Git push<CR>
-nnoremap <leader>gpP :Git pull<CR>
 nnoremap <leader>gbm :Gblame<CR>
-nnoremap <leader>gbb :.Gbrowse!<CR>
-vnoremap <leader>gbb :Gbrowse!<CR>
-nnoremap <leader>gbB :.Gbrowse<CR>
-vnoremap <leader>gbB :Gbrowse<CR>
-nmap <Leader>gk <Plug>(git-messenger)
-" get diff from left / right buffer in 3 way diff
-nnoremap dgh :diffget //2<CR> 
-nnoremap dgl :diffget //3<CR> 
+nnoremap <leader>gB :Gbrowse 
+nnoremap <leader>gbb :Gbrowse %<CR>
+vnoremap <leader>gbb :Gbrowse<CR>
+nnoremap <leader>gbB :Gbrowse! %<CR>
+vnoremap <leader>gbB :Gbrowse!<CR>
 nnoremap <leader>gpdd :Git diff master...<CR> 
 nnoremap <leader>gpdf :Gdiff master...:%<CR> 
+nmap KG <Plug>(git-messenger)
 
-" c -> lsp
-imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" :  "\<CR>"
+" completion
+inoremap <silent><expr> <Tab> compe#complete()
+inoremap <silent><expr> <CR>  compe#confirm('<CR>')
+inoremap <silent><expr> <C-e> compe#close('<C-e>')
+inoremap <silent><expr> <C-f> compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d> compe#scroll({ 'delta': -4 })
+" lsp
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> KK  :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD :lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <leader>cr :References<CR>
-nnoremap <leader>ci :Implementations<CR>
-nnoremap <leader>ce :Diagnostics<CR>
-nnoremap <leader>fm :WorkspaceSymbols<CR>
-nnoremap <leader>fM :DocumentSymbols<CR>
-nnoremap <leader>cn :lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>cf :lua vim.lsp.buf.formatting()<CR>
-vnoremap <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
-nnoremap <leader>cc :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>ir :References<CR>
+nnoremap <leader>iR :Implementations<CR>
+nnoremap <leader>ie :Diagnostics<CR>
+nnoremap <leader>im :WorkspaceSymbols<CR>
+nnoremap <leader>iM :DocumentSymbols<CR>
+nnoremap <leader>in :lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>if :lua vim.lsp.buf.formatting()<CR>
+vnoremap <leader>if :lua vim.lsp.buf.range_formatting()<CR>
+nnoremap <leader>ii :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>Ib :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <leader>IB :lua require'dap'.list_breakpoints()<CR>
+nnoremap <leader>II :lua require'dap'.continue()<CR>
+nnoremap <leader>IO :lua require'dap'.step_into()<CR>
+nnoremap <leader>Io :lua require'dap'.step_over()<CR>
+nnoremap <leader>IU :lua require'dap'.step_out()<CR>
+nnoremap <leader>Ir :lua require'dap'.repl.open()<CR>
+nnoremap <leader>Iq :lua require'dap'.stop()<CR>
+nnoremap Kd :lua require'dap.ui.variables'.hover()<CR>
+nnoremap KD :lua require'dap.ui.variables'.scopes()<CR>
+nnoremap KE :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 
-au FileType java nnoremap <leader>cc :lua require('jdtls').code_action()<CR>
-au FileType java vnoremap <leader>cc <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
-au FileType java nnoremap <leader>cN <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
-" au FileType java command! -buffer JdtCompile lua require('jdtls').compile()
-" au FileType java command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
-" au FileType java command! -buffer JdtJol lua require('jdtls').jol()
-" au FileType java command! -buffer JdtBytecode lua require('jdtls').javap()
-" au FileType java command! -buffer JdtJshell lua require('jdtls').jshell()
-" au FileType java nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
-" au FileType java nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
-"
-nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
-nnoremap <leader>cb :VimuxRunCommand('./gradlew build -x integrationtest')<CR>
+au FileType java nnoremap <leader>ii :lua require('jdtls').code_action()<CR>
+au FileType java vnoremap <leader>ii <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
+au FileType java nnoremap <leader>iN <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+au FileType java nnoremap <leader>Ic <Cmd>lua require'jdtls'.test_class()<CR>
+au FileType java nnoremap <leader>Im <Cmd>lua require'jdtls'.test_nearest_method()<CR>
 
-" motion
-nnoremap [or :source ~/.config/nvim/init.vim<CR>
+au FileType python nnoremap <leader>Im <Cmd>lua require'dap-python'.test_method()<CR>
+au FileType python vnoremap <leader>Is <Esc>:lua require'dap-python'.debug_selection()<CR>
+
+" nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
+" nnoremap <leader>cb :VimuxRunCommands'./gradlew build -x integrationtest')<CR>
+
+nnoremap <Leader>` :call ToggleSignColumn()<CR>
+function! ToggleSignColumn()
+    if !exists("b:signcolumn_on") || !b:signcolumn_on
+        set signcolumn=yes
+        let b:signcolumn_on=1
+    else
+        set signcolumn=no
+        let b:signcolumn_on=0
+    endif
+endfunction
+

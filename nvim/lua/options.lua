@@ -23,7 +23,8 @@ vim.o.autowrite       = true;
 vim.o.wildmode        = 'longest,full';
 vim.o.foldlevel       = 2;
 vim.o.shortmess       = 'IOc';
-vim.o.completeopt     = 'menuone,noinsert,noselect';
+-- vim.o.completeopt     = 'menuone,noinsert,noselect';
+vim.o.completeopt     = 'menuone,noselect';
 vim.o.tabstop         = 4;
 vim.o.shiftwidth      = 4;
 vim.o.softtabstop     = 4;
@@ -40,11 +41,11 @@ vim.bo.softtabstop    = 4;
 
 vim.g.python3_host_prog = "/Users/alvaro/.pyenv/shims/python"
 vim.g.netrw_liststyle = 3
-vim.g.completion_enable_snippet = 'UltiSnips'
-vim.g.completion_confirm_key = ""
-vim.g.completion_items_priority = { ['Variable'] = 5, ['Method'] = 4, ['Class'] = 3, ['Interface'] = 3, }
+-- vim.g.completion_enable_snippet = 'UltiSnips'
+-- vim.g.completion_confirm_key = ""
+-- vim.g.completion_items_priority = { ['Variable'] = 5, ['Method'] = 4, ['Field'] = 4, ['Class'] = 3, ['Interface'] = 3, }
 vim.g.ranger_map_keys = 0
-vim.g.UltiSnipsExpandTrigger="<tab>"
+-- vim.g.UltiSnipsExpandTrigger="<tab>"
 vim.g.UltiSnipsJumpForwardTrigger="<c-j>"
 vim.g.UltiSnipsJumpBackwardTrigger="<c-k>"
 vim.g.fzf_history_dir = '~/.local/share/fzf-history'
@@ -63,7 +64,43 @@ vim.g.lightline = {
     },
     component_function = { fugitive = 'FugitiveHead', },
 }
+vim.g.UltiSnipsEditSplit="vertical"
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "medium"
+-- vim.g.nvim_tree_auto_open = 1
 vim.cmd 'colorscheme gruvbox';
+vim.o.grepprg='rg --vimgrep --no-heading --smart-case'
+vim.o.grepformat='%f:%l:%c:%m,%f:%l:%m'
+-- vim.cmd 'autocmd BufEnter * silent! lcd %:p:h'
+vim.g.bclose_no_plugin_maps=true
+vim.g.dap_virtual_text = true
 
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'always';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    -- vsnip = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    spell = true;
+    tags = true;
+    treesitter = true;
+    ultisnips = {
+        priority = 100000,
+    };
+  };
+}

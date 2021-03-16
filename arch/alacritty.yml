@@ -80,7 +80,7 @@ font:
     style: Regular
 
   # Point size of the font
-  size: 12
+  size: 13
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -305,16 +305,22 @@ key_bindings:
   - { key: T,        mods: Command|Shift, chars: "\x00C"                       }  # move pane to new tab
   - { key: Tab,      mods: Control,       chars: "\x00n"                       }  # select next tab
   - { key: Tab,      mods: Control|Shift, chars: "\x00p"                       }  # select previous tab
-  - { key: H,        mods: Command,       chars: "\x00p"                       }  # select previous tab
-  - { key: H,        mods: Command|Shift, chars: "\x00O"                       }  # move window to the left
-  - { key: L,        mods: Command,       chars: "\x00n"                       }  # select next tab
-  - { key: L,        mods: Command|Shift, chars: "\x00P"                       }  # move window to the right
-  - { key: J,        mods: Command,       chars: "\x00h"                       }  # select left pane
-  - { key: K,        mods: Command,       chars: "\x00l"                       }  # select right pane
-  - { key: J,        mods: Command|Shift, chars: "\x00j"                       }  # select down pane
-  - { key: K,        mods: Command|Shift, chars: "\x00k"                       }  # select up pane
+  - { key: LBracket, mods: Command,       chars: "\x00p"                       }  # select previous tab
+  - { key: RBracket, mods: Command,       chars: "\x00n"                       }  # select next tab
+  - { key: H,        mods: Command,       chars: "\x00h"                       }  # select left pane
+  - { key: L,        mods: Command,       chars: "\x00l"                       }  # select right pane
+  - { key: J,        mods: Command,       chars: "\x00j"                       }  # select down pane
+  - { key: K,        mods: Command,       chars: "\x00k"                       }  # select up pane
+  - { key: H,        mods: Command|Shift, chars: "\x00H"                       }  # select left pane
+  - { key: L,        mods: Command|Shift, chars: "\x00L"                       }  # select right pane
+  - { key: J,        mods: Command|Shift, chars: "\x00J"                       }  # select down pane
+  - { key: K,        mods: Command|Shift, chars: "\x00K"                       }  # select up pane
+  - { key: LBracket, mods: Command|Shift, chars: "\x00O"                       }  # move window to the left
+  - { key: RBracket, mods: Command|Shift, chars: "\x00P"                       }  # move window to the right
   - { key: Z,        mods: Command,       chars: "\x00z"                       }  # zoom pane
   - { key: F,        mods: Command,       chars: "\x00/"                       }  # search (upwards) (see tmux.conf)
+  - { key: G,        mods: Command,       chars: "\x00s"                       }  # send pane to window
+  - { key: G,        mods: Command|Shift, chars: "\x00S"                       }  # break pane
 
   - { key: Key0,     mods: Command,       chars: "\x000"                       }  # Go to window 0
   - { key: Key1,     mods: Command,       chars: "\x001"                       }  # Go to window 1
