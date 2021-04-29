@@ -4,16 +4,20 @@ cnoremap <c-k> <c-p>
 cnoremap <c-j> <c-n>
 cnoremap <c-d> <c-r>=expand('')<Left><Left>
 inoremap <c-d> <c-r>=expand('')<Left><Left>
+tnoremap <Esc> <C-\><C-n>
+tnoremap <C-\><C-n> <Esc>
+au FileType fzf tnoremap <buffer> <Esc> <Esc>
+au FileType fzf tnoremap <buffer> <C-\><C-n> <C-\><C-n>
 
 " cmap w!! w !sudo tee > /dev/null %
 nnoremap <C-F> :<C-F>?
-nnoremap <C-L> :nohl<CR>
+nnoremap <silent> <C-L> :nohl<CR>
 map Y y$
 nmap s <plug>(SubversiveSubstitute)
 xmap s <plug>(SubversiveSubstitute)
-nmap ss :s//g<Left><Left>
+nmap ss :s::g<Left><Left>
+nmap sS :S::<Left>
 nmap sg :silent grep 
-" nmap ss <plug>(SubversiveSubstituteLine)
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 nnoremap _ :Ranger<CR>
@@ -32,6 +36,8 @@ nnoremap <leader>L <C-W>L
 nnoremap <leader>H <C-W>H
 nnoremap <leader>[ gT
 nnoremap <leader>] gt
+nnoremap [t gT
+nnoremap ]t gt
 nnoremap <leader>dd :Bdelete<CR>
 nnoremap <leader>dD :Bdelete!<CR>
 nnoremap <leader>da :bufdo bwipeout<CR>
@@ -48,7 +54,8 @@ au FileType vimwiki xmap <CR> <Plug>VimwikiNormalizeLinkVisualCR
 nnoremap <leader>r<space> :!<space>
 nnoremap <leader>R<space> :r!<space>
 nnoremap <leader>rlf :luafile %<CR>
-nnoremap <leader>rs :source $DOTFILES/nvim/init.vim<CR>
+nnoremap <leader>rss :source $DOTFILES/nvim/init.vim<CR>
+nnoremap <leader>rsf :source %<CR>
 
 " f -> find (fzf)
 nnoremap <silent> <leader>ff :Files .<CR>
@@ -58,6 +65,7 @@ nnoremap <silent> <Leader>f. :Files %:h<CR>
 nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
 nnoremap <leader>f<Space> :Files<Space>
 nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
 inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
 imap <c-x><c-f> <plug>(fzf-complete-path)
 nnoremap <silent>  <leader>; :Commands<CR>
@@ -76,11 +84,13 @@ nnoremap <silent> <Leader>qc :cclose<CR>
 nnoremap <silent> <leader>ss :Rg<CR>
 nnoremap <silent> <leader>sd :Rg ~/dotfiles<CR>
 nnoremap <silent> <leader>sw :Rg ~/Dropbox/wiki/<CR>
-lnoremap <silent> <leader>se :UltiSnipsEdit<CR>
-
+nnoremap <silent> <leader>se :e $DOTFILES/nvim/lua/snips/<c-r>=eval('&ft')<CR>.lua<CR>
+nnoremap <silent> <leader>sE :Files $DOTFILES/nvim/lua/snips<CR>
 " g -> git (fugutive)
-nnoremap <leader>G :Gedit :<CR>
-nnoremap <leader>gg :Gedit :<CR>
+" nnoremap <leader>G :Gedit :<CR>
+" nnoremap <leader>gg :Gedit :<CR>
+nnoremap <leader>G :G<CR>
+nnoremap <leader>gg :G<CR>
 nnoremap <leader>ge :Gedit<Space>
 nnoremap <leader>gs :Gsplit<Space>
 nnoremap <leader>gd :Gdiffsplit!<CR>
@@ -100,17 +110,17 @@ nmap KG <Plug>(git-messenger)
 " completion
 inoremap <silent><expr> <Tab> compe#complete()
 inoremap <silent><expr> <CR>  compe#confirm('<CR>')
-inoremap <silent><expr> <C-e> compe#close('<C-e>')
-inoremap <silent><expr> <C-f> compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d> compe#scroll({ 'delta': -4 })
+" inoremap <silent><expr> <C-e> compe#close('<C-e>')
+" inoremap <silent><expr> <C-f> compe#scroll({ 'delta': +4 })
+" inoremap <silent><expr> <C-d> compe#scroll({ 'delta': -4 })
 " lsp
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> KK  :lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD :lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <leader>ir :References<CR>
-nnoremap <leader>iR :Implementations<CR>
+nnoremap <leader>ir :lua vim.lsp.buf.references()<CR>
+nnoremap <leader>iR :lua vim.lsp.buf.implementation()<CR>
 nnoremap <leader>ie :Diagnostics<CR>
 nnoremap <leader>im :WorkspaceSymbols<CR>
 nnoremap <leader>iM :DocumentSymbols<CR>
@@ -153,3 +163,6 @@ function! ToggleSignColumn()
     endif
 endfunction
 
+inoremap <Tab> <cmd>lua return require"snippets".expand_at_cursor()<CR>
+inoremap <C-l> <cmd>lua return require"snippets".expand_or_advance(1)<CR>
+inoremap <C-h> <cmd>lua return require"snippets".advance_snippet(-1)<CR>

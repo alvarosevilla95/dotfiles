@@ -1,10 +1,12 @@
 local M = {}
 
 local lspconfig = require 'lspconfig'
-lspconfig.gopls.setup{}
-lspconfig.tsserver.setup{}
-lspconfig.vimls.setup{}
-lspconfig.pyright.setup{}
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true;
+lspconfig.gopls.setup{capabilities=capabilities}
+lspconfig.tsserver.setup{capabilities=capabilities}
+lspconfig.vimls.setup{capabilities=capabilities}
+lspconfig.pyright.setup{capabilities=capabilities}
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 
 vim.cmd "autocmd FileType java,groovy lua require'lsp'.java_setup()"
@@ -264,26 +266,63 @@ dap.adapters.go = function(callback, config)
 -- local custom_nvim_lspconfig_attach = function(...) end
 
 -- To get builtin LSP running, do something like:
--- NOTE: This replaces the calls where you would have before done `require('nvim_lsp').sumneko_lua.setup()`
-require('nlua.lsp.nvim').setup(require('lspconfig'), {
-  -- on_attach = custom_nvim_lspconfig_attach,
+-- -- NOTE: This replaces the calls where you would have before done `require('nvim_lsp').sumneko_lua.setup()`
+-- require('nlua.lsp.nvim').setup(require('lspconfig'), {
+--   -- on_attach = custom_nvim_lspconfig_attach,
   
-  root_dir = function(fname)
-    if string.find(vim.fn.fnamemodify(fname, ":p"), "dotfiles/nvim/") then
-      return vim.fn.expand("~/dotfiles/nvim")
-    end
+--   root_dir = function(fname)
+--     if string.find(vim.fn.fnamemodify(fname, ":p"), "dotfiles/nvim/") then
+--       return vim.fn.expand("~/dotfiles/nvim")
+--     end
 
-    -- ~/git/config_manager/xdg_config/nvim/...
-    return lspconfig_util.find_git_ancestor(fname)
-      or lspconfig_util.path.dirname(fname)
-  end,
+--     -- ~/git/config_manager/xdg_config/nvim/...
+--     return lspconfig_util.find_git_ancestor(fname)
+--       or lspconfig_util.path.dirname(fname)
+--   end,
 
-  -- -- Include globals you want to tell the LSP are real :)
-  -- globals = {
-  --   -- Colorbuddy
-  --   "Color", "c", "Group", "g", "s",
-  -- }
-})
+--   -- -- Include globals you want to tell the LSP are real :)
+--   -- globals = {
+--   --   -- Colorbuddy
+--   --   "Color", "c", "Group", "g", "s",
+--   -- }
+-- })
+local sumneko_root_path = '/Users/alvaro/.cache/nvim/nlua/sumneko_lua/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
+
+require'lspconfig'.sumneko_lua.setup {
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = vim.split(package.path, ';'),
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+          [vim.fn.expand('/Users/alvaro/.local/nvim/site/pack/packer/start')] = true,
+        },
+      },
+    },
+  },
+}
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  {
+    underline = false
+  }
+)
 
 return M
+
 

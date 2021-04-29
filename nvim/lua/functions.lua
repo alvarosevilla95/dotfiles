@@ -42,10 +42,22 @@ end
 function Prs()
     coroutine.wrap(function()
         local res = fzf("gh pr list", preview_opts .. action(pr_preview))[1]
-        vim.cmd("cd " .. res)
     end)()
 end
 
+local k8s_pods_preview = function(items, fzf_lines, fzf_cols)
+    return vim.fn.systemlist ('gh pr view ' .. string.match(items[1], '^[0-9]+'))
+end
+
+function K8sPods()
+    coroutine.wrap(function()
+        local res = fzf("kubectl get pods", preview_opts .. action(pr_preview))[1]
+        print(res)
+        vim.cmd('echo ' .. res)
+        vim.cmd("sp")
+        vim.cmd("term kubectl logs " .. res)
+    end)()
+end
 
 local char_to_hex = function(c)
     return string.format("%%%02X", string.byte(c))

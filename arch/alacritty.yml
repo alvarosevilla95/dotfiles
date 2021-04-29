@@ -40,7 +40,7 @@ window:
   # - none: neither borders nor title bar
   # - transparent: title bar, transparent background and title bar buttons
   # - buttonless: title bar, transparent background, but no title bar buttons
-  decorations: buttonless
+  decorations: full
 
   # Startup Mode (changes require restart)
   #
@@ -65,22 +65,22 @@ scrolling:
 # Font configuration (changes require restart)
 font:
   normal:
-    family: "Fira Code Nerd Font"
-    # style: Retina
-    style: Regular
+    family: "FiraCode NF"
+    style: Retina
+    # style: Regular
 
   bold:
-    family: "Fira Code"
-    # style: Retina
-    style: Regular
+    family: "FiraCode NF"
+    style: Retina
+    # style: Regular
 
   italic:
-    family: "Fira Code"
-    # style: Retina
-    style: Regular
+    family: "FiraCode NF"
+    style: Retina
+    # style: Regular
 
   # Point size of the font
-  size: 13
+  size: 12
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -244,94 +244,123 @@ key_bindings:
   - { key: N,        mods: Command,       action: SpawnNewInstance             }
   - { key: Return,   mods: Command,       action: ToggleFullscreen             }
 
-  - { key: Home,                          chars: "\x1bOH",   mode: AppCursor   }
-  - { key: Home,                          chars: "\x1b[H",   mode: ~AppCursor  }
-  - { key: End,                           chars: "\x1bOF",   mode: AppCursor   }
-  - { key: End,                           chars: "\x1b[F",   mode: ~AppCursor  }
-  - { key: Equals,   mods: Command,       action: IncreaseFontSize             }
-  - { key: Minus,    mods: Command,       action: DecreaseFontSize             }
-  - { key: Minus,    mods: Command|Shift, action: ResetFontSize                }
-  - { key: PageUp,   mods: Shift,         chars: "\x1b[5;2~"                   }
-  - { key: PageUp,   mods: Control,       chars: "\x1b[5;5~"                   }
-  - { key: PageUp,                        chars: "\x1b[5~"                     }
-  - { key: PageDown, mods: Shift,         chars: "\x1b[6;2~"                   }
-  - { key: PageDown, mods: Control,       chars: "\x1b[6;5~"                   }
-  - { key: PageDown,                      chars: "\x1b[6~"                     }
-  - { key: Left,     mods: Shift,         chars: "\x1b[1;2D"                   }
-  - { key: Left,     mods: Control,       chars: "\x1b[1;5D"                   }
-  - { key: Left,     mods: Alt,           chars: "\x1b[1;3D"                   }
-  - { key: Left,                          chars: "\x1b[D",   mode: ~AppCursor  }
-  - { key: Left,                          chars: "\x1bOD",   mode: AppCursor   }
-  - { key: Right,    mods: Shift,         chars: "\x1b[1;2C"                   }
-  - { key: Right,    mods: Control,       chars: "\x1b[1;5C"                   }
-  - { key: Right,    mods: Alt,           chars: "\x1b[1;3C"                   }
-  - { key: Right,                         chars: "\x1b[C",   mode: ~AppCursor  }
-  - { key: Right,                         chars: "\x1bOC",   mode: AppCursor   }
-  - { key: Up,       mods: Shift,         chars: "\x1b[1;2A"                   }
-  - { key: Up,       mods: Control,       chars: "\x1b[1;5A"                   }
-  - { key: Up,       mods: Alt,           chars: "\x1b[1;3A"                   }
-  - { key: Up,                            chars: "\x1b[A",   mode: ~AppCursor  }
-  - { key: Up,                            chars: "\x1bOA",   mode: AppCursor   }
-  - { key: Down,     mods: Shift,         chars: "\x1b[1;2B"                   }
-  - { key: Down,     mods: Control,       chars: "\x1b[1;5B"                   }
-  - { key: Down,     mods: Alt,           chars: "\x1b[1;3B"                   }
-  - { key: Down,                          chars: "\x1b[B",   mode: ~AppCursor  }
-  - { key: Down,                          chars: "\x1bOB",   mode: AppCursor   }
-  - { key: Tab,      mods: Shift,         chars: "\x1b[Z"                      }
-  - { key: F1,                            chars: "\x1bOP"                      }
-  - { key: F2,                            chars: "\x1bOQ"                      }
-  - { key: F3,                            chars: "\x1bOR"                      }
-  - { key: F4,                            chars: "\x1bOS"                      }
-  - { key: F5,                            chars: "\x1b[15~"                    }
-  - { key: F6,                            chars: "\x1b[17~"                    }
-  - { key: F7,                            chars: "\x1b[18~"                    }
-  - { key: F8,                            chars: "\x1b[19~"                    }
-  - { key: F9,                            chars: "\x1b[20~"                    }
-  - { key: F10,                           chars: "\x1b[21~"                    }
-  - { key: F11,                           chars: "\x1b[23~"                    }
-  - { key: F12,                           chars: "\x1b[24~"                    }
-  - { key: Back,                          chars: "\x7f"                        }
-  - { key: Back,     mods: Alt,           chars: "\x1b\x7f"                    }
-  - { key: Insert,                        chars: "\x1b[2~"                     }
-  - { key: Delete,                        chars: "\x1b[3~"                     }
 
-    # shortcuts for tmux. the leader key is control-b (0x02)
-  - { key: W,        mods: Command,       chars: "\x00x"                       }  # close tab (kill)
-  - { key: S,        mods: Command,       chars: "\x00w"                       }  # fzf sessions
-  - { key: E,        mods: Command,       chars: "\x00\""                      }  # split
-  - { key: D,        mods: Command,       chars: "\x00%"                       }  # vsplit
-  - { key: B,        mods: Command,       chars: "\x00b"                       }  # split 20%
-  - { key: T,        mods: Command,       chars: "\x00c"                       }  # new tab
-  - { key: T,        mods: Command|Shift, chars: "\x00C"                       }  # move pane to new tab
-  - { key: Tab,      mods: Control,       chars: "\x00n"                       }  # select next tab
-  - { key: Tab,      mods: Control|Shift, chars: "\x00p"                       }  # select previous tab
-  - { key: LBracket, mods: Command,       chars: "\x00p"                       }  # select previous tab
-  - { key: RBracket, mods: Command,       chars: "\x00n"                       }  # select next tab
-  - { key: H,        mods: Command,       chars: "\x00h"                       }  # select left pane
-  - { key: L,        mods: Command,       chars: "\x00l"                       }  # select right pane
-  - { key: J,        mods: Command,       chars: "\x00j"                       }  # select down pane
-  - { key: K,        mods: Command,       chars: "\x00k"                       }  # select up pane
-  - { key: H,        mods: Command|Shift, chars: "\x00H"                       }  # select left pane
-  - { key: L,        mods: Command|Shift, chars: "\x00L"                       }  # select right pane
-  - { key: J,        mods: Command|Shift, chars: "\x00J"                       }  # select down pane
-  - { key: K,        mods: Command|Shift, chars: "\x00K"                       }  # select up pane
-  - { key: LBracket, mods: Command|Shift, chars: "\x00O"                       }  # move window to the left
-  - { key: RBracket, mods: Command|Shift, chars: "\x00P"                       }  # move window to the right
-  - { key: Z,        mods: Command,       chars: "\x00z"                       }  # zoom pane
-  - { key: F,        mods: Command,       chars: "\x00/"                       }  # search (upwards) (see tmux.conf)
-  - { key: G,        mods: Command,       chars: "\x00s"                       }  # send pane to window
-  - { key: G,        mods: Command|Shift, chars: "\x00S"                       }  # break pane
+  - { key: Home,                          chars: "\x1bOH",   mode: AppCursor  }
+  - { key: Home,                          chars: "\x1b[H",   mode: ~AppCursor }
+  - { key: End,                           chars: "\x1bOF",   mode: AppCursor  }
+  - { key: End,                           chars: "\x1b[F",   mode: ~AppCursor }
+  - { key: Equals,   mods: Command,       action: IncreaseFontSize            }
+  - { key: Minus,    mods: Command,       action: DecreaseFontSize            }
+  - { key: Minus,    mods: Command|Shift, action: ResetFontSize               }
+  - { key: PageUp,   mods: Shift,         chars: "\x1b[5;2~"                  }
+  - { key: PageUp,   mods: Control,       chars: "\x1b[5;5~"                  }
+  - { key: PageUp,                        chars: "\x1b[5~"                    }
+  - { key: PageDown, mods: Shift,         chars: "\x1b[6;2~"                  }
+  - { key: PageDown, mods: Control,       chars: "\x1b[6;5~"                  }
+  - { key: PageDown,                      chars: "\x1b[6~"                    }
+  - { key: Left,     mods: Shift,         chars: "\x1b[1;2D"                  }
+  - { key: Left,     mods: Control,       chars: "\x1b[1;5D"                  }
+  - { key: Left,     mods: Alt,           chars: "\x1b[1;3D"                  }
+  - { key: Left,                          chars: "\x1b[D",   mode: ~AppCursor }
+  - { key: Left,                          chars: "\x1bOD",   mode: AppCursor  }
+  - { key: Right,    mods: Shift,         chars: "\x1b[1;2C"                  }
+  - { key: Right,    mods: Control,       chars: "\x1b[1;5C"                  }
+  - { key: Right,    mods: Alt,           chars: "\x1b[1;3C"                  }
+  - { key: Right,                         chars: "\x1b[C",   mode: ~AppCursor }
+  - { key: Right,                         chars: "\x1bOC",   mode: AppCursor  }
+  - { key: Up,       mods: Shift,         chars: "\x1b[1;2A"                  }
+  - { key: Up,       mods: Control,       chars: "\x1b[1;5A"                  }
+  - { key: Up,       mods: Alt,           chars: "\x1b[1;3A"                  }
+  - { key: Up,                            chars: "\x1b[A",   mode: ~AppCursor }
+  - { key: Up,                            chars: "\x1bOA",   mode: AppCursor  }
+  - { key: Down,     mods: Shift,         chars: "\x1b[1;2B"                  }
+  - { key: Down,     mods: Control,       chars: "\x1b[1;5B"                  }
+  - { key: Down,     mods: Alt,           chars: "\x1b[1;3B"                  }
+  - { key: Down,                          chars: "\x1b[B",   mode: ~AppCursor }
+  - { key: Down,                          chars: "\x1bOB",   mode: AppCursor  }
+  - { key: Tab,      mods: Shift,         chars: "\x1b[Z"                     }
+  - { key: F1,                            chars: "\x1bOP"                     }
+  - { key: F2,                            chars: "\x1bOQ"                     }
+  - { key: F3,                            chars: "\x1bOR"                     }
+  - { key: F4,                            chars: "\x1bOS"                     }
+  - { key: F5,                            chars: "\x1b[15~"                   }
+  - { key: F6,                            chars: "\x1b[17~"                   }
+  - { key: F7,                            chars: "\x1b[18~"                   }
+  - { key: F8,                            chars: "\x1b[19~"                   }
+  - { key: F9,                            chars: "\x1b[20~"                   }
+  - { key: F10,                           chars: "\x1b[21~"                   }
+  - { key: F11,                           chars: "\x1b[23~"                   }
+  - { key: F12,                           chars: "\x1b[24~"                   }
+  - { key: Back,                          chars: "\x7f"                       }
+  - { key: Back,     mods: Alt,           chars: "\x1b\x7f"                   }
+  - { key: Insert,                        chars: "\x1b[2~"                    }
+  - { key: Delete,                        chars: "\x1b[3~"                    }
 
-  - { key: Key0,     mods: Command,       chars: "\x000"                       }  # Go to window 0
-  - { key: Key1,     mods: Command,       chars: "\x001"                       }  # Go to window 1
-  - { key: Key2,     mods: Command,       chars: "\x002"                       }  # Go to window 2
-  - { key: Key3,     mods: Command,       chars: "\x003"                       }  # Go to window 3
-  - { key: Key4,     mods: Command,       chars: "\x004"                       }  # Go to window 4
-  - { key: Key5,     mods: Command,       chars: "\x005"                       }  # Go to window 5
-  - { key: Key6,     mods: Command,       chars: "\x006"                       }  # Go to window 6
-  - { key: Key7,     mods: Command,       chars: "\x007"                       }  # Go to window 7
-  - { key: Key8,     mods: Command,       chars: "\x008"                       }  # Go to window 8
-  - { key: Key9,     mods: Command,       chars: "\x009"                       }  # Go to window 9
+    # shortcuts for vim (only work in normal mode)
+  - { key: Escape,   mods: Command,       chars: "\x1c\x0e"                   } # Exit to normal in nvim terms
+  - { key: W,        mods: Command,       chars: ":close\x0D"                 }
+  - { key: W,        mods: Command|Shift, chars: ":bd\x0D"                    }
+  - { key: T,        mods: Command,       chars: ":tabe\x0D"                  }
+  - { key: E,        mods: Command,       chars: ":sp\x0D"                    }
+  - { key: D,        mods: Command,       chars: ":vsp\x0D"                   }
+  - { key: O,        mods: Command,       chars: ":Files\x0D"                 }
+  - { key: O,        mods: Command|Shift, chars: ":Files %:h\x0D"             }
+  - { key: P,        mods: Command,       chars: ":Cdz\x0D"                   }
+  - { key: P,        mods: Command|Shift, chars: ":Cd .\x0D"                  }
+  - { key: B,        mods: Command,       chars: ":botright 30sp\x0D"         }
+  - { key: H,        mods: Command|Shift, chars: ":vert res -10\x0D"          }
+  - { key: L,        mods: Command|Shift, chars: ":vert res +10\x0D"          }
+  - { key: J,        mods: Command|Shift, chars: ":res +10\x0D"               }
+  - { key: K,        mods: Command|Shift, chars: ":res -10\x0D"               }
+  - { key: LBracket, mods: Command,       chars: "gT"                         }
+  - { key: RBracket, mods: Command,       chars: "gt"                         }
+  - { key: LBracket, mods: Command|Shift, chars: ":tabm -1\x0d"               }
+  - { key: RBracket, mods: Command|Shift, chars: ":tabm +1\x0d"               }
+  - { key: J,        mods: Command,       chars: " j"                         }
+  - { key: H,        mods: Command,       chars: " h"                         }
+  - { key: K,        mods: Command,       chars: " k"                         }
+  - { key: L,        mods: Command,       chars: " l"                         }
+  - { key: F,        mods: Command,       chars: ""                           }
+
+  # - { key: Equals,        mods: Command,       chars: ":vert res +10\x0D"                      }
+  # - { key: Minus,        mods: Command,       chars: ":vert res -10\x0D"                      }
+  # - { key: Equals,        mods: Command,       chars: ":res +10\x0D"                      }
+  # - { key: Minus,        mods: Command,       chars: ":res -10\x0D"                      }
+  # - { key: S,        mods: Command,       chars: "\x00w"                       }
+  # - { key: E,        mods: Command,       chars: "\x00\""                      }
+  # - { key: D,        mods: Command,       chars: "\x00%"                       }
+  # - { key: B,        mods: Command,       chars: "\x00b"                       }
+  # - { key: T,        mods: Command,       chars: "\x00c"                       }
+  # - { key: T,        mods: Command|Shift, chars: "\x00C"                       }
+  # - { key: Tab,      mods: Control,       chars: "\x00n"                       }
+  # - { key: Tab,      mods: Control|Shift, chars: "\x00p"                       }
+  # - { key: LBracket, mods: Command,       chars: "\x00p"                       }
+  # - { key: RBracket, mods: Command,       chars: "\x00n"                       }
+  # - { key: H,        mods: Command,       chars: "\x00h"                       }
+  # - { key: L,        mods: Command,       chars: "\x00l"                       }
+  # - { key: J,        mods: Command,       chars: "\x00j"                       }
+  # - { key: K,        mods: Command,       chars: "\x00k"                       }
+  # - { key: H,        mods: Command|Shift, chars: "\x00H"                       }
+  # - { key: L,        mods: Command|Shift, chars: "\x00L"                       }
+  # - { key: J,        mods: Command|Shift, chars: "\x00J"                       }
+  # - { key: K,        mods: Command|Shift, chars: "\x00K"                       }
+  # - { key: LBracket, mods: Command|Shift, chars: "\x00O"                       }
+  # - { key: RBracket, mods: Command|Shift, chars: "\x00P"                       }
+  # - { key: Z,        mods: Command,       chars: "\x00z"                       }
+  # - { key: F,        mods: Command,       chars: "\x00/"                       }
+  # - { key: G,        mods: Command,       chars: "\x00s"                       }
+  # - { key: G,        mods: Command|Shift, chars: "\x00S"                       }
+
+  # - { key: Key0,     mods: Command,       chars: "\x000"                       }
+  # - { key: Key1,     mods: Command,       chars: "\x001"                       }
+  # - { key: Key2,     mods: Command,       chars: "\x002"                       }
+  # - { key: Key3,     mods: Command,       chars: "\x003"                       }
+  # - { key: Key4,     mods: Command,       chars: "\x004"                       }
+  # - { key: Key5,     mods: Command,       chars: "\x005"                       }
+  # - { key: Key6,     mods: Command,       chars: "\x006"                       }
+  # - { key: Key7,     mods: Command,       chars: "\x007"                       }
+  # - { key: Key8,     mods: Command,       chars: "\x008"                       }
+  # - { key: Key9,     mods: Command,       chars: "\x009"                       }
 
     # Alt key mappings to disable default mac os special character insert
   - { key: A,         mods: Alt,          chars: "\x1ba"                       }
@@ -491,8 +520,8 @@ shell:
     program: /usr/local/bin/zsh
     args:
         - --login 
-        - -c 
-        - "tmux a -t main || tmux new -s main"
+        # - -c 
+        # - "tmux a -t main || tmux new -s main"
 
 debug:
   # Should display the render timer

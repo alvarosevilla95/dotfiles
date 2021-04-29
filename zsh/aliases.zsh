@@ -6,6 +6,7 @@ alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias vimw='vim -c "VimwikiIndex"'
+alias vims='vim -S'
 alias vw='vim -c "VimwikiIndex"'
 alias ls="exa"
 alias ll="exa -lF"
@@ -87,7 +88,7 @@ function toggle_colors() {
         gsed -i 's:BC=dark:BC=light:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:BAT_THEME=gruvbox:BAT_THEME=gruvbox-light:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:gruvbox:gruvbox-light:' ~/.gitconfig
-        tmux source-file ~/.tmux.conf
+        # tmux source-file ~/.tmux.conf
     fi
     if [[ "$BC" = "light" ]]; then
         cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-dark.yml > ~/.alacritty.yml
@@ -96,7 +97,7 @@ function toggle_colors() {
         gsed -i 's:BAT_THEME=gruvbox-light:BAT_THEME=gruvbox:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:gruvbox-light:gruvbox:' ~/.gitconfig
         gsed -i 's:BAT_THEME=gruvbox-light$:BAT_THEME=gruvbox:' ~/dotfiles/zsh/colors.zsh
-        tmux source-file ~/.tmux.conf
+        # tmux source-file ~/.tmux.conf
     fi
     source ~/dotfiles/zsh/colors.zsh
     source ~/dotfiles/zsh/fzf.zsh

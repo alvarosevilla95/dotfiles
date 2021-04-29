@@ -1,6 +1,6 @@
 # export FZF_TMUX=1
 export FZF_TMUX_HEIGHT="40%"
-export FZF_DEFAULT_COMMAND='fd --color=never'
+export FZF_DEFAULT_COMMAND='fd --type f --color=never'
 export FZF_DEFAULT_OPTS="
   --height 40% --bind ctrl-o:toggle-all  --reverse
   --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
@@ -10,8 +10,8 @@ export FZF_DEFAULT_OPTS="
 export FZF_ALT_C_COMMAND='fd --type d . --color=never'
 export FZF_ALT_C_OPTS='--preview="exa {} -l --color=always"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS='--preview="bat {} --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
-export FZF_COMPLETION_OPTS='--preview="bat {} --style=\"numbers\" --color=always 2>/dev/null || exa {} -l --color=always"'
+export FZF_CTRL_T_OPTS='--preview="bat {} --style=\"full\" --color=always 2>/dev/null || exa {} -l --color=always" --preview-window '~3''
+export FZF_COMPLETION_OPTS='--preview="bat {} --style=\"full\" --color=always 2>/dev/null || exa {} -l --color=always" --preview-window '~3''
 export PATH="$PATH:/home/alvaro/.fzf/bin"
 export FZF_PREVIEW_PREVIEW_BAT_THEME=$BAT_THEME
 

@@ -59,11 +59,12 @@ vim.g.lightline = {
     tabline = { left = {{'tabs'}}, right = {{''}}, },
     colorscheme = 'gruvbox',
     active = {
-        left =  {{'mode', 'paste'}, {'fugitive'}, {'filename'}},
+        left =  {{'mode', 'paste'}, {'fugitive'}, {'absolutepath'}},
         right = {{'lineinfo'}, {'percent'}, {'filetype'}},
     },
     component_function = { fugitive = 'FugitiveHead', },
 }
+
 vim.g.UltiSnipsEditSplit="vertical"
 vim.g.gruvbox_contrast_dark = "hard"
 vim.g.gruvbox_contrast_light = "medium"
@@ -74,6 +75,14 @@ vim.o.grepformat='%f:%l:%c:%m,%f:%l:%m'
 -- vim.cmd 'autocmd BufEnter * silent! lcd %:p:h'
 vim.g.bclose_no_plugin_maps=true
 vim.g.dap_virtual_text = true
+vim.g.netrw_fastbrowse = 0
+
+local snippets = require'snippets'
+snippets.snippets = {
+    _global = require'snips.global',
+    lua = require'snips.lua',
+}
+
 
 require'compe'.setup {
   enabled = true;
@@ -93,14 +102,58 @@ require'compe'.setup {
     path = true;
     buffer = true;
     calc = true;
-    -- vsnip = true;
+    snippets_nvim = true;
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
     tags = true;
     treesitter = true;
-    ultisnips = {
-        priority = 100000,
-    };
+    -- ultisnips = {
+    --     priority = 100000,
+    -- };
   };
+}
+
+
+local actions = require('telescope.actions')
+require('telescope').setup {
+    defaults = {
+        mappings = {
+            i = {
+                -- To disable a keymap, put [map] = false
+                -- So, to not map "<C-n>", just put
+                ["<c-x>"] = false,
+
+                -- Otherwise, just set the mapping to the function that you want it to be.
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+
+                -- Add up multiple actions
+                ["<CR>"] = actions.select_default + actions.center,
+
+            },
+            n = {
+                ["<esc>"] = actions.close,
+            },
+        },
+    },
+    extensions = {
+        fzf_writer = {
+            -- minimum_grep_characters = 2,
+            -- minimum_files_characters = 2,
+
+            -- Disabled by default.
+            -- Will probably slow down some aspects of the sorter, but can make color highlights.
+            -- I will work on this more later.
+            use_highlighter = true,
+        }
+    }
+}
+
+vim.cmd[[ autocmd ColorScheme * lua require'nvim-web-devicons'.setup() ]]
+
+require('lualine').setup{
+    options = {
+        theme = 'gruvbox'
+    }
 }
