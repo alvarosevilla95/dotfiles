@@ -1,5 +1,4 @@
 export ZSH=/Users/alvaro/.oh-my-zsh
-ZSH_THEME="cbira"
 plugins=(
   git
   colored-man-pages
@@ -13,7 +12,7 @@ plugins=(
   docker-compose
 )
 source $ZSH/oh-my-zsh.sh
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 setopt appendhistory autocd extendedglob nomatch
 zstyle :compinstall filename '/home/alvaro/.zshrc'
 autoload -Uz compinit
@@ -45,6 +44,7 @@ export PATH=$PATH:$GOPATH/bin
 export SDKMAN_DIR="/Users/alvaro/.sdkman"
 source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
 eval "$(pyenv init - --no-rehash)"
+# [ -f "/Users/alvaro/.ghcup/env" ] && source "/Users/alvaro/.ghcup/env" # ghcup-env
 # eval "$(swiftenv init -)"
 
 # eval "$(op completion zsh)"; compdef _op op
@@ -55,7 +55,6 @@ source ~/dotfiles/zsh/fzf.zsh
 source ~/dotfiles/zsh/aliases.zsh
 source ~/dotfiles/zsh/work.zsh
 
-[ -f "/Users/alvaro/.ghcup/env" ] && source "/Users/alvaro/.ghcup/env" # ghcup-env
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
