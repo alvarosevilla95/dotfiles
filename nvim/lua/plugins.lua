@@ -18,10 +18,10 @@ require('packer').startup(function(use)
     use 'benmills/vimux'
     use 'christoomey/vim-run-interactive'
     -- Editing
-    use 'norcalli/snippets.nvim'
+    use "rafamadriz/friendly-snippets"
+    use 'hrsh7th/vim-vsnip'
     use 'tpope/vim-surround'
     use 'tpope/vim-commentary'
-    use 'tpope/vim-speeddating'
     use 'svermeulen/vim-yoink'
     use 'tpope/vim-unimpaired'
     use 'tpope/vim-repeat'
@@ -51,6 +51,10 @@ require('packer').startup(function(use)
     use 'nvim-telescope/telescope.nvim'
     use 'nvim-telescope/telescope-fzf-writer.nvim'
     use { 'nvim-telescope/telescope-cheat.nvim', requires='tami5/sql.nvim' }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+    use 'nvim-telescope/telescope-github.nvim'
+    use 'nvim-telescope/telescope-dap.nvim'
+    use 'nvim-telescope/telescope-media-files.nvim'
     use 'vijaymarupudi/nvim-fzf'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 	use { 'nvim-treesitter/nvim-treesitter-textobjects' }
@@ -67,10 +71,13 @@ require('packer').startup(function(use)
     use 'mfussenegger/nvim-dap'
     use 'theHamsta/nvim-dap-virtual-text'
     use 'mfussenegger/nvim-dap-python'
-
+    use 'ray-x/lsp_signature.nvim'
     use 'norcalli/nvim-colorizer.lua'
     use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
     use 'tjdevries/vlog.nvim'
+    use { "rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins" }
+    use 'onsails/lspkind-nvim'
+    use { 'michaelb/sniprun', run = 'bash ./install.sh'}
 end)
 
 vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile'

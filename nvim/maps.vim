@@ -21,6 +21,10 @@ nmap sg :silent grep
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 nnoremap _ :Ranger<CR>
+nnoremap <Up> <Up><Up><Up><Up><Up>
+nnoremap <Down> <Down><Down><Down><Down><Down>
+nnoremap <Left> <Left><Left><Left><Left><Left>
+nnoremap <Right> <Right><Right><Right><Right><Right>
 " nnoremap gl <Plug>VimwikiFollowLink<CR>
 
 let mapleader = "\<Space>"
@@ -45,8 +49,7 @@ nnoremap <leader>dn :enew<CR>
 nnoremap <leader>z :tabe %<CR>
 vnoremap <leader>= :'<,'> Tabularize /
 
-nnoremap <leader>ww :topleft sp ~/Dropbox/wiki/index.md<CR>
-nnoremap <leader>wW :VimwikiIndex<CR>
+nnoremap <leader>ww :VimwikiIndex<CR>
 au FileType vimwiki nmap <expr> <CR> pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" : "\<Plug>VimwikiFollowLink"
 au FileType vimwiki xmap <CR> <Plug>VimwikiNormalizeLinkVisualCR
 
@@ -58,20 +61,32 @@ nnoremap <leader>rss :source $DOTFILES/nvim/init.vim<CR>
 nnoremap <leader>rsf :source %<CR>
 
 " f -> find (fzf)
-nnoremap <silent> <leader>ff :Files .<CR>
-nnoremap <silent> <leader>fd :Files ~/dotfiles/<CR>
+" nnoremap <silent> <leader>ff :Files .<CR>
+" nnoremap <silent> <leader>fd :Files ~/dotfiles/<CR>
+nnoremap <silent> <leader>ff :Telescope find_files<CR>
+nnoremap <silent> <leader>fd :lua require'telescope.builtin'.find_files({ search_dirs={'~/dotfiles'} })<CR>
+
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files %:h<CR>
-nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
+nnoremap <silent> <Leader>f. :lua require'telescope.builtin'.find_files({ search_dirs={"%:h"} })<CR>
+" nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
+nnoremap <silent> <leader>fw :lua require'telescope.builtin'.find_files({ search_dirs={'~/Dropbox/wiki'} })<CR>
 nnoremap <leader>f<Space> :Files<Space>
-nnoremap <silent> <Leader>fb :Buffers<CR>
+" nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <silent> <Leader>fb :lua require'telescope.builtin'.buffers({sort_lastused = true; ignore_current_buffer = true, show_all_buffers = true})<CR>
 nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
 inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
 imap <c-x><c-f> <plug>(fzf-complete-path)
-nnoremap <silent>  <leader>; :Commands<CR>
+" nnoremap <silent>  <leader>; :Commands<CR>
+nnoremap <silent>  <leader>; :Telescope commands<CR>
+nnoremap <leader>fs :lua SshPicker()<CR>
+nnoremap <leader>fS :lua SshPicker()<CR>
+nnoremap <leader>fp :lua PsqlPicker()<CR>
+nnoremap <leader>fk :lua K8sPods()<CR>
 
 nnoremap <leader>cg :Gcd<CR>
 nnoremap <leader>cl :lcd %:h<CR>
+" nnoremap <leader>ct ipsdspbcopy<CR><C-\><C-n>:cd <C-r>+<CR>
 nnoremap <leader>cf :Cdz<CR>
 nnoremap <leader>ch :cd ~<CR>
 nnoremap <leader>c. :Cd .<CR>
@@ -121,24 +136,30 @@ nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>ir :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>iR :lua vim.lsp.buf.implementation()<CR>
-nnoremap <leader>ie :Diagnostics<CR>
+" nnoremap <leader>ie :Diagnostics<CR>
+nnoremap  <Leader>ie :Telescope lsp_document_diagnostics<CR>
 nnoremap <leader>im :WorkspaceSymbols<CR>
 nnoremap <leader>iM :DocumentSymbols<CR>
 nnoremap <leader>in :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>if :lua vim.lsp.buf.formatting()<CR>
 vnoremap <leader>if :lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <leader>ii :lua vim.lsp.buf.code_action()<CR>
-nnoremap <leader>Ib :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <leader>IB :lua require'dap'.list_breakpoints()<CR>
-nnoremap <leader>II :lua require'dap'.continue()<CR>
-nnoremap <leader>IO :lua require'dap'.step_into()<CR>
-nnoremap <leader>Io :lua require'dap'.step_over()<CR>
-nnoremap <leader>IU :lua require'dap'.step_out()<CR>
-nnoremap <leader>Ir :lua require'dap'.repl.open()<CR>
-nnoremap <leader>Iq :lua require'dap'.stop()<CR>
+nnoremap <leader>ub :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <leader>uB :lua require'dap'.list_breakpoints()<CR>
+nnoremap <leader>uu :lua require'dap'.continue()<CR>
+nnoremap <leader>ui :lua require'dap'.step_into()<CR>
+nnoremap <leader>uo :lua require'dap'.step_over()<CR>
+nnoremap <leader>uO :lua require'dap'.step_out()<CR>
+nnoremap <leader>ur :lua require'dap'.repl.open()<CR>
+nnoremap <leader>uq :lua require'dap'.stop()<CR>
+nnoremap <leader>uf :Telescope dap frames<CR>
+nnoremap <leader>uv :Telescope dap variables<CR>
 nnoremap Kd :lua require'dap.ui.variables'.hover()<CR>
 nnoremap KD :lua require'dap.ui.variables'.scopes()<CR>
 nnoremap KE :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+
+nnoremap <leader>mk :sp \| top term make<CR>
+nnoremap <leader>mK :sp \| top term make test<CR>
 
 au FileType java nnoremap <leader>ii :lua require('jdtls').code_action()<CR>
 au FileType java vnoremap <leader>ii <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
@@ -163,6 +184,11 @@ function! ToggleSignColumn()
     endif
 endfunction
 
-inoremap <Tab> <cmd>lua return require"snippets".expand_at_cursor()<CR>
-inoremap <C-l> <cmd>lua return require"snippets".expand_or_advance(1)<CR>
-inoremap <C-h> <cmd>lua return require"snippets".advance_snippet(-1)<CR>
+" inoremap <Tab> <cmd>lua return require"snippets".expand_at_cursor()<CR>
+" inoremap <C-l> <cmd>lua return require"snippets".expand_or_advance(1)<CR>
+" inoremap <C-h> <cmd>lua return require"snippets".advance_snippet(-1)<CR>
+"
+imap <expr> <Tab>   vsnip#available(1)   ? '<Plug>(vsnip-expand-or-jump)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#available(1)   ? '<Plug>(vsnip-expand-or-jump)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'

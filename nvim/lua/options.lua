@@ -55,15 +55,6 @@ vim.g.vimwiki_global_ext = 0
 vim.g.vimwiki_ext2syntax = {['.md'] = 'markdown',['.markdown'] = 'markdown', ['.mdown'] = 'markdown'}
 vim.g.vimwiki_key_mappings = { all_maps = 0, }
 vim.g.git_messenger_no_default_mappings = true
-vim.g.lightline = {
-    tabline = { left = {{'tabs'}}, right = {{''}}, },
-    colorscheme = 'gruvbox',
-    active = {
-        left =  {{'mode', 'paste'}, {'fugitive'}, {'absolutepath'}},
-        right = {{'lineinfo'}, {'percent'}, {'filetype'}},
-    },
-    component_function = { fugitive = 'FugitiveHead', },
-}
 
 vim.g.UltiSnipsEditSplit="vertical"
 vim.g.gruvbox_contrast_dark = "hard"
@@ -77,11 +68,11 @@ vim.g.bclose_no_plugin_maps=true
 vim.g.dap_virtual_text = true
 vim.g.netrw_fastbrowse = 0
 
-local snippets = require'snippets'
-snippets.snippets = {
-    _global = require'snips.global',
-    lua = require'snips.lua',
-}
+-- local snippets = require'snippets'
+-- snippets.snippets = {
+--     _global = require'snips.global',
+--     lua = require'snips.lua',
+-- }
 
 
 require'compe'.setup {
@@ -102,7 +93,7 @@ require'compe'.setup {
     path = true;
     buffer = true;
     calc = true;
-    snippets_nvim = true;
+    vsnip = true;
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
@@ -118,19 +109,16 @@ require'compe'.setup {
 local actions = require('telescope.actions')
 require('telescope').setup {
     defaults = {
+        prompt_position = "top",
+        sorting_strategy = "ascending",
         mappings = {
             i = {
-                -- To disable a keymap, put [map] = false
-                -- So, to not map "<C-n>", just put
-                ["<c-x>"] = false,
-
-                -- Otherwise, just set the mapping to the function that you want it to be.
+                ["<C-u>"] = false,
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous,
-
-                -- Add up multiple actions
-                ["<CR>"] = actions.select_default + actions.center,
-
+                ["<CR>" ] = actions.select_default + actions.center,
+                ["<C-s>"] = actions.select_horizontal,
+                ["<esc>"] = actions.close,
             },
             n = {
                 ["<esc>"] = actions.close,
@@ -138,22 +126,83 @@ require('telescope').setup {
         },
     },
     extensions = {
+        fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = false, -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+        },
         fzf_writer = {
-            -- minimum_grep_characters = 2,
-            -- minimum_files_characters = 2,
+            minimum_grep_characters = 2,
+            minimum_files_characters = 0,
 
             -- Disabled by default.
             -- Will probably slow down some aspects of the sorter, but can make color highlights.
             -- I will work on this more later.
             use_highlighter = true,
-        }
+        },
     }
 }
+
+require('telescope').load_extension('fzf')
+require('telescope').load_extension('gh')
+require('telescope').load_extension('dap')
 
 vim.cmd[[ autocmd ColorScheme * lua require'nvim-web-devicons'.setup() ]]
 
 require('lualine').setup{
     options = {
-        theme = 'gruvbox'
+        theme = 'gruvbox_light'
+    },
+    sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'branch'},
+        lualine_c = {'filename'},
+        -- lualine_c = {'getcwd', 'filename'},
+        -- lualine_x = {'encoding', 'fileformat', 'filetype'},
+        lualine_x = {'cwd()', 'fileformat', 'filetype'},
+        lualine_y = {'progress'},
+        lualine_z = {'location'}
     }
 }
+
+require('lspkind').init({
+    -- enables text annotations
+    --
+    -- default: true
+    with_text = true,
+
+    -- default symbol map
+    -- can be either 'default' or
+    -- 'codicons' for codicon preset (requires vscode-codicons font installed)
+    --
+    -- default: 'default'
+    preset = 'codicons',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = '',
+      Method = 'ƒ',
+      Function = '',
+      Constructor = '',
+      Variable = '',
+      Class = '',
+      Interface = 'ﰮ',
+      Module = '',
+      Property = '',
+      Unit = '',
+      Value = '',
+      Enum = '了',
+      Keyword = '',
+      Snippet = '﬌',
+      Color = '',
+      File = '',
+      Folder = '',
+      EnumMember = '',
+      Constant = '',
+      Struct = ''
+    },
+})
