@@ -9,7 +9,6 @@ tnoremap <C-\><C-n> <Esc>
 au FileType fzf tnoremap <buffer> <Esc> <Esc>
 au FileType fzf tnoremap <buffer> <C-\><C-n> <C-\><C-n>
 
-" cmap w!! w !sudo tee > /dev/null %
 nnoremap <C-F> :<C-F>?
 nnoremap <silent> <C-L> :nohl<CR>
 map Y y$
@@ -25,7 +24,6 @@ nnoremap <Up> <Up><Up><Up><Up><Up>
 nnoremap <Down> <Down><Down><Down><Down><Down>
 nnoremap <Left> <Left><Left><Left><Left><Left>
 nnoremap <Right> <Right><Right><Right><Right><Right>
-" nnoremap gl <Plug>VimwikiFollowLink<CR>
 
 let mapleader = "\<Space>"
 " nnoremap <leader>l :nohl
@@ -43,7 +41,7 @@ nnoremap <leader>] gt
 nnoremap [t gT
 nnoremap ]t gt
 nnoremap <leader>dd :Bdelete<CR>
-nnoremap <leader>dD :Bdelete!<CR>
+nnoremap <leader>dD :bwipeout<CR>
 nnoremap <leader>da :bufdo bwipeout<CR>
 nnoremap <leader>dn :enew<CR>
 nnoremap <leader>z :tabe %<CR>
@@ -61,32 +59,24 @@ nnoremap <leader>rss :source $DOTFILES/nvim/init.vim<CR>
 nnoremap <leader>rsf :source %<CR>
 
 " f -> find (fzf)
-" nnoremap <silent> <leader>ff :Files .<CR>
-" nnoremap <silent> <leader>fd :Files ~/dotfiles/<CR>
 nnoremap <silent> <leader>ff :Telescope find_files<CR>
 nnoremap <silent> <leader>fd :lua require'telescope.builtin'.find_files({ search_dirs={'~/dotfiles'} })<CR>
-
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files %:h<CR>
 nnoremap <silent> <Leader>f. :lua require'telescope.builtin'.find_files({ search_dirs={"%:h"} })<CR>
-" nnoremap <silent> <leader>fw :Files ~/Dropbox/wiki/<CR>
 nnoremap <silent> <leader>fw :lua require'telescope.builtin'.find_files({ search_dirs={'~/Dropbox/wiki'} })<CR>
 nnoremap <leader>f<Space> :Files<Space>
-" nnoremap <silent> <Leader>fb :Buffers<CR>
 nnoremap <silent> <Leader>fb :lua require'telescope.builtin'.buffers({sort_lastused = true; ignore_current_buffer = true, show_all_buffers = true})<CR>
 nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
-inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
-imap <c-x><c-f> <plug>(fzf-complete-path)
-" nnoremap <silent>  <leader>; :Commands<CR>
 nnoremap <silent>  <leader>; :Telescope commands<CR>
 nnoremap <leader>fs :lua SshPicker()<CR>
 nnoremap <leader>fS :lua SshPicker()<CR>
 nnoremap <leader>fp :lua PsqlPicker()<CR>
 nnoremap <leader>fk :lua K8sPods()<CR>
-
+inoremap <expr> <plug>(fzf-complete-path) fzf#vim#complete#path("fd . --color=never")
+imap <c-x><c-f> <plug>(fzf-complete-path)
 nnoremap <leader>cg :Gcd<CR>
 nnoremap <leader>cl :lcd %:h<CR>
-" nnoremap <leader>ct ipsdspbcopy<CR><C-\><C-n>:cd <C-r>+<CR>
 nnoremap <leader>cf :Cdz<CR>
 nnoremap <leader>ch :cd ~<CR>
 nnoremap <leader>c. :Cd .<CR>
@@ -136,7 +126,6 @@ nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>ir :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>iR :lua vim.lsp.buf.implementation()<CR>
-" nnoremap <leader>ie :Diagnostics<CR>
 nnoremap  <Leader>ie :Telescope lsp_document_diagnostics<CR>
 nnoremap <leader>im :WorkspaceSymbols<CR>
 nnoremap <leader>iM :DocumentSymbols<CR>
@@ -170,10 +159,6 @@ au FileType java nnoremap <leader>Im <Cmd>lua require'jdtls'.test_nearest_method
 au FileType python nnoremap <leader>Im <Cmd>lua require'dap-python'.test_method()<CR>
 au FileType python vnoremap <leader>Is <Esc>:lua require'dap-python'.debug_selection()<CR>
 
-" nnoremap <leader>co :VimuxRunCommand('python -i ' . bufname("%"))<CR>
-" nnoremap <leader>cb :VimuxRunCommands'./gradlew build -x integrationtest')<CR>
-
-nnoremap <Leader>` :call ToggleSignColumn()<CR>
 function! ToggleSignColumn()
     if !exists("b:signcolumn_on") || !b:signcolumn_on
         set signcolumn=yes
@@ -183,12 +168,17 @@ function! ToggleSignColumn()
         let b:signcolumn_on=0
     endif
 endfunction
+nnoremap <Leader>` :call ToggleSignColumn()<CR>
 
-" inoremap <Tab> <cmd>lua return require"snippets".expand_at_cursor()<CR>
-" inoremap <C-l> <cmd>lua return require"snippets".expand_or_advance(1)<CR>
-" inoremap <C-h> <cmd>lua return require"snippets".advance_snippet(-1)<CR>
-"
-imap <expr> <Tab>   vsnip#available(1)   ? '<Plug>(vsnip-expand-or-jump)'      : '<Tab>'
-smap <expr> <Tab>   vsnip#available(1)   ? '<Plug>(vsnip-expand-or-jump)'      : '<Tab>'
-imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+imap <expr> <Tab>   vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+smap <expr> <Tab>   vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+imap <expr> <C-l>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)'      : '<C-l>'
+smap <expr> <C-l>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)'      : '<C-l>f
+imap <expr> <C-h>   vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-h>'
+smap <expr> <C-h>   vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-h>'
+
+tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
+nnoremap <silent> <M-o> :RnvimrToggle<CR>
+tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>

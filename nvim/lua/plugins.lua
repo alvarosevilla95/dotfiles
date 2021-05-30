@@ -78,6 +78,8 @@ require('packer').startup(function(use)
     use { "rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins" }
     use 'onsails/lspkind-nvim'
     use { 'michaelb/sniprun', run = 'bash ./install.sh'}
+    use 'kevinhwang91/rnvimr'
+    use 'ryvnf/readline.vim'
 end)
 
 vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile'

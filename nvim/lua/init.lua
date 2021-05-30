@@ -5,6 +5,7 @@ require 'treesitter'
 require 'functions'
 require 'lsp'
 require 'options'
+require 'finder'
 
 require'colorizer'.setup()
 
