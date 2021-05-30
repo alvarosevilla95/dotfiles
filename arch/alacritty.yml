@@ -80,7 +80,7 @@ font:
     # style: Regular
 
   # Point size of the font
-  size: 12
+  size: 13
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -303,6 +303,8 @@ key_bindings:
   - { key: T,        mods: Command,       chars: ":tabe\x0D"                  }
   - { key: E,        mods: Command,       chars: ":sp\x0D"                    }
   - { key: D,        mods: Command,       chars: ":vsp\x0D"                   }
+  - { key: E,        mods: Command|Shift, chars: ":new\x0D"                   }
+  - { key: D,        mods: Command|Shift, chars: ":vnew\x0D"                  }
   - { key: O,        mods: Command,       chars: ":Files\x0D"                 }
   - { key: O,        mods: Command|Shift, chars: ":Files %:h\x0D"             }
   - { key: P,        mods: Command,       chars: ":Cdz\x0D"                   }
