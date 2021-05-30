@@ -15,7 +15,6 @@ export FZF_COMPLETION_OPTS='--preview="bat {} --style=\"full\" --color=always 2>
 export PATH="$PATH:/home/alvaro/.fzf/bin"
 export FZF_PREVIEW_PREVIEW_BAT_THEME=$BAT_THEME
 
-source ~/.fzf.zsh
 source "/Users/alvaro/.fzf/shell/completion.zsh" 2> /dev/null
 source "/Users/alvaro/.fzf/shell/key-bindings.zsh"
 bindkey "^G" fzf-dir-widget
