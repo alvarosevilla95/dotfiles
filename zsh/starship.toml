@@ -1,0 +1,28 @@
+add_newline = false
+format = """
+$directory\
+$git_branch\
+$python\
+$aws
+$character
+"""
+
+[character]
+success_symbol = "[\\$](bold red)"
+error_symbol = "[\\$](bold red)"
+
+[directory]
+style = "green"
+truncation_length = 8
+truncate_to_repo = true
+
+[git_branch]
+style = "yellow"
+
+[aws]
+style = "blue"
+symbol = "  "
+format = 'on [$symbol($profile )(\[$duration\])]($style)'
+
+[python]
+style = "purple"
