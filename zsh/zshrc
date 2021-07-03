@@ -7,7 +7,6 @@ plugins=(
   golang
   pip
   osx
-  gradle
   docker
   docker-compose
 )
@@ -17,7 +16,7 @@ setopt appendhistory autocd extendedglob nomatch
 zstyle :compinstall filename '/home/alvaro/.zshrc'
 autoload -Uz compinit
 compinit
-bindkey "^P" history-beginning-search-backward; 
+bindkey "^P" history-beginning-search-backward;
 bindkey "^N" history-beginning-search-forward
 bindkey "^K" up-line-or-beginning-search
 bindkey "^J" down-line-or-beginning-search
@@ -30,23 +29,22 @@ export DISABLE_AUTO_TITLE="true"
 export EDITOR="nvim"
 export PKG_CONFIG_PATH="/usr/local/opt/libffi/lib/pkgconfig"
 export HOMEBREW_NO_AUTO_UPDATE=true
-export DOTFILES=/Users/alvaro/dotfiles
-
-export PATH="$PATH:$DOTFILES/bin"
-export PATH="$PATH:/Users/alvaro/.cargo/bin"
-export GOPATH=~/Developer/go
-export PATH=$PATH:$GOPATH/bin
 
 export SDKMAN_DIR="/Users/alvaro/.sdkman"
 source "/Users/alvaro/.sdkman/bin/sdkman-init.sh"
 eval "$(pyenv init - --no-rehash)"
- # [ -f "/Users/alvaro/.ghcup/env" ] && source "/Users/alvaro/.ghcup/env" # ghcup-env
+# [ -f "/Users/alvaro/.ghcup/env" ] && source "/Users/alvaro/.ghcup/env" # ghcup-env
 # eval "$(swiftenv init -)"
 
 source /usr/local/etc/profile.d/z.sh
 source ~/dotfiles/zsh/colors.zsh
 source ~/dotfiles/zsh/fzf.zsh
-source ~/dotfiles/zsh/aliases.zsh
+source ~/dotfiles/zsh/env.zsh
 source ~/dotfiles/zsh/work.zsh
 
+compdef _vim stail
+compdef _vim nvr
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias luamake=/Users/alvaro/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake

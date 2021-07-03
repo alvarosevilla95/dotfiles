@@ -1,5 +1,5 @@
-export BC=light
-export BAT_THEME=gruvbox-light
+export BC=dark
+export BAT_THEME=gruvbox-dark
 # local color00='#282828'
 if [[ "$BC" = 'light' ]]; then
     export color00='#fbf1c7'
