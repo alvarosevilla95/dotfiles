@@ -7,10 +7,11 @@ local from_entry = require'telescope.from_entry'
 local actions_set = require'telescope.actions.set'
 local utils = require'telescope.utils'
 local putils = require('telescope.previewers.utils')
-
 require('telescope').setup {
     defaults = {
-        prompt_position = "top",
+        layout_config = {
+            prompt_position = "top",
+        },
         sorting_strategy = "ascending",
         mappings = {
             i = {
@@ -95,7 +96,7 @@ function Cdz()
     cdPicker('z directories', {vim.o.shell, '-c', "cat ~/.z | cut -d '|' -f1"})
 end
 
-function SshPicker()
+function SshPicker(tmux)
     local cmd = {vim.o.shell, '-c', "cat ~/.ssh/known_hosts|cut -f1 -d ' ' |cut -f1 -d ,"}
     pickers.new({}, {
         prompt_title = 'ssh hosts',
@@ -106,12 +107,16 @@ function SshPicker()
                 local entry = actions.get_selected_entry()
                 actions.close(prompt_bufnr)
                 local res = from_entry.path(entry)
+                local sshCmd = 'term ssh '..res
+                if tmux then
+                    sshCmd = sshCmd..' -t tmux a || tmux'
+                end
                 if type == 'default' then
-                    vim.cmd('term ssh '..res)
+                    vim.cmd(sshCmd)
                 elseif type == 'horizontal' then
-                    vim.cmd('top sp | term ssh '..res)
+                    vim.cmd('sp | '..sshCmd)
                 elseif type == 'vertical' then
-                    vim.cmd('vsp | term ssh '..res)
+                    vim.cmd('vsp | '..sshCmd)
                 elseif type == 'tab' then
                     vim.cmd('silent ! echo '..res..' | pbcopy')
                 end

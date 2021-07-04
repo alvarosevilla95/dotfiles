@@ -55,6 +55,8 @@ g.git_messenger_no_default_mappings = true
 g.bclose_no_plugin_maps=true
 g.dap_virtual_text = true
 
+vim.cmd [[ command! Clip e ~/Dropbox/wiki/clipboard.md ]]
+
 require'compe'.setup {
   enabled = true;
   autocomplete = true;
@@ -73,7 +75,7 @@ require'compe'.setup {
     path = true;
     buffer = true;
     calc = true;
-    vsnip = true;
+    vsnip = {priority=10000};
     nvim_lsp = true;
     nvim_lua = true;
     spell = true;
@@ -84,7 +86,7 @@ require'compe'.setup {
 
 require('lualine').setup{
     options = {
-        theme = 'gruvbox_light'
+        theme = 'gruvbox'
     },
     sections = {
         lualine_a = {'mode'},
@@ -100,6 +102,7 @@ require('lualine').setup{
         lualine_z = {'location'}
     }
 }
+
 
 require('lspkind').init {
     symbol_map = {

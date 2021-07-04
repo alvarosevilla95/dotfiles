@@ -40,3 +40,7 @@ function Gclone(repo, dest)
     vim.cmd('cd'..dest)
 end
 vim.cmd [[ command! -nargs=+ Gclone lua Gclone(<f-args>) ]]
+
+function iprint(obj)
+    print(vim.inspect(obj))
+end
