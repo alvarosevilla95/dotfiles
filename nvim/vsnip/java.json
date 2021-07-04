@@ -1,14 +1,18 @@
 {
   "log info": {
     "prefix": ["info"],
-    "body": "log.info(\"{}\", $1);"
+    "body": "log.info(\"${1:{}}\", $2);"
   },
   "log debug": {
     "prefix": ["debug"],
-    "body": "log.debug(\"{}\", $1);"
+    "body": "log.debug(\"${1:{}}\", $2);"
   },
   "log error": {
     "prefix": ["error"],
-    "body": "log.error(\"{}\", $1);"
+    "body": "log.error(\"${1:{}}\", $2);"
+  },
+  "Collect to list": {
+    "prefix": ["tolist"],
+    "body": "Collectors.toList()"
   }
 }
