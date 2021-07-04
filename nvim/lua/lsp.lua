@@ -7,13 +7,91 @@ lspconfig.gopls.setup{capabilities=capabilities}
 lspconfig.tsserver.setup{capabilities=capabilities}
 lspconfig.vimls.setup{capabilities=capabilities}
 lspconfig.pyright.setup{capabilities=capabilities}
+
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+  vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  {
+    underline = false
+  }
+)
+
+require('rust-tools').setup{
+    tools = { -- rust-tools options
+        -- automatically set inlay hints (type hints)
+        -- There is an issue due to which the hints are not applied on the first
+        -- opened file. For now, write to the file to trigger a reapplication of
+        -- the hints or just run :RustSetInlayHints.
+        -- default: true
+        autoSetHints = true,
+
+        -- whether to show hover actions inside the hover window
+        -- this overrides the default hover handler
+        -- default: true
+        hover_with_actions = true,
+
+        runnables = {
+            -- whether to use telescope for selection menu or not
+            -- default: true
+            use_telescope = true
+
+            -- rest of the opts are forwarded to telescope
+        },
+
+        inlay_hints = {
+            -- wheter to show parameter hints with the inlay hints or not
+            -- default: true
+            show_parameter_hints = true,
+
+            -- prefix for parameter hints
+            -- default: "<-"
+            parameter_hints_prefix = "<-",
+
+            -- prefix for all the other hints (type, chaining)
+            -- default: "=>"
+            other_hints_prefix  = "=>",
+
+            -- whether to align to the lenght of the longest line in the file
+            max_len_align = false,
+
+            -- padding from the left if max_len_align is true
+            max_len_align_padding = 1,
+
+            -- whether to align to the extreme right or not
+            right_align = false,
+
+            -- padding from the right if right_align is true
+            right_align_padding = 7,
+        },
+
+        hover_actions = {
+            -- the border that is used for the hover window
+            -- see vim.api.nvim_open_win()
+            border = {
+              {"╭", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"╮", "FloatBorder"},
+              {"│", "FloatBorder"},
+              {"╯", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"╰", "FloatBorder"},
+              {"│", "FloatBorder"}
+            },
+        }
+    },
+
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
+    server = {}, -- rust-analyer options
+}
 
 vim.cmd "autocmd FileType java,groovy lua require'lsp'.java_setup()"
 function M.java_setup()
     local on_attach = function(client, bufnr)
         require'jdtls.setup'.add_commands()
-        require('jdtls').setup_dap()
+        require('jdtls').setup_dap({ hotcodereplace = 'auto' })
         -- require'jdtls'.setup_dap()
         require'lsp-status'.register_progress()
         vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy', 'all'}
@@ -108,20 +186,6 @@ function M.java_setup()
         client.notify('workspace/didChangeConfiguration', { settings = config.settings })
     end
 
-    -- local jar_patterns = {
-    --     '/dev/microsoft/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar',
-    --     '/dev/dgileadi/vscode-java-decompiler/server/*.jar',
-    --     '/dev/microsoft/vscode-java-test/server/*.jar',
-    -- }
-    -- local bundles = {}
-    -- for _, jar_pattern in ipairs(jar_patterns) do
-    --   for _, bundle in ipairs(vim.split(vim.fn.glob(home .. jar_pattern), '\n')) do
-    --     if not vim.endswith(bundle, 'com.microsoft.java.test.runner.jar') then
-    --       table.insert(bundles, bundle)
-    --     end
-    --   end
-    -- end
-
     local extendedClientCapabilities = require'jdtls'.extendedClientCapabilities
     extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
@@ -130,7 +194,6 @@ function M.java_setup()
     };
     vim.list_extend(bundles, vim.split(vim.fn.glob("/Users/alvaro/Developer/java-debug/server/*.jar"), "\n"))
     config.init_options = {
-        -- bundles = bundles;
         bundles = bundles;
         extendedClientCapabilities = extendedClientCapabilities;
     }
@@ -147,93 +210,104 @@ require('dap-python').setup('~/.pyenv/shims/python')
 
 local dap = require'dap'
 
--- dap.adapters.go = {
---     type = 'executable';
---     command = 'node';
---     args = {os.getenv('HOME') .. '/Developer/vscode-go/dist/debugAdapter.js'};
--- }
--- dap.configurations.go = {
---     {
---         type = 'go';
---         name = 'Debug';
---         request = 'launch';
---         showLog = false;
---         program = "${file}";
---         dlvToolPath = vim.fn.exepath('dlv')  -- Adjust to where delve is installed
---     },
--- }
+local sumneko_root_path = '/Users/alvaro/.cache/nvim/nlua/sumneko_lua/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
+local luadev = require("lua-dev").setup {
+  lspconfig = {
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+  },
+}
+
+require('go').setup({
+  goimport='gofumports', -- g:go_nvim_goimport
+  gofmt = 'gofumpt', --g:go_nvim_gofmt,
+  max_len = 120, -- g:go_nvim_max_len
+  transform = false, -- vim.g.go_nvim_tag_transfer  check gomodifytags for details
+  test_template = '', -- default to testify if not set; g:go_nvim_tests_template  check gotests for details
+  test_template_dir = '', -- default to nil if not set; g:go_nvim_tests_template_dir  check gotests for details
+  comment_placeholder = '' ,  -- vim.g.go_nvim_comment_placeholder your cool placeholder e.g. ﳑ       
+  verbose = false,  -- output loginf in messages
+})
+
 dap.adapters.go = function(callback, config)
     local handle
     local pid_or_err
     local port = 38697
     handle, pid_or_err =
-      vim.loop.spawn(
-      "dlv",
-      {
+    vim.loop.spawn(
+    "dlv",
+    {
         args = {"dap", "-l", "127.0.0.1:" .. port},
         detached = true
-      },
-      function(code)
+    },
+    function(code)
         handle:close()
         print("Delve exited with exit code: " .. code)
-      end
+    end
     )
-     ----should we wait for delve to start???
-    --vim.defer_fn(
-    --function()
-      --dap.repl.open()
-      --callback({type = "server", host = "127.0.0.1", port = port})
-    --end,
-    --100)
+    -- Wait 100ms for delve to start
+    vim.defer_fn(
+    function()
+        --dap.repl.open()
+        callback({type = "server", host = "127.0.0.1", port = port})
+    end,
+    100)
 
-      callback({type = "server", host = "127.0.0.1", port = port})
-  end
-  -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-  dap.configurations.go = {
+
+    --callback({type = "server", host = "127.0.0.1", port = port})
+end
+-- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+dap.configurations.go = {
     {
-      type = "go",
-      name = "Debug",
-      request = "launch",
-      program = "${file}"
-    }
-  }
-
-local sumneko_root_path = '/Users/alvaro/.cache/nvim/nlua/sumneko_lua/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
-
-require'lspconfig'.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = vim.split(package.path, ';'),
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-        },
-      },
+        type = "go",
+        name = "Debug",
+        request = "launch",
+        program = "${file}"
     },
-  },
+    {
+        type = "go",
+        name = "Debug test", -- configuration for debugging test files
+        request = "launch",
+        mode = "test",
+        program = "${file}"
+    },
 }
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-  vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  {
-    underline = false
+require("dapui").setup({
+  icons = {
+    expanded = "▾",
+    collapsed = "▸"
+  },
+  mappings = {
+    -- Use a table to apply multiple mappings
+    expand = {"<CR>", "<2-LeftMouse>"},
+    open = "o",
+    remove = "d",
+    edit = "e",
+  },
+  sidebar = {
+    open_on_start = true,
+    elements = {
+      -- You can change the order of elements in the sidebar
+      "scopes",
+      "watches",
+      "repl",
+    },
+    width = 40,
+    position = "left" -- Can be "left" or "right"
+  },
+  tray = {
+    open_on_start = false,
+    elements = {
+      "repl",
+    },
+    height = 10,
+    position = "bottom" -- Can be "bottom" or "top"
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil   -- Floats will be treated as percentage of your screen.
   }
-)
+})
 
 return M
-
-
