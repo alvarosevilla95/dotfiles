@@ -129,3 +129,26 @@ require('lspkind').init {
       Field = '',
   },
 }
+
+require'sniprun'.setup({
+    selected_interpreters = { 'Python3_fifo' },
+    repl_enable = {'Python3_fifo'},
+    repl_disable = {},
+    interpreter_options = {},
+    display = {
+        -- "Classic",
+        "VirtualTextOk",
+        "VirtualTextErr",
+        -- "TempFloatingWindow",
+        -- "LongTempFloatingWindow",
+        "Terminal"
+    },
+    snipruncolors = {
+        SniprunVirtualTextOk   =  {bg="#66eeff",fg="#000000",ctermbg="Cyan",cterfg="Black"},
+        SniprunFloatingWinOk   =  {fg="#66eeff",ctermfg="Cyan"},
+        SniprunVirtualTextErr  =  {bg="#881515",fg="#000000",ctermbg="DarkRed",cterfg="Black"},
+        SniprunFloatingWinErr  =  {fg="#881515",ctermfg="DarkRed"},
+    },
+    inline_messages = 0,
+    borders = 'single'
+})
