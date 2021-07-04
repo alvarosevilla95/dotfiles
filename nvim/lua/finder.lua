@@ -204,3 +204,40 @@ function K8sPods()
     }):find()
 end
 vim.cmd [[ command! K8s lua K8sPods() ]]
+
+function FFHistoryPicker()
+    local dbPath = '/Users/alvaro/Library/Application\\ Support/Firefox/Profiles/52hn3b6n.default-release/places.sqlite'
+    local tmpfile=vim.fn.system('mktemp /tmp/ffhist.XXXXX'):gsub("\n", "")
+    vim.fn.system('cp ' .. dbPath .. ' ' .. tmpfile)
+    local sep="∙"
+    local query = [[
+    SELECT
+    url, title FROM moz_places
+    WHERE
+    url NOT LIKE '%google%search%'
+    ORDER BY
+    visit_count DESC,
+    last_visit_date DESC;
+    ]]
+
+    local cmd = {vim.o.shell, '-c', f[[sqlite3 "{tmpfile}" "{query}" | sed -E "s/^https?:\/\///" | sed -E "s/\\/?\\|/ {sep} /" | sed -E "s/{sep} $//"]]}
+    pickers.new({}, {
+        prompt_title = 'Firefox History',
+        finder = finders.new_table{ results = utils.get_os_command_output(cmd) },
+        sorter = sorters.get_fuzzy_file(),
+        attach_mappings = function(prompt_bufnr)
+            actions_set.select:replace(function(_, type)
+                local entry = actions.get_selected_entry()
+                actions.close(prompt_bufnr)
+                local res = from_entry.path(entry)
+                res = vim.fn.split(res, ' '..sep)[1]
+                if type == 'default' then
+                    vim.cmd('silent ! open "http://'..res..'"')
+                end
+            end)
+            return true
+        end,
+    }):find()
+end
+vim.cmd [[ command! Psql lua PsqlPicker() ]]
+

@@ -5,7 +5,7 @@ function toggle_colors() {
         gsed -i 's:BC=dark:BC=light:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:BAT_THEME=gruvbox-dark:BAT_THEME=gruvbox-light:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:gruvbox:gruvbox-light:' ~/.gitconfig
-        gsed -i "s:theme\ =\ 'gruvbox':theme\ =\ 'gruvbox_light':" ~/dotfiles/nvim/lua/options.lua
+        gsed -i "s:theme\ =\ 'gruvbox':theme\ =\ 'gruvbox_light':" ~/dotfiles/nvim/lua/plugins.lua
     fi
     if [[ "$BC" = "light" ]]; then
         cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-dark.yml > ~/.alacritty.yml
@@ -14,7 +14,7 @@ function toggle_colors() {
         gsed -i 's:BAT_THEME=gruvbox-light:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
         gsed -i 's:gruvbox-light:gruvbox:' ~/.gitconfig
         gsed -i 's:BAT_THEME=gruvbox-light$:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
-        gsed -i "s:theme\ =\ 'gruvbox_light':theme\ =\ 'gruvbox':" ~/dotfiles/nvim/lua/options.lua
+        gsed -i "s:theme\ =\ 'gruvbox_light':theme\ =\ 'gruvbox':" ~/dotfiles/nvim/lua/plugins.lua
     fi
     source ~/dotfiles/zsh/colors.zsh
     source ~/dotfiles/zsh/fzf.zsh

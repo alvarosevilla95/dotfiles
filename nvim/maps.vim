@@ -30,8 +30,7 @@ nnoremap <Left> <Left><Left><Left><Left><Left>
 nnoremap <Right> <Right><Right><Right><Right><Right>
 
 let mapleader = "\<Space>"
-" nnoremap <leader>l :nohl
-nnoremap - :e %:h<CR>
+" nnoremap - :e %:h<CR>
 nnoremap <leader>. :<Up><CR>
 nnoremap <leader>- <C-^>
 nnoremap <leader>j <C-W>j
@@ -81,6 +80,7 @@ nnoremap <leader>f<Space> :Files<Space>
 nnoremap <silent> <Leader>fb :lua require'telescope.builtin'.buffers({sort_lastused = true; ignore_current_buffer = true, show_all_buffers = true, sorter = require'telescope.sorters'.get_substr_matcher()})<CR>
 nnoremap <silent> <Leader>fB :Buffers<CR>
 nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
+nnoremap <silent> <Leader>fh :lua FFHistoryPicker()<lR>
 nnoremap <silent>  <leader>; :Telescope command_history<CR>
 nnoremap <leader>fo :lua SessionPicker()<CR>
 nnoremap <leader>fs :lua SshPicker(false)<CR>
@@ -127,13 +127,10 @@ nmap KG <Plug>(git-messenger)
 " completion
 inoremap <silent><expr> <Tab> compe#complete()
 inoremap <silent><expr> <CR>  compe#confirm('<CR>')
-" inoremap <silent><expr> <C-e> compe#close('<C-e>')
-" inoremap <silent><expr> <C-f> compe#scroll({ 'delta': +4 })
-" inoremap <silent><expr> <C-d> compe#scroll({ 'delta': -4 })
-"
+inoremap <silent><expr> <C-e> compe#close('<C-e>')
+
 " lsp
-nnoremap <silent> gd :silent lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> KK  :lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD :lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
@@ -158,9 +155,13 @@ nnoremap <leader>uf :Telescope dap frames<CR>
 nnoremap <leader>uv :Telescope dap variables<CR>
 nnoremap <leader>ut :lua require'dapui'.toggle('sidebar')<CR>
 nnoremap <leader>uT :lua require'dapui'.toggle('tray')<CR>
-nnoremap Kd :lua require'dap.ui.variables'.hover()<CR>
-nnoremap KD :lua require'dap.ui.variables'.scopes()<CR>
-nnoremap KE :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <silent> K :lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> KK :lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> KS :lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent> KD :lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> KE :lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+" nnoremap <silent> Kd :lua require'dap.ui.variables'.hover()<CR>
+" nnoremap <silent> KD :lua require'dap.ui.variables'.scopes()<CR>
 
 nnoremap <leader>mk :sp \| top term make<CR>
 nnoremap <leader>mK :sp \| top term make test<CR>
@@ -173,11 +174,8 @@ au FileType java nnoremap <leader>um <Cmd>lua require'jdtls'.test_nearest_method
 
 autocmd BufWritePre *.go :silent! lua vim.lsp.buf.formatting_sync(nil,500)
 
-command! JdtMainClasses lua require('jdtls.dap').setup_dap_main_class_configs()
-
 au FileType python nnoremap <leader>Im <Cmd>lua require'dap-python'.test_method()<CR>
 au FileType python vnoremap <leader>Is <Esc>:lua require'dap-python'.debug_selection()<CR>
-
 
 function! ToggleSignColumn()
     if !exists("b:signcolumn_on") || !b:signcolumn_on
@@ -198,8 +196,3 @@ imap <expr> <C-l>   vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>
 smap <expr> <C-l>   vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<Tab>'
 imap <expr> <C-h>   vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-h>'
 smap <expr> <C-h>   vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)'      : '<C-h>'
-
-tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
-nnoremap <silent> <M-o> :RnvimrToggle<CR>
-tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
-
