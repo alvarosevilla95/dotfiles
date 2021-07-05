@@ -40,6 +40,7 @@ o.shiftwidth     = 4;
 o.softtabstop    = 4;
 o.grepprg='rg --vimgrep --no-heading --smart-case'
 o.grepformat='%f:%l:%c:%m,%f:%l:%m'
+o.showtabline = 2
 
 require 'F'
 require 'log'

@@ -44,3 +44,13 @@ vim.cmd [[ command! -nargs=+ Gclone lua Gclone(<f-args>) ]]
 function iprint(obj)
     print(vim.inspect(obj))
 end
+
+function GetWebIcon(file, extension)
+    local a, b = require'nvim-web-devicons'.get_icon(file, extension)
+    return a
+end
+
+function GetWebIconHl(file, extension)
+    local a, b = require'nvim-web-devicons'.get_icon(file, extension)
+    return b
+end

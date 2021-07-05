@@ -9,6 +9,9 @@ else
     au BufEnter * hi TelescopePreviewLine guibg=#3c3836
     au BufEnter * hi TelescopeSelection guibg=#3c3836
     au BufEnter * hi Pmenu guibg=#282828
+    au BufEnter * hi TabLine guibg=#1d2021
+    au BufEnter * hi TabLineSel guibg=#1d2021 guifg=#ebdbb2
+    au BufEnter * hi TabLineFill guibg=#1d2021
 endif
 au BufEnter * hi SignColumn guibg=bg gui=none 
 au BufEnter * hi GruvboxRedSign ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=bg
@@ -22,6 +25,7 @@ colorscheme gruvbox
 
 lua require('init')
 source ~/dotfiles/nvim/maps.vim
+source ~/dotfiles/nvim/tabline.vim
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
