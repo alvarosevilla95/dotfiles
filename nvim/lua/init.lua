@@ -42,6 +42,9 @@ o.grepprg='rg --vimgrep --no-heading --smart-case'
 o.grepformat='%f:%l:%c:%m,%f:%l:%m'
 o.showtabline = 2
 
+Tabline = require'luatab'.tabline
+vim.cmd[[ set tabline=%!luaeval('Tabline()') ]]
+
 require 'F'
 require 'log'
 require 'plugins'

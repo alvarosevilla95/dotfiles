@@ -81,7 +81,6 @@ require('packer').startup(function(use)
     use 'norcalli/nvim-colorizer.lua'
     use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
     use 'tjdevries/vlog.nvim'
-    use { "rcarriga/vim-ultest", requires = {"janko/vim-test"}, run = ":UpdateRemotePlugins" }
     use 'onsails/lspkind-nvim'
     use { 'michaelb/sniprun', run = 'bash ./install.sh'}
     use 'kevinhwang91/rnvimr'
@@ -93,6 +92,7 @@ require('packer').startup(function(use)
     use 'hashivim/vim-terraform'
     use 'jparise/vim-graphql'
     use 'gennaro-tedesco/nvim-jqx'
+    use 'alvarosevilla95/luatab.nvim'
 end)
 
 local g = vim.g
@@ -200,3 +200,18 @@ require'sniprun'.setup({
     inline_messages = 0,
     borders = 'single'
 })
+
+require'nvim-web-devicons'.setup {
+ -- your personnal icons can go here (to override)
+ -- DevIcon will be appended to `name`
+ override = {
+  telescope = {
+    icon = "",
+    color = "#428850",
+    name = "Telescope"
+  }
+ };
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+}
