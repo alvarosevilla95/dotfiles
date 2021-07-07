@@ -36,3 +36,7 @@ function snipe() {
     nvrttc "set filetype=sh" $file
 }
 
+function fixSwitchSd() {
+    sudo chflags -R arch /Volumes/Switch
+    sudo dot_clean -mn /Volumes/Switch
+}
