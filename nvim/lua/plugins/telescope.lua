@@ -7,6 +7,18 @@ local from_entry = require'telescope.from_entry'
 local actions_set = require'telescope.actions.set'
 local utils = require'telescope.utils'
 local putils = require('telescope.previewers.utils')
+local action_set = require('telescope.actions.set')
+local action_state = require('telescope.actions.state')
+
+local function action_edit_ctrl_l(prompt_bufnr)
+    return action_set.select(prompt_bufnr, "ctrl-l")
+end
+
+local function action_edit_ctrl_r(prompt_bufnr)
+    return action_set.select(prompt_bufnr, "ctrl-r")
+end
+
+
 require('telescope').setup {
     defaults = {
         layout_config = {
@@ -21,6 +33,8 @@ require('telescope').setup {
                 ["<CR>" ] = actions.select_default + actions.center,
                 ["<C-s>"] = actions.select_horizontal,
                 ["<esc>"] = actions.close,
+                ["<C-l>"] = action_edit_ctrl_l,
+                ["<C-r>"] = action_edit_ctrl_r,
             },
             n = {
                 ["<esc>"] = actions.close,
@@ -48,27 +62,6 @@ require('telescope').load_extension('gh')
 require('telescope').load_extension('dap')
 
 -- Custom pickers
-
-function WikiPicker()
-    local cmd = {vim.o.shell, '-c', "fd . ~/Dropbox/wiki --type=f 2>/dev/null | sed 's:/Users/alvaro/Dropbox/wiki/::'"}
-    pickers.new({}, {
-        prompt_title = name,
-        finder = finders.new_table{ results = utils.get_os_command_output(cmd) },
-        -- TODO: fix previewer relative path
-        previewer = previewers.vim_buffer_cat.new({}),
-        sorter = sorters.get_fuzzy_file(),
-        attach_mappings = function(prompt_bufnr)
-            actions_set.select:replace(function(_, type)
-                local entry = actions.get_selected_entry()
-                actions.close(prompt_bufnr)
-                local dir = from_entry.path(entry)
-                vim.cmd('cd '..dir)
-            end)
-            return true
-        end,
-    }):find()
-end
-
 local cdPicker = function(name, cmd)
     pickers.new({}, {
         prompt_title = name,
@@ -240,4 +233,3 @@ function FFHistoryPicker()
     }):find()
 end
 vim.cmd [[ command! Psql lua PsqlPicker() ]]
-
