@@ -1,0 +1,10 @@
+{
+  "link": {
+    "prefix": ["[["],
+    "body": "[[$1]]"
+  },
+  "begin_source": {
+    "prefix": ["src"],
+    "body": "#+BEGIN_SRC $0\n#+END_SRC"
+  }
+}

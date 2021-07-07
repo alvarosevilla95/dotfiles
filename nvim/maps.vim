@@ -28,9 +28,11 @@ nnoremap <Up> <Up><Up><Up><Up><Up>
 nnoremap <Down> <Down><Down><Down><Down><Down>
 nnoremap <Left> <Left><Left><Left><Left><Left>
 nnoremap <Right> <Right><Right><Right><Right><Right>
+nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
 
 let mapleader = "\<Space>"
 " nnoremap - :e %:h<CR>
+nnoremap - :lua require'telescope.builtin'.file_browser({ cwd = '%:h'})<CR>
 nnoremap <leader>. :<Up><CR>
 nnoremap <leader>- <C-^>
 nnoremap <leader>j <C-W>j
@@ -47,7 +49,7 @@ nnoremap [t gT
 nnoremap ]t gt
 nnoremap <leader>dd :Bdelete<CR>
 nnoremap <leader>dD :bwipeout<CR>
-nnoremap <leader>da :bufdo bwipeout<CR>
+nnoremap <silent><leader>da :bufdo silent bwipeout<CR>
 nnoremap <leader>dn :enew<CR>
 nnoremap <leader>z :tabe %<CR>
 vnoremap <leader>= :'<,'> Tabularize /
@@ -75,12 +77,14 @@ nnoremap <silent> <leader>fd :lua require'telescope.builtin'.find_files({ search
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files %:h<CR>
 nnoremap <silent> <Leader>f. :lua require'telescope.builtin'.find_files({ search_dirs={"%:h"} })<CR>
-nnoremap <silent> <leader>fw :lua require'telescope.builtin'.find_files({ search_dirs={'~/Dropbox/wiki'} })<CR>
+" nnoremap <silent> <leader>fw :lua require'telescope.builtin'.find_files({ search_dirs={'~/Dropbox/org'} })<CR>
+nnoremap <silent> <leader>fw :lua WikiPicker()<CR>
+nnoremap <silent> <leader>of :lua WikiPicker()<CR>
 nnoremap <leader>f<Space> :Files<Space>
 nnoremap <silent> <Leader>fb :lua require'telescope.builtin'.buffers({sort_lastused = true; ignore_current_buffer = true, show_all_buffers = true, sorter = require'telescope.sorters'.get_substr_matcher()})<CR>
 nnoremap <silent> <Leader>fB :Buffers<CR>
 nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
-nnoremap <silent> <Leader>fh :lua FFHistoryPicker()<lR>
+nnoremap <silent> <Leader>fh :lua FFHistoryPicker()<CR>
 nnoremap <silent>  <leader>; :Telescope command_history<CR>
 nnoremap <leader>fo :lua SessionPicker()<CR>
 nnoremap <leader>fs :lua SshPicker(false)<CR>
@@ -122,14 +126,29 @@ vnoremap <leader>gb :GBrowse<CR>
 nnoremap <leader>gB :Gblame<CR>
 nnoremap <leader>gpdd :Git diff master...<CR> 
 nnoremap <leader>gpdf :Gdiff master...:%<CR> 
-nmap KG <Plug>(git-messenger)
 
 " completion
-inoremap <silent><expr> <Tab> compe#complete()
+" im<silent><expr> <Tab> compe#complete()
 inoremap <silent><expr> <CR>  compe#confirm('<CR>')
 inoremap <silent><expr> <C-e> compe#close('<C-e>')
 
+" orgmode
+nnoremap <silent><leader>oh :lua GetHeadlines()<CR>
+au FileType org nnoremap <silent><leader>or :lua RefileHeadline()<CR>
+" au FileType org nmap o o<ESC>i
+" au FileType org nmap O O<ESC>i
+
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle lsp_workspace_diagnostics<cr>
+
+nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap <leader>xr <cmd>TroubleToggle lsp_references<cr>
+nnoremap <leader>xi <cmd>TroubleToggle lsp_implemenations<cr>
+
 " lsp
+" nnoremap <silent> gd :Trouble lsp_definitions<CR>
 nnoremap <silent> gd :lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD :lua vim.lsp.buf.type_definition()<CR>
 nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
@@ -160,6 +179,7 @@ nnoremap <silent> KK :lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> KS :lua require('lspsaga.signaturehelp').signature_help()<CR>
 nnoremap <silent> KD :lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent> KE :lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nmap KG <Plug>(git-messenger)
 " nnoremap <silent> Kd :lua require'dap.ui.variables'.hover()<CR>
 " nnoremap <silent> KD :lua require'dap.ui.variables'.scopes()<CR>
 

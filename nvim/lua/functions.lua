@@ -1,4 +1,3 @@
-
 function RipgrepFzf(dir)
     dir = dir or './'
     local command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
@@ -45,12 +44,20 @@ function iprint(obj)
     print(vim.inspect(obj))
 end
 
-function GetWebIcon(file, extension)
-    local a, b = require'nvim-web-devicons'.get_icon(file, extension)
-    return a
+function PandocOpen(file, ext)
+    local tmpfile= vim.fn.system(f'mktemp /tmp/$(uuidgen).{ext}'):gsub("\n", "")
+    vim.fn.system(f'pandoc {file} -o {tmpfile}')
+    vim.fn.system(f'open -a Firefox {tmpfile}')
 end
 
-function GetWebIconHl(file, extension)
-    local a, b = require'nvim-web-devicons'.get_icon(file, extension)
-    return b
+function split(s, sep)
+    local t = {}
+    if sep == nil then
+        sep = "%s"
+    end
+    for str in string.gmatch(s, "([^"..sep.."]+)") do
+        table.insert(t, str)
+    end
+    return t
 end
+
