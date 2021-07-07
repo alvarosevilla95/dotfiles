@@ -3,6 +3,7 @@ local M = {}
 require 'lsp.go'
 require 'lsp.java'
 require 'lsp.rust'
+require 'lsp.lua'
 
 local lspconfig = require 'lspconfig'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -13,14 +14,6 @@ lspconfig.vimls.setup{capabilities=capabilities}
 lspconfig.pyright.setup{capabilities=capabilities}
 
 require('dap-python').setup('~/.pyenv/shims/python')
-
-local sumneko_root_path = '/Users/alvaro/.cache/nvim/nlua/sumneko_lua/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/macOS/lua-language-server"
-require("lua-dev").setup {
-    lspconfig = {
-        cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-    },
-}
 
 vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler

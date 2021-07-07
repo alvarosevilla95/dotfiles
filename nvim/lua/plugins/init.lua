@@ -84,7 +84,7 @@ require('packer').startup(function(use)
     use 'kevinhwang91/rnvimr'
     use 'ryvnf/readline.vim'
     use 'milkypostman/vim-togglelist'
-    use "folke/lua-dev.nvim"
+    -- use "folke/lua-dev.nvim"
     use 'famiu/nvim-reload'
     use 'mizlan/iswap.nvim'
     use 'hashivim/vim-terraform'
