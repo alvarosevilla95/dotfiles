@@ -8,7 +8,6 @@ local actions_set = require'telescope.actions.set'
 local utils = require'telescope.utils'
 local putils = require('telescope.previewers.utils')
 local action_set = require('telescope.actions.set')
-local action_state = require('telescope.actions.state')
 
 local function action_edit_ctrl_l(prompt_bufnr)
     return action_set.select(prompt_bufnr, "ctrl-l")
@@ -17,7 +16,6 @@ end
 local function action_edit_ctrl_r(prompt_bufnr)
     return action_set.select(prompt_bufnr, "ctrl-r")
 end
-
 
 require('telescope').setup {
     defaults = {
@@ -32,7 +30,7 @@ require('telescope').setup {
                 ["<C-k>"] = actions.move_selection_previous,
                 ["<CR>" ] = actions.select_default + actions.center,
                 ["<C-s>"] = actions.select_horizontal,
-                ["<esc>"] = actions.close,
+                -- ["<esc>"] = actions.close,
                 ["<C-l>"] = action_edit_ctrl_l,
                 ["<C-r>"] = action_edit_ctrl_r,
             },
@@ -232,4 +230,13 @@ function FFHistoryPicker()
         end,
     }):find()
 end
-vim.cmd [[ command! Psql lua PsqlPicker() ]]
+
+function File_picker()
+    vim.fn.system('git rev-parse --git-dir > /dev/null 2>&1')
+    local is_git = vim.v.shell_error == 0
+    if is_git then
+        require'telescope.builtin'.find_files()
+    else
+        vim.cmd 'Files'
+    end
+end

@@ -42,7 +42,3 @@ function f(str)
         end         
     end))
 end
-
-function printf(str)
-    print(f(str))
-end

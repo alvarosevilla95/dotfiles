@@ -11,6 +11,7 @@ function M.java_setup()
         vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy', 'all'}
         require'lspkind'.init()
         require'lspsaga'.init_lsp_saga()
+        require'lsp_signature'.on_attach()
     end
 
     local root_markers = {'gradlew', 'pom.xml'}

@@ -9,22 +9,62 @@ local utils = require'telescope.utils'
 
 require('orgmode').setup {
     org_agenda_files = {'~/Dropbox/org/*'},
-    org_default_notes_file = '~/Dropbox/org/agenda.org',
+    org_default_notes_file = '~/Dropbox/org/capture.org',
+    org_agenda_templates = {
+        t = { description = 'Task', template = '* TODO %?\n  %u - <unrefiled>' },
+        n = { description = 'Note', template = '* NOTE %?\n  %u - <unrefiled>' },
+        r = { description = 'Read', template = '* NOTE %?\n  %u - <unrefiled>' },
+        w = { description = 'Work', template = '* TODO (WORK) %?\n  %u - <unrefiled>', target = '~/Dropbox/org/work.org' },
+    },
     mappings = {
-        -- disable_all = true,
+        agenda = {
+            org_agenda_later = 'f',
+            org_agenda_earlier = 'b',
+            org_agenda_goto_today = '.',
+            org_agenda_day_view = 'vd',
+            org_agenda_week_view = 'vw',
+            org_agenda_month_view = 'vm',
+            org_agenda_year_view = 'vy',
+            org_agenda_quit = 'q',
+            org_agenda_switch_to = '<CR>',
+            org_agenda_goto = {'<TAB>'},
+            org_agenda_goto_date = 'J',
+            org_agenda_redo = 'r',
+            org_agenda_show_help = '?',
+        },
         capture = {
-            org_capture_refile = '<leader>ol',
+            org_capture_finalize = '<Leader>ok',
+            org_capture_refile = '<Leader>ol',
+            org_capture_kill = '<Leader>oK',
+            org_capture_show_help = '?',
         },
         org = {
             org_refile = '<Leader>ol',
+            org_increase_date = '<C-a>',
+            org_decrease_date = '<C-x>',
+            org_change_date = 'cid',
+            org_todo = 'cit',
+            org_todo_prev = 'ciT',
+            org_toggle_checkbox = '<C-Space>',
+            org_open_at_point = '<Leader>oo',
+            org_cycle = '<TAB>',
+            org_global_cycle = '<S-TAB>',
+            org_archive_subtree = '<Leader>o$',
+            org_set_tags_command = '<Leader>ot',
+            org_toggle_archive_tag = '<Leader>oA',
+            org_do_promote = '<<',
+            org_do_demote = '>>',
+            org_promote_subtree = '<s',
+            org_demote_subtree = '>s',
+            org_meta_return = '<Leader><CR>', -- Add headling, item or row
+            org_insert_heading_respect_content = '<Leader>oih', -- Add new headling after current heading block with same level
+            org_insert_todo_heading = '<Leader>oiT', -- Add new todo headling right after current heading with same level
+            org_insert_todo_heading_respect_content = '<Leader>oit', -- Add new todo headling after current heading block on same level
+            org_move_subtree_up = '<Leader>oK',
+            org_move_subtree_down = '<Leader>oJ',
+            org_show_help = '?',
         }
     },
-    org_agenda_templates = {
-        t = { description = 'Task', template = '* TODO %?\n  %u' },
-        n = { description = 'Note', template = '* %?', target = '~/Dropbox/org/agenda.org'},
-        r = { description = 'Read',  template = '* READ: %?' },
-
-    }
 }
 
 local function orgFileFinder()
@@ -86,7 +126,7 @@ local function grepEntryFinder(cmd)
                 value = line,
                 ordinal = display(line, true),
                 path = line:gsub(':.*$', ''),
-                lnum = tonumber(split(line, ':')[2]),
+                lnum = tonumber(vim.fn.split(line, ':')[2]),
                 disp = display(line, false),
                 display = function(entry) return entry.disp end,
             }
@@ -130,8 +170,8 @@ function RefileHeadline()
                 if type == 'default' then
                     local entry = actions.get_selected_entry()
                     actions.close(prompt_bufnr)
-                    require("orgmode").action("capture.refile_headline_to_destination_set", {
-                        file = entry.path,
+                    require("orgmode").action("capture.refile_headline_to_selection", {
+                        file = entry.path:gsub('.*/', ''),
                         target = entry.lnum,
                     })
                     return true
@@ -140,4 +180,47 @@ function RefileHeadline()
             return true
         end,
     }:find()
+end
+
+local function get_line_headline()
+    local file = require("orgmode.parser.files").get_current_file()
+    return file:get_closest_headline()
+end
+
+function Headline_up()
+    local lnum = vim.fn.line('.')
+    local headline = get_line_headline()
+    if headline.id ~= lnum then
+        vim.cmd(f'{headline.id}')
+        return
+    end
+    local pid = headline.parent.id
+    if pid > 0 then
+        print('')
+        vim.cmd(f'{pid}')
+    end
+end
+
+function Headline_down()
+    local headline = get_line_headline()
+    if lib.size(headline.headlines) == 0 then
+        return
+    end
+    vim.cmd(f'{headline.headlines[1].id}')
+end
+
+function Headline_prev()
+    local headline = get_line_headline()
+    local prev = headline:get_prev_headline_same_level()
+    if prev then
+        vim.cmd(f'{prev.id}')
+    end
+end
+
+function Headline_next()
+    local headline = get_line_headline()
+    local next = headline:get_next_headline_same_level()
+    if next then
+        vim.cmd(f'{next.id}')
+    end
 end

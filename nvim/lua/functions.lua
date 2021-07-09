@@ -8,21 +8,8 @@ function RipgrepFzf(dir)
     vim.fn['fzf#vim#grep'](initial_command, 1, vim.fn['fzf#vim#with_preview'](spec), 0)
 end
 
-local function urlencode(url)
-    local char_to_hex = function(c)
-        return string.format("%%%02X", string.byte(c))
-    end
-    if url == nil then
-        return
-    end
-    url = url:gsub("\n", "\r\n")
-    url = url:gsub("([^%w ])", char_to_hex)
-    url = url:gsub(" ", "+")
-    return url
-end
-
 function SearchGoogle(query)
-    vim.cmd(string.format("!open 'http://google.com/search?query=%s'", urlencode(query)))
+    vim.cmd(string.format("!open 'http://google.com/search?query=%s'", lib.urlencode(query)))
 end
 
 function StopLSP()
@@ -33,15 +20,10 @@ function Cwd()
     return vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 end
 
-function Gclone(repo, dest)
-    dest = ' /Users/alvaro/Developer/'..dest
-    vim.cmd('G clone git@github.com:'..repo..dest)
-    vim.cmd('cd'..dest)
-end
-vim.cmd [[ command! -nargs=+ Gclone lua Gclone(<f-args>) ]]
-
-function iprint(obj)
-    print(vim.inspect(obj))
+function Clone(repo)
+    local name = vim.fn.split(repo, '/')[2]
+    vim.cmd(f'! gh repo clone {repo} ~/Developer/{name}')
+    vim.cmd(f'cd ~/Developer/{name}')
 end
 
 function PandocOpen(file, ext)
@@ -50,14 +32,39 @@ function PandocOpen(file, ext)
     vim.fn.system(f'open -a Firefox {tmpfile}')
 end
 
-function split(s, sep)
-    local t = {}
-    if sep == nil then
-        sep = "%s"
+function TC()
+    if vim.env.BC == 'dark' then
+        vim.fn.system('toggle_colors_light')
+        vim.env.BC= 'light'
+        require('lualine').setup{
+            options = {
+                theme = 'gruvbox-light'
+            },
+            sections = {
+                lualine_a = {'mode'},
+                lualine_b = {'Cwd()'},
+                lualine_c = {'filename'},
+                lualine_x = {'filetype', 'branch'},
+                lualine_y = {'progress'},
+                lualine_z = {'location'}
+            }
+        }
+    else
+        vim.fn.system('toggle_colors_dark')
+        vim.env.BC= 'dark'
+        require('lualine').setup{
+            options = {
+                theme = 'gruvbox'
+            },
+            sections = {
+                lualine_a = {'mode'},
+                lualine_b = {'Cwd()'},
+                lualine_c = {'filename'},
+                lualine_x = {'filetype', 'branch'},
+                lualine_y = {'progress'},
+                lualine_z = {'location'}
+            }
+        }
     end
-    for str in string.gmatch(s, "([^"..sep.."]+)") do
-        table.insert(t, str)
-    end
-    return t
+    vim.cmd 'source ~/dotfiles/nvim/colors.vim'
 end
-

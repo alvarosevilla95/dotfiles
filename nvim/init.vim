@@ -1,5 +1,5 @@
-source ~/dotfiles/nvim/colors.vim
 lua require('init')
+source ~/dotfiles/nvim/colors.vim
 source ~/dotfiles/nvim/maps.vim
 
 function! s:build_quickfix_list(lines)

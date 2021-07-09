@@ -40,4 +40,6 @@ alias gclone='gh repo clone'
 
 alias ts='tools'
 
+alias epoch='date +%s'
+
 source $DOTFILES/zsh/functions.zsh

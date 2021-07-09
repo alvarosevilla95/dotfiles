@@ -6,7 +6,8 @@ vim.cmd 'packadd packer.nvim'
 vim.cmd 'autocmd BufWritePost plugins.lua PackerCompile'
 require('packer').startup(function(use)
     use {'wbthomason/packer.nvim', opt = true}
-    use { 'npxbr/gruvbox.nvim', requires = {"rktjmp/lush.nvim"}}
+    -- use { 'npxbr/gruvbox.nvim', requires = {"rktjmp/lush.nvim"}}
+    use 'gruvbox-community/gruvbox'
 
     -- External tools
     use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
@@ -84,7 +85,6 @@ require('packer').startup(function(use)
     use 'kevinhwang91/rnvimr'
     use 'ryvnf/readline.vim'
     use 'milkypostman/vim-togglelist'
-    -- use "folke/lua-dev.nvim"
     use 'famiu/nvim-reload'
     use 'mizlan/iswap.nvim'
     use 'hashivim/vim-terraform'
@@ -92,10 +92,11 @@ require('packer').startup(function(use)
     use 'gennaro-tedesco/nvim-jqx'
     use 'alvarosevilla95/luatab.nvim'
     use 'kristijanhusak/orgmode.nvim'
-    -- use 'ggandor/lightspeed.nvim'
     use 'nvim-telescope/telescope-project.nvim'
     use 'folke/trouble.nvim'
+    use 'simrat39/symbols-outline.nvim'
 end)
+
 require'plugins.config'
 require'plugins.telescope'
 require'plugins.orgmode'

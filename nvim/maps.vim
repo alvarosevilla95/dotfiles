@@ -59,9 +59,10 @@ nnoremap <leader>bD :bd!<CR>
 nnoremap <leader>bw :bw<CR>
 nnoremap <leader>bW :bw!<CR>
 
-nnoremap <leader>ww :VimwikiIndex<CR>
-au FileType vimwiki nmap <expr> <CR> pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" : "\<Plug>VimwikiFollowLink"
-au FileType vimwiki xmap <CR> <Plug>VimwikiNormalizeLinkVisualCR
+nnoremap <leader>wo <C-W>o
+" nnoremap <leader>ww :VimwikiIndex<CR>
+" au FileType vimwiki nmap <expr> <CR> pumvisible() ? complete_info()["selected"] != "-1" ?  "\<Plug>(completion_confirm_completion)"  : "\<c-n>\<CR>" : "\<Plug>VimwikiFollowLink"
+" au FileType vimwiki xmap <CR> <Plug>VimwikiNormalizeLinkVisualCR
 
 " r -> run
 nnoremap <leader>r<space> :!<space>
@@ -72,7 +73,7 @@ nnoremap <leader>rsf :source %<CR>
 
 " f -> find (fzf)
 " nnoremap <silent> <leader>ff :Telescope find_files<CR>
-nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>ff :lua File_picker()<CR>
 nnoremap <silent> <leader>fd :lua require'telescope.builtin'.find_files({ search_dirs={'~/dotfiles'} })<CR>
 nnoremap <silent> <leader>f~ :Files ~<CR>
 nnoremap <silent> <Leader>f. :Files %:h<CR>
@@ -85,6 +86,7 @@ nnoremap <silent> <Leader>fb :lua require'telescope.builtin'.buffers({sort_lastu
 nnoremap <silent> <Leader>fB :Buffers<CR>
 nnoremap <silent> <Leader>fq :Telescope quickfix<CR>
 nnoremap <silent> <Leader>fh :lua FFHistoryPicker()<CR>
+nnoremap <silent> <Leader>fm :Telescope lsp_document_symbols<CR>
 nnoremap <silent>  <leader>; :Telescope command_history<CR>
 nnoremap <leader>fo :lua SessionPicker()<CR>
 nnoremap <leader>fs :lua SshPicker(false)<CR>
@@ -134,7 +136,16 @@ inoremap <silent><expr> <C-e> compe#close('<C-e>')
 
 " orgmode
 nnoremap <silent><leader>oh :lua GetHeadlines()<CR>
-au FileType org nnoremap <silent><leader>or :lua RefileHeadline()<CR>
+nnoremap <silent><leader>oo :above split ~/Dropbox/org/capture.org<CR>
+au FileType org nnoremap <buffer><silent><leader>or :lua RefileHeadline()<CR>
+au FileType org nnoremap <buffer><silent><leader>ok :wq<CR>
+au FileType org nnoremap <buffer><silent>[[ :lua Headline_prev()<CR>
+au FileType org nnoremap <buffer><silent>]] :lua Headline_next()<CR>
+au FileType org nnoremap <buffer><silent>][ :lua Headline_down()<CR>
+au FileType org nnoremap <buffer><silent>[] :lua Headline_up()<CR>
+au FileType org nnoremap <buffer>H :lua Headline_prev()<CR>
+au FileType org nnoremap <buffer>L :lua Headline_next()<CR>
+au FileType org nnoremap <buffer>U :lua Headline_up()<CR>
 " au FileType org nmap o o<ESC>i
 " au FileType org nmap O O<ESC>i
 
@@ -155,13 +166,14 @@ nnoremap <silent> [d :lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> ]d :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>ir :lua vim.lsp.buf.references()<CR>
 nnoremap <leader>iR :lua vim.lsp.buf.implementation()<CR>
-nnoremap  <Leader>ie :Telescope lsp_document_diagnostics<CR>
+nnoremap <Leader>ie :Telescope lsp_document_diagnostics<CR>
 nnoremap <leader>im :WorkspaceSymbols<CR>
 nnoremap <leader>iM :DocumentSymbols<CR>
 nnoremap <leader>in :lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>if :lua vim.lsp.buf.formatting()<CR>
 vnoremap <leader>if :lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <leader>ii :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>is :SymbolsOutline<CR>
 nnoremap <leader>ub :lua require'dap'.toggle_breakpoint()<CR>
 nnoremap <leader>uB :Telescope dap list_breakpoints<CR>
 nnoremap <leader>uu :lua require'dap'.continue()<CR>
@@ -186,16 +198,16 @@ nmap KG <Plug>(git-messenger)
 nnoremap <leader>mk :sp \| top term make<CR>
 nnoremap <leader>mK :sp \| top term make test<CR>
 
-au FileType java nnoremap <leader>ii :lua require('jdtls').code_action()<CR>
-au FileType java vnoremap <leader>ii <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
-au FileType java nnoremap <leader>iN <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
-au FileType java nnoremap <leader>uc <Cmd>lua require'jdtls'.test_class()<CR>
-au FileType java nnoremap <leader>um <Cmd>lua require'jdtls'.test_nearest_method()<CR>
+au FileType java nnoremap <buffer><leader>ii :lua require('jdtls').code_action()<CR>
+au FileType java vnoremap <buffer><leader>ii <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
+au FileType java nnoremap <buffer><leader>iN <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+au FileType java nnoremap <buffer><leader>uc <Cmd>lua require'jdtls'.test_class()<CR>
+au FileType java nnoremap <buffer><leader>um <Cmd>lua require'jdtls'.test_nearest_method()<CR>
 
 autocmd BufWritePre *.go :silent! lua vim.lsp.buf.formatting_sync(nil,500)
 
-au FileType python nnoremap <leader>Im <Cmd>lua require'dap-python'.test_method()<CR>
-au FileType python vnoremap <leader>Is <Esc>:lua require'dap-python'.debug_selection()<CR>
+au FileType python nnoremap <buffer><leader>Im <Cmd>lua require'dap-python'.test_method()<CR>
+au FileType python vnoremap <buffer><leader>Is <Esc>:lua require'dap-python'.debug_selection()<CR>
 
 function! ToggleSignColumn()
     if !exists("b:signcolumn_on") || !b:signcolumn_on

@@ -1,21 +1,30 @@
 function toggle_colors() {
     if [[ "$BC" = "dark" ]]; then
-        cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-light.yml > ~/.alacritty.yml
-        cat ~/dotfiles/tmux/tmux-light-colors.conf ~/dotfiles/tmux/tmux.conf > ~/.tmux.conf
-        gsed -i 's:BC=dark:BC=light:' ~/dotfiles/zsh/colors.zsh
-        gsed -i 's:BAT_THEME=gruvbox-dark:BAT_THEME=gruvbox-light:' ~/dotfiles/zsh/colors.zsh
-        gsed -i 's:gruvbox:gruvbox-light:' ~/.gitconfig
-        gsed -i "s:theme\ =\ 'gruvbox':theme\ =\ 'gruvbox_light':" ~/dotfiles/nvim/lua/plugins.lua
+        toggle_colors_dark
+    else
+        toggle_colors_light
     fi
-    if [[ "$BC" = "light" ]]; then
-        cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-dark.yml > ~/.alacritty.yml
-        cat ~/dotfiles/tmux/tmux-dark-colors.conf ~/dotfiles/tmux/tmux.conf > ~/.tmux.conf
-        gsed -i 's:BC=light:BC=dark:' ~/dotfiles/zsh/colors.zsh
-        gsed -i 's:BAT_THEME=gruvbox-light:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
-        gsed -i 's:gruvbox-light:gruvbox:' ~/.gitconfig
-        gsed -i 's:BAT_THEME=gruvbox-light$:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
-        gsed -i "s:theme\ =\ 'gruvbox_light':theme\ =\ 'gruvbox':" ~/dotfiles/nvim/lua/plugins.lua
-    fi
+}
+
+function toggle_colors_dark() {
+    cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-light.yml > ~/.alacritty.yml
+    cat ~/dotfiles/tmux/tmux-light-colors.conf ~/dotfiles/tmux/tmux.conf > ~/.tmux.conf
+    gsed -i 's:BC=dark:BC=light:' ~/dotfiles/zsh/colors.zsh
+    gsed -i 's:BAT_THEME=gruvbox-dark:BAT_THEME=gruvbox-light:' ~/dotfiles/zsh/colors.zsh
+    gsed -i 's:gruvbox:gruvbox-light:' ~/.gitconfig
+    gsed -i "s:theme\ =\ 'gruvbox':theme\ =\ 'gruvbox_light':" ~/dotfiles/nvim/lua/plugins/config.lua
+    source ~/dotfiles/zsh/colors.zsh
+    source ~/dotfiles/zsh/fzf.zsh
+}
+
+function toggle_colors_light() {
+    cat ~/dotfiles/arch/alacritty.yml ~/dotfiles/arch/alacritty-dark.yml > ~/.alacritty.yml
+    cat ~/dotfiles/tmux/tmux-dark-colors.conf ~/dotfiles/tmux/tmux.conf > ~/.tmux.conf
+    gsed -i 's:BC=light:BC=dark:' ~/dotfiles/zsh/colors.zsh
+    gsed -i 's:BAT_THEME=gruvbox-light:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
+    gsed -i 's:gruvbox-light:gruvbox:' ~/.gitconfig
+    gsed -i 's:BAT_THEME=gruvbox-light$:BAT_THEME=gruvbox-dark:' ~/dotfiles/zsh/colors.zsh
+    gsed -i "s:theme\ =\ 'gruvbox_light':theme\ =\ 'gruvbox':" ~/dotfiles/nvim/lua/plugins/config.lua
     source ~/dotfiles/zsh/colors.zsh
     source ~/dotfiles/zsh/fzf.zsh
 }

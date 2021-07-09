@@ -8,10 +8,10 @@ require 'lsp.lua'
 local lspconfig = require 'lspconfig'
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true;
-lspconfig.gopls.setup{capabilities=capabilities}
-lspconfig.tsserver.setup{capabilities=capabilities}
-lspconfig.vimls.setup{capabilities=capabilities}
-lspconfig.pyright.setup{capabilities=capabilities}
+lspconfig.gopls.setup{on_attach= function() require "lsp_signature".on_attach() end, capabilities=capabilities}
+lspconfig.tsserver.setup{on_attach= function() require "lsp_signature".on_attach() end, endcapabilities=capabilities}
+lspconfig.vimls.setup{on_attach= function() require "lsp_signature".on_attach() end, capabilities=capabilities}
+lspconfig.pyright.setup{on_attach= function() require "lsp_signature".on_attach() end, capabilities=capabilities}
 
 require('dap-python').setup('~/.pyenv/shims/python')
 

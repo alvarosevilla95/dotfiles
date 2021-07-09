@@ -11,6 +11,24 @@ g.vimwiki_key_mappings = { all_maps = 0, }
 g.git_messenger_no_default_mappings = true
 g.bclose_no_plugin_maps=true
 g.dap_virtual_text = true
+g.symbols_outline = {
+    highlight_hovered_item = true,
+    show_guides = true,
+    auto_preview = true,
+    position = 'right',
+    show_numbers = false,
+    show_relative_numbers = false,
+    show_symbol_details = true,
+    keymaps = {
+        close = "<Esc>",
+        goto_location = "<Cr>",
+        focus_location = "o",
+        hover_symbol = "<C-space>",
+        rename_symbol = "r",
+        code_actions = "a",
+    },
+    lsp_blacklist = {},
+}
 
 require'colorizer'.setup({'*'}, { names = false })
 
@@ -19,8 +37,8 @@ require'compe'.setup {
     autocomplete = true,
     debug = false,
     min_length = 1,
-    -- preselect = 'always',
-    preselect = 'enable',
+    preselect = 'always',
+    -- preselect = 'enable',
     throttle_time = 80,
     source_timeout = 200,
     incomplete_delay = 400,
