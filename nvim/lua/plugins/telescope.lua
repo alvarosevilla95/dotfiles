@@ -58,6 +58,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 require('telescope').load_extension('gh')
 require('telescope').load_extension('dap')
+require('telescope').load_extension('project')
 
 -- Custom pickers
 local cdPicker = function(name, cmd)

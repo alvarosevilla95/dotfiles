@@ -1,0 +1,65 @@
+* {
+    color: #ebdbb2 !important;
+    background-color: #1d2021 !important;
+}
+
+code,
+pre,
+input,
+textarea {
+    background: #1d2021 !important;
+    border: #282828 !important;
+}
+
+a {
+    color: #cc241d !important;
+}
+
+.subtext a {
+    color: #d5c4a1 !important;
+}
+a:visited,
+a:visited span {
+    color: #d5c4a1 !important;
+}
+a:hover,
+a:hover span {
+    background: #3c3836 !important;
+}
+
+.pagetop a:visited {
+    color: #cc241d !important;
+}
+
+.pagetop * {
+    color: #cc241d !important;
+}
+
+.hnmain * {
+    background-color: #cc241d !important;
+}
+
+img {
+    display: none;
+}
+
+
+/*
+ * For landing page:
+ */
+
+a:link {
+    color: #ebdbb2 !important;
+}
+
+.pagetop a:link {
+    color: #cc241d !important;
+}
+
+.subText, .subText a, .subText span{
+    color: #bdae93 !important;
+}
+
+.comhead, .sitestr {
+    color: #bdae93 !important;
+}

@@ -29,6 +29,7 @@ nnoremap <Down> <Down><Down><Down><Down><Down>
 nnoremap <Left> <Left><Left><Left><Left><Left>
 nnoremap <Right> <Right><Right><Right><Right><Right>
 nnoremap gx :execute '!open ' . shellescape(expand('<cWORD>'), 1)<cr>
+vnoremap gx :<c-u>execute '!open ' . shellescape(@*)<cr>
 
 let mapleader = "\<Space>"
 " nnoremap - :e %:h<CR>
@@ -136,7 +137,7 @@ inoremap <silent><expr> <C-e> compe#close('<C-e>')
 
 " orgmode
 nnoremap <silent><leader>oh :lua GetHeadlines()<CR>
-nnoremap <silent><leader>oo :above split ~/Dropbox/org/capture.org<CR>
+nnoremap <silent><leader>oo :top split ~/Dropbox/org/agenda.org<CR>
 au FileType org nnoremap <buffer><silent><leader>or :lua RefileHeadline()<CR>
 au FileType org nnoremap <buffer><silent><leader>ok :wq<CR>
 au FileType org nnoremap <buffer><silent>[[ :lua Headline_prev()<CR>

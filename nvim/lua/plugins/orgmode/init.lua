@@ -9,9 +9,12 @@ local utils = require'telescope.utils'
 
 require('orgmode').setup {
     org_agenda_files = {'~/Dropbox/org/*'},
-    org_default_notes_file = '~/Dropbox/org/capture.org',
+    org_default_notes_file = '~/Dropbox/org/agenda.org',
     org_agenda_templates = {
         t = { description = 'Task', template = '* TODO %?\n  %u - <unrefiled>' },
+        T = { description = 'Task', template = '* TODO %?\n  %t - <unrefiled>' },
+        d = { description = 'Deadline', template = '* TODO %?\n DEADLINE: %t - <unrefiled>' },
+        s = { description = 'Scheduled', template = '* TODO %?\n Scheduled: %t - <unrefiled>' },
         n = { description = 'Note', template = '* NOTE %?\n  %u - <unrefiled>' },
         r = { description = 'Read', template = '* NOTE %?\n  %u - <unrefiled>' },
         w = { description = 'Work', template = '* TODO (WORK) %?\n  %u - <unrefiled>', target = '~/Dropbox/org/work.org' },

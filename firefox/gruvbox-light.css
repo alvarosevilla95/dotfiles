@@ -1,0 +1,41 @@
+{
+  "manifest_version": 2,
+  "version": "1.0",
+  "name": "GruvFox Hard",
+  "theme": {
+    "colors": {
+      "frame": "#fbf1c7",
+      "toolbar": "#fbf1c7",
+      "tab_text": "#fbf1c7",
+      "tab_loading": "#3c3836",
+      "tab_line": "#fbf1c7",
+      "tab_selected": "#af3a03",
+      "bookmark_text": "#3c3836",
+      "icons": "#3c3836",
+      "icons_attention": "#af3a03",
+      "tab_background_text": "#3c3836",
+      "toolbar_field": "#fbf1c7",
+      "toolbar_field_text": "#3c3836",
+      "toolbar_field_focus": "#fbf1c7",
+      "toolbar_field_border": "#fbf1c7",
+      "toolbar_field_border_focus": "#fbf1c7",
+      "toolbar_field_highlight": "#af3a03",
+      "toolbar_field_highlight_text": "#fbf1c7",
+      "toolbar_top_separator": "#fbf1c7",
+      "toolbar_bottom_separator": "#fbf1c7",
+      "toolbar_vertical_separator": "#fbf1c7",  
+      "popup": "#fbf1c7",
+      "popup_text": "#3c3836",
+      "popup_highlight": "#af3a03",
+      "popup_highlight_text": "#fbf1c7",
+      "popup_border": "#3c3836",
+      "ntp_background": "#fbf1c7",
+      "ntp_text": "#3c3836",
+      "sidebar": "#fbf1c7",
+      "sidebar_text": "#3c3836",
+      "sidebar_highlight": "#af3a03",
+      "sidebar_highlight_text": "#fbf1c7",
+      "sidebar_border": "#fbf1c7"
+    }
+  }
+}

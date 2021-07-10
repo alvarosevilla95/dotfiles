@@ -3,9 +3,9 @@ if $BC == 'light'
     au BufEnter * hi Visual guifg=#fbf1c7 guibg=#af3a03 gui=none " simple orange visual
     au BufEnter * hi TelescopePreviewLine guibg=#ebdbb2
     au BufEnter * hi TelescopeSelection guibg=#ebdbb2
-    au BufEnter * hi TabLine guibg=#fbf1c7
-    au BufEnter * hi TabLineSel guibg=#fbf1c7 
-    au BufEnter * hi TabLineFill guibg=#fbf1c7
+    au BufEnter * hi TabLine gui=none guibg=#ebdbb2 guifg=#bdae93
+    au BufEnter * hi TabLineSel guibg=#ebdbb2 guifg=#3c3836
+    au BufEnter * hi TabLineFill guibg=#ebdbb2
 else
     set background=dark
     " au BufEnter * hi Visual guifg=#282828 guibg=#fe8019 gui=none " simple orange visual

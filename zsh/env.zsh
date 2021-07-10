@@ -1,6 +1,7 @@
 export DOTFILES=/Users/alvaro/dotfiles
 export PATH="$PATH:$DOTFILES/bin"
 export PATH="$PATH:/Users/alvaro/.cargo/bin"
+export PATH="$PATH:/Developer/bin"
 export GOPATH=~/Developer/go
 export PATH=$PATH:$GOPATH/bin
 
