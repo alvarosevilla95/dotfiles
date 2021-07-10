@@ -31,3 +31,17 @@ let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
+
+" +set signcolumn=no
+augroup active_view
+  au!
+  au BufEnter * :setlocal cursorline
+  au WinEnter * :setlocal cursorline
+  au BufLeave * :setlocal nocursorline
+  au WinLeave * :setlocal nocursorline
+
+  au BufEnter * :setlocal number relativenumber
+  au WinEnter * :setlocal number relativenumber
+  au BufLeave * :setlocal number norelativenumber
+  au WinLeave * :setlocal number norelativenumber
+augroup END
